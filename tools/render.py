@@ -139,11 +139,14 @@ def card(spec, out, W=1080, H=1350):
         r = 4 if dx == 0 else 2.5
         d.ellipse([W/2+dx-r, dy-r, W/2+dx+r, dy+r], fill=pal['accent'])
     if spec.get('source', True):
-        lines = spec.get('source_lines') or ['a quote from my upcoming book']
+        lines = spec.get('source_lines', ['a quote from my upcoming book'])
         sy = dy + 44
         for ln in lines:
             d.text((W/2, sy), ln, font=ITAL(31, 500), fill=pal['soft'], anchor='mm'); sy += 44
         d.text((W/2, sy+6), 'A Self Repaired Soul', font=SERIF(40, 600), fill=pal['accent'], anchor='mm')
+        if spec.get('after_title'):
+            sy += 52
+            d.text((W/2, sy), spec['after_title'], font=ITAL(31, 500), fill=pal['soft'], anchor='mm')
         spaced(d, (W/2, sy+42), 'PUBLISHING SOON', SANS(20, 500), pal['soft'], track=6)
     # dried-flower sprig, like the book's pages
     sp = sprig((210, 330), pal, seed=spec.get('n', 1) + 7)
@@ -159,4 +162,4 @@ def card(spec, out, W=1080, H=1350):
 
 if __name__ == '__main__':
     card({'n': 1, 'heading': 'Dear soul,', 'quote': 'Strength isn’t about never breaking — it’s about breaking and still choosing to return.'}, '/home/claude/book/test1.jpg')
-    card({'n': 2, 'dark': True, 'label': 'A SELF REPAIRED SOUL  ·  COMING SOON', 'heading': 'Something is coming…', 'quote': 'You did not find this book;\nthis book found you.', 'source_text': 'a journey that heals'}, '/home/claude/book/test2.jpg')
+    card({'n': 2, 'dark': True, 'label': 'A SELF REPAIRED SOUL  ·  COMING SOON', 'heading': 'Something is coming…', 'quote': 'You did not find this book;\nthis book found you.', 'after_title': 'journey that heals'}, '/home/claude/book/test2.jpg')

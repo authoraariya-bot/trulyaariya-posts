@@ -62,7 +62,7 @@ def reel(item, path):
     end = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     ed = ImageDraw.Draw(end)
     ed.text((W/2, H/2-60), 'A Self Repaired Soul', font=SCRIPT(100), fill=pal['accent']+(255,), anchor='mm')
-    ed.text((W/2, H/2+70), 'a journey that heals', font=ITAL(44, 500), fill=pal['soft']+(255,), anchor='mm')
+    ed.text((W/2, H/2+70), 'journey that heals', font=ITAL(44, 500), fill=pal['soft']+(255,), anchor='mm')
     spaced(ed, (W/2, H/2+150), 'PUBLISHING SOON', SANS(34, 400), pal['ink'], track=10)
     layers.append(end)
     beat = 2.6
@@ -93,7 +93,7 @@ for it in items:
     if it['type'] == 'quote':
         card({k: it[k] for k in ('n', 'heading', 'quote')}, f"{OUT}/{it['id']}-quote.jpg")
     else:
-        cv = dict(it['cover']); cv['source_lines'] = [cv.pop('source_text')]; cv.update(n=int(it['id']), dark=True, label='A SELF REPAIRED SOUL  ·  COMING SOON')
+        cv = dict(it['cover']); st = cv.pop('source_text', None); cv['source_lines'] = [st] if st else []; cv.update(n=int(it['id']), dark=True, label='A SELF REPAIRED SOUL  ·  COMING SOON')
         card(cv, f"{OUT}/{it['id']}-teaser-still.jpg")
         reel(it, f"{OUT}/{it['id']}-teaser-reel.mp4")
     print('done', it['id'])
