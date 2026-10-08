@@ -11,7 +11,7 @@ items = json.load(open(os.path.join(HERE, 'content.json')))
 
 # shared slide 2 for quote carousels
 card({'n': 99, 'label': 'A SELF REPAIRED SOUL  ·  COMING SOON', 'heading': 'If this found you today,',
-      'quote': 'send it to someone\nwho needs it too.', 'source_text': 'save it for the days you forget'},
+      'quote': 'send it to someone\nwho needs it too.', 'source_lines': ['save it for the days you forget']},
      f'{OUT}/share-slide.jpg')
 
 def pad_audio(path, secs, sr=44100):
@@ -51,22 +51,19 @@ def text_layer(W, H, text, pal, size=74, script=False):
 def reel(item, path):
     W, H, FPS = 1080, 1920, 30
     pal = DARK
-    bg = grain(Image.new('RGB', (W, H), pal['bg']), amt=3, seed=int(item['id'])).convert('RGBA')
+    bg = grain(Image.new('RGB', (W, H), pal['bg']), amt=4, seed=int(item['id'])).convert('RGBA')
     d = ImageDraw.Draw(bg)
-    spaced(d, (W/2, 250), 'A SELF REPAIRED SOUL  ·  COMING SOON', SANS(24, 400), pal['soft'], track=5)
-    spaced(d, (W/2, H-300), '@trulyaariya', SANS(32, 400), pal['soft'], track=4)
+    d.rounded_rectangle((90, 380, W-90, H-430), radius=60, fill=pal['card'])
+    spaced(d, (W/2, 290), 'A SELF REPAIRED SOUL  ·  COMING SOON', SANS(24, 400), pal['soft'], track=5)
+    spaced(d, (W/2, H-300), 'Truly Aariya  ·  @trulyaariya', SANS(30, 400), pal['soft'], track=4)
     sp = sprig((230, 360), pal, seed=int(item['id'])+3)
-    bg.alpha_composite(sp, (70, H-720))
-    # faint ghost watermark mid-frame
-    g = Image.new('RGBA', (900, 120), (0, 0, 0, 0))
-    ImageDraw.Draw(g).text((450, 60), '@trulyaariya', font=SANS(64, 300), fill=pal['soft']+(20,), anchor='mm')
-    g = g.rotate(24, expand=True); bg.alpha_composite(g, (int(W/2-g.width/2), int(H*0.68-g.height/2)))
+    bg.alpha_composite(sp, (50, H-760))
     layers = [text_layer(W, H, b, pal, 78 if len(b) < 14 else 66) for b in item['beats']]
     end = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     ed = ImageDraw.Draw(end)
     ed.text((W/2, H/2-60), 'A Self Repaired Soul', font=SCRIPT(100), fill=pal['accent']+(255,), anchor='mm')
     ed.text((W/2, H/2+70), 'a journey that heals', font=ITAL(44, 500), fill=pal['soft']+(255,), anchor='mm')
-    spaced(ed, (W/2, H/2+150), 'COMING SOON', SANS(34, 400), pal['ink'], track=10)
+    spaced(ed, (W/2, H/2+150), 'PUBLISHING SOON', SANS(34, 400), pal['ink'], track=10)
     layers.append(end)
     beat = 2.6
     total = beat*len(layers) + 1.0
@@ -96,7 +93,7 @@ for it in items:
     if it['type'] == 'quote':
         card({k: it[k] for k in ('n', 'heading', 'quote')}, f"{OUT}/{it['id']}-quote.jpg")
     else:
-        cv = dict(it['cover']); cv.update(n=int(it['id']), dark=True, label='A SELF REPAIRED SOUL  ·  COMING SOON')
+        cv = dict(it['cover']); cv['source_lines'] = [cv.pop('source_text')]; cv.update(n=int(it['id']), dark=True, label='A SELF REPAIRED SOUL  ·  COMING SOON')
         card(cv, f"{OUT}/{it['id']}-teaser-still.jpg")
         reel(it, f"{OUT}/{it['id']}-teaser-reel.mp4")
     print('done', it['id'])

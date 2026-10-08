@@ -14,10 +14,11 @@ ITAL = lambda s, w=500: font('CormorantGaramond-Italic[wght].ttf', s, w)
 SCRIPT = lambda s: font('GreatVibes-Regular.ttf', s)
 SANS = lambda s, w=400: font('Jost[wght].ttf', s, w)
 
-LIGHT = dict(bg=(246, 241, 233), card=(236, 228, 215), ink=(47, 41, 34), soft=(120, 104, 88),
-             accent=(150, 122, 92), stem=(139, 117, 94), petal=(250, 246, 238), center=(214, 170, 92))
-DARK = dict(bg=(46, 39, 33), card=(60, 51, 43), ink=(244, 236, 223), soft=(196, 178, 152),
-            accent=(201, 166, 107), stem=(186, 160, 124), petal=(244, 236, 223), center=(201, 166, 107))
+LIGHT = dict(bg=(255, 253, 250), card=(249, 237, 233), ink=(74, 62, 58), soft=(150, 128, 120),
+             accent=(186, 136, 126), stem=(172, 150, 136), petal=(255, 255, 255), center=(236, 200, 150))
+# teaser palette: soft sage on white (kept under the old name so callers using dark=True still work)
+DARK = dict(bg=(253, 254, 252), card=(234, 242, 235), ink=(60, 72, 64), soft=(118, 138, 124),
+            accent=(118, 152, 128), stem=(140, 160, 142), petal=(255, 255, 255), center=(240, 214, 160))
 
 def grain(img, amt=7, seed=1):
     random.seed(seed)
@@ -105,7 +106,7 @@ def watermark_ghost(img, box, pal, text='@trulyaariya'):
 def card(spec, out, W=1080, H=1350):
     pal = DARK if spec.get('dark') else LIGHT
     img = Image.new('RGB', (W, H), pal['bg'])
-    img = grain(img, amt=3 if spec.get('dark') else 7, seed=spec.get('n', 1)).convert('RGBA')
+    img = grain(img, amt=4, seed=spec.get('n', 1)).convert('RGBA')
     d = ImageDraw.Draw(img)
     top = 150 if H == 1350 else 330
     bottom = H - 210 if H == 1350 else H - 400
@@ -114,8 +115,6 @@ def card(spec, out, W=1080, H=1350):
     # series label
     label = spec.get('label') or f"TRULY AARIYA  ·  Nº {spec['n']:02d}"
     spaced(d, (W/2, top-70), label, SANS(22, 400), pal['soft'], track=5)
-    watermark_ghost(img, box, pal)
-    d = ImageDraw.Draw(img)
     # heading
     y = top + 95
     if spec.get('heading'):
@@ -123,7 +122,7 @@ def card(spec, out, W=1080, H=1350):
         y += 95
     # quote — auto-size to fit
     maxw = W - 2*90 - 150
-    avail = (bottom - 230) - y
+    avail = (bottom - 290) - y
     for size in range(66, 34, -2):
         f = SERIF(size, 500)
         lines = wrap(d, spec['quote'], f, maxw)
@@ -140,18 +139,19 @@ def card(spec, out, W=1080, H=1350):
         r = 4 if dx == 0 else 2.5
         d.ellipse([W/2+dx-r, dy-r, W/2+dx+r, dy+r], fill=pal['accent'])
     if spec.get('source', True):
-        d.text((W/2, dy+46), spec.get('source_text', 'from  A Self Repaired Soul'), font=ITAL(32, 500), fill=pal['soft'], anchor='mm')
-    # sprig + signature, like the book's pages
+        lines = spec.get('source_lines') or ['a quote from my upcoming book']
+        sy = dy + 44
+        for ln in lines:
+            d.text((W/2, sy), ln, font=ITAL(31, 500), fill=pal['soft'], anchor='mm'); sy += 44
+        d.text((W/2, sy+6), 'A Self Repaired Soul', font=SERIF(40, 600), fill=pal['accent'], anchor='mm')
+        spaced(d, (W/2, sy+42), 'PUBLISHING SOON', SANS(20, 500), pal['soft'], track=6)
+    # dried-flower sprig, like the book's pages
     sp = sprig((210, 330), pal, seed=spec.get('n', 1) + 7)
     img.alpha_composite(sp, (box[0] - 40, box[3] - 300))
-    sig = Image.new('RGBA', (420, 140), (0, 0, 0, 0))
-    ImageDraw.Draw(sig).text((210, 70), 'Aariya Sharma', font=SCRIPT(60), fill=pal['accent'] + (255,), anchor='mm')
-    sig = sig.rotate(9, expand=True, resample=Image.BICUBIC)
-    img.alpha_composite(sig, (box[2] - sig.width + 10, box[3] - sig.height + 10))
     # footer watermark
     d = ImageDraw.Draw(img)
     fy = bottom + (H - bottom)/2 - 14
-    spaced(d, (W/2, fy), '@trulyaariya', SANS(30, 400), pal['soft'], track=4)
+    spaced(d, (W/2, fy), 'Truly Aariya  ·  @trulyaariya', SANS(28, 400), pal['soft'], track=4)
     if spec.get('footer_note'):
         d.text((W/2, fy+52), spec['footer_note'], font=ITAL(28, 500), fill=pal['soft'], anchor='mm')
     img.convert('RGB').save(out, quality=93)
