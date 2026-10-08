@@ -31,4 +31,5 @@ Never post anything that is not in `schedule.json`. Never edit or delete existin
 
 `tools/content.json` holds every quote, teaser and caption. Add entries, then run `python3 tools/build.py`
 (needs Pillow, numpy, ffmpeg) to render cards into `posts/`, and add matching entries to `schedule.json`.
+Reels get original background music from `tools/music.py` (synthesised, copyright-free); every reel must use a different piece, never the same track twice. Never add commercial songs to the video file.
 Quotes must come word for word from the manuscript. Images are pure typography plus a drawn sprig — no AI imagery.
