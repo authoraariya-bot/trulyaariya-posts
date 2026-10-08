@@ -1,7 +1,7 @@
 [
  {
   "id": "01",
-  "date": "2026-10-10",
+  "date": "2026-10-08",
   "type": "teaser",
   "beats": [
    "For a long time,\nI’ve been writing\nsomething in silence.",
@@ -18,7 +18,7 @@
  },
  {
   "id": "02",
-  "date": "2026-10-12",
+  "date": "2026-10-10",
   "type": "quote",
   "n": 1,
   "heading": "Dear soul,",
@@ -27,7 +27,7 @@
  },
  {
   "id": "03",
-  "date": "2026-10-14",
+  "date": "2026-10-12",
   "type": "quote",
   "n": 2,
   "heading": "A gentle reminder,",
@@ -36,7 +36,7 @@
  },
  {
   "id": "04",
-  "date": "2026-10-16",
+  "date": "2026-10-14",
   "type": "teaser",
   "beats": [
    "Dear reader,",
@@ -52,7 +52,7 @@
  },
  {
   "id": "05",
-  "date": "2026-10-18",
+  "date": "2026-10-16",
   "type": "quote",
   "n": 3,
   "heading": "Note to self,",
@@ -61,7 +61,7 @@
  },
  {
   "id": "06",
-  "date": "2026-10-20",
+  "date": "2026-10-18",
   "type": "quote",
   "n": 4,
   "heading": "Self-love is…",
@@ -70,7 +70,7 @@
  },
  {
   "id": "07",
-  "date": "2026-10-22",
+  "date": "2026-10-20",
   "type": "teaser",
   "beats": [
    "Survival.",
@@ -89,7 +89,7 @@
  },
  {
   "id": "08",
-  "date": "2026-10-24",
+  "date": "2026-10-22",
   "type": "quote",
   "n": 5,
   "heading": "Shh…",
@@ -98,7 +98,7 @@
  },
  {
   "id": "09",
-  "date": "2026-10-26",
+  "date": "2026-10-24",
   "type": "quote",
   "n": 6,
   "heading": "Remember,",
@@ -107,7 +107,7 @@
  },
  {
   "id": "10",
-  "date": "2026-10-28",
+  "date": "2026-10-26",
   "type": "teaser",
   "beats": [
    "A knock on the door.",
@@ -127,7 +127,7 @@
  },
  {
   "id": "11",
-  "date": "2026-10-30",
+  "date": "2026-10-28",
   "type": "quote",
   "n": 7,
   "heading": "Dear inner child,",
@@ -136,7 +136,7 @@
  },
  {
   "id": "12",
-  "date": "2026-11-01",
+  "date": "2026-10-30",
   "type": "quote",
   "n": 8,
   "heading": "It's okay,",
@@ -145,7 +145,7 @@
  },
  {
   "id": "13",
-  "date": "2026-11-03",
+  "date": "2026-11-01",
   "type": "teaser",
   "beats": [
    "It isn’t a ten-step guide\nto victory.",
@@ -162,7 +162,7 @@
  },
  {
   "id": "14",
-  "date": "2026-11-05",
+  "date": "2026-11-03",
   "type": "quote",
   "n": 9,
   "heading": "Hold your own hand,",
@@ -171,7 +171,7 @@
  },
  {
   "id": "15",
-  "date": "2026-11-07",
+  "date": "2026-11-05",
   "type": "quote",
   "n": 10,
   "heading": "One last thing,",
