@@ -10,13 +10,14 @@ Posts go out every other day at 12:00 PM IST. Book: *A Self Repaired Soul* by Aa
 1. `git pull` this repo. Open `schedule.json`. Today's date is in Asia/Kolkata.
 2. Pick the entry whose `date` is today and `status` is `scheduled`.
    If an earlier entry is still `scheduled` (a missed run), post only today's entry and note the missed one in the report.
-   - **If nothing is due today:** this is a preparation day. Find the next `scheduled` entry with `type: quote`
-     that has no `video` yet, make its visual quote reel by following `REELS.md`, commit and push it
+   - **If nothing is due today:** this is a preparation day. Find the next `scheduled` entry (quote or teaser)
+     that has no `concept` field yet, make its new visual reel by following `REELS.md`, commit and push it
      (message `Reel <id>: prepared`), and report with its raw GitHub link so Aariya can preview it a day early.
-     If every upcoming quote already has a reel, stop and report "nothing due today".
-   - **If today's entry is a quote with no `video` yet** (preparation was missed): make the reel per `REELS.md`
-     first, then post it. If the reel cannot be made to the brief's quality checks, post the original carousel
-     instead and say so in the report.
+     Make one reel per run. If every upcoming entry already has a `concept`, stop and report "nothing due today".
+   - **If today's entry has no `concept` yet** (preparation was missed): make its reel per `REELS.md` first,
+     then post it. If the reel cannot meet the brief's quality checks, post the entry as it was originally
+     (the carousel for quotes, the existing reel for teasers) and say so in the report.
+   - Never make a reel for, or re-post, anything already `posted`.
 3. Media URLs: `https://raw.githubusercontent.com/authoraariya-bot/trulyaariya-posts/main/<path>`.
    Before posting, check each URL returns HTTP 200 (curl -sI).
 4. Hashtag freshness: the caption keeps `#trulyaariya` and `#aselfrepairedsoul` always. You may swap ONE of the
