@@ -83,7 +83,11 @@
   "status": "scheduled",
   "media_id": null,
   "permalink": null,
-  "format": "carousel",
+  "format": "reel",
+  "video": "posts/06-quote-reel.mp4",
+  "cover": "posts/06-quote-reel-cover.jpg",
+  "fallback_image": "posts/06-quote.jpg",
+  "concept": "Pressure into light: pastel washes on handmade paper close in on one point, a faceted crystal of light forms there and throws soft prism light",
   "images": [
    "posts/06-quote.jpg",
    "posts/share-slide.jpg"

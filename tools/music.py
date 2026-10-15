@@ -157,7 +157,33 @@ def acoustic_hope(total, path):
         place(y, pluck(hz(n), 3.0, 0.7), t + i*0.03, 0.55)
     finish(y, total, path, wet=0.32)
 
-PIECES = {'04': lullaby, '07': rising_piano, '10': lofi, '13': acoustic_hope}
+def glass(f, dur):
+    """Glass-harmonica / crystal bell: pure partials, soft attack, long shimmer."""
+    n = int(dur*SR); t = np.arange(n)/SR
+    y = sum(amp*np.sin(2*np.pi*f*m*t + 0.002*np.sin(2*np.pi*5*t))*np.exp(-t*dec) for m, amp, dec in ((1, 1, 1.1), (2.0, .3, 2.2), (2.76, .18, 3.5), (5.40, .06, 6)))
+    return y * env_adsr(n, .015, 0, 1, .3)
+
+def crystal_pressure(total, path):
+    """06 'Like a diamond' — E major, 66 bpm. A low string swell tightens (pressure), a soft crystal chime
+    where the light forms, then slow glass-bell phrases over an open E-B pad."""
+    y = np.zeros(int(total*SR)); b = 60/66
+    # pressure: low pad that brightens and swells into the formation point (~4.7 s)
+    sw = pad([hz(n) for n in (40, 47, 52)], 5.2, 500)
+    sw *= np.linspace(0.3, 1.0, len(sw))**2
+    place(y, lowpass(sw, 900), 0.0, 0.30)
+    place(y, pad([hz(n) for n in (52, 59, 64, 68)], 4.0, 1400) * np.linspace(0, 1, int(4.0*SR))**3, 1.0, 0.10)
+    # formation: a soft cluster of crystal chimes
+    for i, n in enumerate((76, 83, 88, 92)):
+        place(y, glass(hz(n), 4.0), 4.70 + i*0.045, 0.32 - 0.05*i)
+    # healed: open pad + slow bell phrase, last notes land on the end card
+    place(y, pad([hz(n) for n in (40, 52, 59, 64, 68, 71)], total-4.6, 1700), 4.6, 0.12)
+    mel = [(5.6, 80), (6.5, 83), (7.0, 85), (8.4, 83), (9.6, 80), (10.6, 78), (11.8, 80), (13.1, 76), (13.5, 83), (14.2, 88)]
+    for at, n in mel:
+        place(y, glass(hz(n), 3.5), at, 0.30)
+        place(y, glass(hz(n-12), 3.0), at+0.01, 0.10)
+    finish(y, total, path, wet=0.42, size=1.25)
+
+PIECES = {'04': lullaby, '06': crystal_pressure, '07': rising_piano, '10': lofi, '13': acoustic_hope}
 
 if __name__ == '__main__':
     rid, total, out = sys.argv[1], float(sys.argv[2]), sys.argv[3]
