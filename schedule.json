@@ -103,9 +103,10 @@
   "media_id": null,
   "permalink": null,
   "format": "reel",
-  "video": "posts/07-teaser-reel.mp4",
-  "cover": "posts/07-teaser-reel-cover.jpg",
-  "fallback_image": "posts/07-teaser-still.jpg"
+  "video": "posts/07-teaser-reel-v2.mp4",
+  "cover": "posts/07-teaser-reel-v2-cover.jpg",
+  "fallback_image": "posts/07-teaser-still.jpg",
+  "concept": "Six washes: one watercolour bloom opens on handmade paper for each phase, the pigment runs at Breakdowns, and at Healing gold flows into every dried edge and drip"
  },
  {
   "id": "08",
