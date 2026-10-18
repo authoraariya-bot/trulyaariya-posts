@@ -246,7 +246,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-10-19-reel.mp4",
-        "cover": "month/2026-10-19-cover.jpg"
+        "cover": "month/2026-10-19-cover.jpg",
+        "story": {
+            "video": "month/2026-10-19-reel.mp4"
+        }
     },
     {
         "id": "m02",
@@ -259,7 +262,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-10-20.jpg"
+        "image": "month/2026-10-20.jpg",
+        "story": {
+            "image": "month/2026-10-20-story.jpg"
+        }
     },
     {
         "id": "m03",
@@ -273,7 +279,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-10-21-reel.mp4",
-        "cover": "month/2026-10-21-cover.jpg"
+        "cover": "month/2026-10-21-cover.jpg",
+        "story": {
+            "video": "month/2026-10-21-reel.mp4"
+        }
     },
     {
         "id": "m04",
@@ -286,7 +295,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-10-22.jpg"
+        "image": "month/2026-10-22.jpg",
+        "story": {
+            "image": "month/2026-10-22-story.jpg"
+        }
     },
     {
         "id": "m05",
@@ -300,7 +312,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-10-23-reel.mp4",
-        "cover": "month/2026-10-23-cover.jpg"
+        "cover": "month/2026-10-23-cover.jpg",
+        "story": {
+            "video": "month/2026-10-23-reel.mp4"
+        }
     },
     {
         "id": "m06",
@@ -320,7 +335,10 @@
             "month/2026-10-24-4.jpg",
             "month/2026-10-24-5.jpg",
             "month/2026-10-24-6.jpg"
-        ]
+        ],
+        "story": {
+            "image": "month/2026-10-24-story.jpg"
+        }
     },
     {
         "id": "m07",
@@ -334,7 +352,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-10-25-reel.mp4",
-        "cover": "month/2026-10-25-cover.jpg"
+        "cover": "month/2026-10-25-cover.jpg",
+        "story": {
+            "video": "month/2026-10-25-reel.mp4"
+        }
     },
     {
         "id": "m08",
@@ -347,7 +368,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-10-26.jpg"
+        "image": "month/2026-10-26.jpg",
+        "story": {
+            "image": "month/2026-10-26-story.jpg"
+        }
     },
     {
         "id": "m09",
@@ -361,7 +385,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-10-27-reel.mp4",
-        "cover": "month/2026-10-27-cover.jpg"
+        "cover": "month/2026-10-27-cover.jpg",
+        "story": {
+            "video": "month/2026-10-27-reel.mp4"
+        }
     },
     {
         "id": "m10",
@@ -374,7 +401,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-10-28.jpg"
+        "image": "month/2026-10-28.jpg",
+        "story": {
+            "image": "month/2026-10-28-story.jpg"
+        }
     },
     {
         "id": "m11",
@@ -388,7 +418,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-10-29-reel.mp4",
-        "cover": "month/2026-10-29-cover.jpg"
+        "cover": "month/2026-10-29-cover.jpg",
+        "story": {
+            "video": "month/2026-10-29-reel.mp4"
+        }
     },
     {
         "id": "m12",
@@ -408,7 +441,10 @@
             "month/2026-10-30-4.jpg",
             "month/2026-10-30-5.jpg",
             "month/2026-10-30-6.jpg"
-        ]
+        ],
+        "story": {
+            "image": "month/2026-10-30-story.jpg"
+        }
     },
     {
         "id": "m13",
@@ -422,7 +458,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-10-31-reel.mp4",
-        "cover": "month/2026-10-31-cover.jpg"
+        "cover": "month/2026-10-31-cover.jpg",
+        "story": {
+            "video": "month/2026-10-31-reel.mp4"
+        }
     },
     {
         "id": "m14",
@@ -435,7 +474,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-11-01.jpg"
+        "image": "month/2026-11-01.jpg",
+        "story": {
+            "image": "month/2026-11-01-story.jpg"
+        }
     },
     {
         "id": "m15",
@@ -449,7 +491,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-11-02-reel.mp4",
-        "cover": "month/2026-11-02-cover.jpg"
+        "cover": "month/2026-11-02-cover.jpg",
+        "story": {
+            "video": "month/2026-11-02-reel.mp4"
+        }
     },
     {
         "id": "m16",
@@ -462,7 +507,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-11-03.jpg"
+        "image": "month/2026-11-03.jpg",
+        "story": {
+            "image": "month/2026-11-03-story.jpg"
+        }
     },
     {
         "id": "m17",
@@ -476,7 +524,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-11-04-reel.mp4",
-        "cover": "month/2026-11-04-cover.jpg"
+        "cover": "month/2026-11-04-cover.jpg",
+        "story": {
+            "video": "month/2026-11-04-reel.mp4"
+        }
     },
     {
         "id": "m18",
@@ -489,7 +540,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-11-05.jpg"
+        "image": "month/2026-11-05.jpg",
+        "story": {
+            "image": "month/2026-11-05-story.jpg"
+        }
     },
     {
         "id": "m19",
@@ -503,7 +557,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-11-06-reel.mp4",
-        "cover": "month/2026-11-06-cover.jpg"
+        "cover": "month/2026-11-06-cover.jpg",
+        "story": {
+            "video": "month/2026-11-06-reel.mp4"
+        }
     },
     {
         "id": "m20",
@@ -516,7 +573,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-11-07.jpg"
+        "image": "month/2026-11-07.jpg",
+        "story": {
+            "image": "month/2026-11-07-story.jpg"
+        }
     },
     {
         "id": "m21",
@@ -530,7 +590,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-11-08-reel.mp4",
-        "cover": "month/2026-11-08-cover.jpg"
+        "cover": "month/2026-11-08-cover.jpg",
+        "story": {
+            "video": "month/2026-11-08-reel.mp4"
+        }
     },
     {
         "id": "m22",
@@ -550,7 +613,10 @@
             "month/2026-11-09-4.jpg",
             "month/2026-11-09-5.jpg",
             "month/2026-11-09-6.jpg"
-        ]
+        ],
+        "story": {
+            "image": "month/2026-11-09-story.jpg"
+        }
     },
     {
         "id": "m23",
@@ -564,7 +630,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-11-10-reel.mp4",
-        "cover": "month/2026-11-10-cover.jpg"
+        "cover": "month/2026-11-10-cover.jpg",
+        "story": {
+            "video": "month/2026-11-10-reel.mp4"
+        }
     },
     {
         "id": "m24",
@@ -577,7 +646,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-11-11.jpg"
+        "image": "month/2026-11-11.jpg",
+        "story": {
+            "image": "month/2026-11-11-story.jpg"
+        }
     },
     {
         "id": "m25",
@@ -591,7 +663,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-11-12-reel.mp4",
-        "cover": "month/2026-11-12-cover.jpg"
+        "cover": "month/2026-11-12-cover.jpg",
+        "story": {
+            "video": "month/2026-11-12-reel.mp4"
+        }
     },
     {
         "id": "m26",
@@ -604,7 +679,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-11-13.jpg"
+        "image": "month/2026-11-13.jpg",
+        "story": {
+            "image": "month/2026-11-13-story.jpg"
+        }
     },
     {
         "id": "m27",
@@ -618,7 +696,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-11-14-reel.mp4",
-        "cover": "month/2026-11-14-cover.jpg"
+        "cover": "month/2026-11-14-cover.jpg",
+        "story": {
+            "video": "month/2026-11-14-reel.mp4"
+        }
     },
     {
         "id": "m28",
@@ -631,7 +712,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-11-15.jpg"
+        "image": "month/2026-11-15.jpg",
+        "story": {
+            "image": "month/2026-11-15-story.jpg"
+        }
     },
     {
         "id": "m29",
@@ -645,7 +729,10 @@
         "permalink": null,
         "format": "reel",
         "video": "month/2026-11-16-reel.mp4",
-        "cover": "month/2026-11-16-cover.jpg"
+        "cover": "month/2026-11-16-cover.jpg",
+        "story": {
+            "video": "month/2026-11-16-reel.mp4"
+        }
     },
     {
         "id": "m30",
@@ -658,7 +745,10 @@
         "media_id": null,
         "permalink": null,
         "format": "image",
-        "image": "month/2026-11-17.jpg"
+        "image": "month/2026-11-17.jpg",
+        "story": {
+            "image": "month/2026-11-17-story.jpg"
+        }
     },
     {
         "id": "m31",

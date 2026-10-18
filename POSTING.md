@@ -18,10 +18,14 @@ re-caption or swap hashtags. (The older `REELS.md` process is retired and must n
    - `format: carousel` → `create_carousel_post` with `image_urls` in the stored order.
    - `format: image` → `create_image_post` with `image_url`.
    On failure retry once. If it still fails, set `status: "failed"` with `error`, and report. Never post a substitute.
+   **Story:** right after the feed post succeeds, post the entry's `story` with `create_story`
+   (`video_url` for a reel's video, or `image_url` for the 9:16 story image). Stories take no caption.
+   If the story fails, retry once; a story failure never undoes or blocks the feed post. Record it as
+   `story_status: "posted"` or `"failed"` (+ `story_error`).
 5. Read back the newest media (Windsor `get_data`, fields `media_id, media_permalink, timestamp`, date_preset `last_3dT`),
    set `status: "posted"`, `media_id`, `permalink`. Keep the file's 4-space indentation.
 6. Commit `schedule.json` as `Post <id>: <status>` and push to `main`.
-7. Report to Aariya in one short line with the permalink.
+7. Report to Aariya in one short line with the permalink, and whether the story went up.
 
 ## Hard rules
 
