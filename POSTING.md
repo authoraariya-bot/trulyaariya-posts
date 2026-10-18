@@ -1,46 +1,32 @@
-# Truly Aariya — auto-posting runbook
+# Truly Aariya — daily posting runbook (content engine, from 19 Oct 2026)
 
-This repo holds the finished post images for Instagram @trulyaariya (account id `17841468564888977`,
-Windsor.ai connector `instagram`) and the schedule in `schedule.json`.
+Instagram @trulyaariya (account id `17841468564888977`, Windsor.ai connector `instagram`).
+Book: *A Self Repaired Soul* · Journey That Heals · Aariya Sharma. Launch date and buy link: not announced yet.
 
-Posts go out every other day at 12:00 PM IST. Book: *A Self Repaired Soul* by Aariya Sharma (coming soon).
+One piece goes out **every day at 12:00 PM IST**, alternating reel and post. Every entry in `schedule.json`
+with `"final": true` is finished and approved by Aariya: post it exactly as it is. Do not redesign, re-render,
+re-caption or swap hashtags. (The older `REELS.md` process is retired and must not be used.)
 
-## Each scheduled run
+## Each run
 
-1. `git pull` this repo. Open `schedule.json`. Today's date is in Asia/Kolkata.
-2. Pick the entry whose `date` is today and `status` is `scheduled`.
-   If an earlier entry is still `scheduled` (a missed run), post only today's entry and note the missed one in the report.
-   - **If nothing is due today:** this is a preparation day. Find the next `scheduled` entry (quote or teaser)
-     that has no `concept` field yet, make its new visual reel by following `REELS.md`, commit and push it
-     (message `Reel <id>: prepared`), and report with its raw GitHub link so Aariya can preview it a day early.
-     Make one reel per run. If every upcoming entry already has a `concept`, stop and report "nothing due today".
-   - **If today's entry has no `concept` yet** (preparation was missed): make its reel per `REELS.md` first,
-     then post it. If the reel cannot meet the brief's quality checks, post the entry as it was originally
-     (the carousel for quotes, the existing reel for teasers) and say so in the report.
-   - Never make a reel for, or re-post, anything already `posted`.
-3. Media URLs: `https://raw.githubusercontent.com/authoraariya-bot/trulyaariya-posts/main/<path>`.
-   Before posting, check each URL returns HTTP 200 (curl -sI).
-4. Hashtag freshness: the caption keeps `#trulyaariya` and `#aselfrepairedsoul` always. You may swap ONE of the
-   other three tags for a currently trending, on-theme tag (healing, self-love, mental wellness, Indian bookstagram)
-   if a quick web search shows a clearly better current one. Keep exactly 5 hashtags. Do not change the rest of the caption.
-5. Publish with Windsor `execute_action`, connector `instagram`, account `17841468564888977`:
-   - `format: carousel` → action `create_carousel_post`, `image_urls` = the two image URLs in order, `caption`.
-   - `format: reel` → action `create_video_post`, `video_url`, `cover_url`, `share_to_feed: true`, `caption`.
-     If the reel fails, retry once; if it fails again, fall back: for a quote entry that still has `images`, post the
-     original carousel with `create_carousel_post`; otherwise post `fallback_image` with `create_image_post`.
-     Same caption either way.
-6. After success, read back the newest media (Windsor `get_data`, fields `media_id, media_permalink, timestamp`,
-   date_preset `last_3dT`) and set the entry's `status` to `posted`, plus `media_id` and `permalink`.
-   On failure set `status` to `failed` and add `error`.
-7. Commit `schedule.json` with message `Post <id>: <status>` and push to `main`.
-8. Report to Aariya in one short message: what went out, the permalink, or what failed and why.
+1. `git pull`. Open `schedule.json`. Today's date is Asia/Kolkata.
+2. Find the entry with today's `date` and `status: "scheduled"`. If none, reply "Nothing due today." and stop.
+   If an earlier `scheduled` entry was missed, post only today's and mention the missed one in the report.
+3. URLs: `https://raw.githubusercontent.com/authoraariya-bot/trulyaariya-posts/main/<path>`. Check each returns HTTP 200.
+4. Publish with Windsor `execute_action` (connector `instagram`, account `17841468564888977`), caption exactly as stored:
+   - `format: reel` → `create_video_post` with `video_url`, `cover_url` (the `cover` path), `share_to_feed: true`.
+   - `format: carousel` → `create_carousel_post` with `image_urls` in the stored order.
+   - `format: image` → `create_image_post` with `image_url`.
+   On failure retry once. If it still fails, set `status: "failed"` with `error`, and report. Never post a substitute.
+5. Read back the newest media (Windsor `get_data`, fields `media_id, media_permalink, timestamp`, date_preset `last_3dT`),
+   set `status: "posted"`, `media_id`, `permalink`. Keep the file's 4-space indentation.
+6. Commit `schedule.json` as `Post <id>: <status>` and push to `main`.
+7. Report to Aariya in one short line with the permalink.
 
-Never post anything that is not in `schedule.json`. Never edit or delete existing Instagram posts.
+## Hard rules
 
-## Making new posts
-
-`tools/content.json` holds every quote, teaser and caption. Add entries, then run `python3 tools/build.py`
-(needs Pillow, numpy, ffmpeg) to render cards into `posts/`, and add matching entries to `schedule.json`.
-Reels get original background music from `tools/music.py` (synthesised, copyright-free); every reel must use a different piece, never the same track twice. Never add commercial songs to the video file.
-Quotes must come word for word from the manuscript. Images are pure typography plus a drawn sprig — no AI imagery.
-Quote reels follow `REELS.md`: original code-rendered visuals, pastel, no AI imagery or stock footage.
+- Entries with `status: "hold"` (the full cover reveal and "The Cover" post) are **never** posted or rendered by a run.
+  The cover is revealed only when Aariya explicitly says so, in conversation.
+- Never post anything not in `schedule.json`. Never edit or delete existing posts.
+- The original book cover file is private and must never be committed to this public repo. Only blurred renders live here.
+- No spoilers: no illness, hospital, characters, places, plot, chapter titles, or the first-20-readers surprise.

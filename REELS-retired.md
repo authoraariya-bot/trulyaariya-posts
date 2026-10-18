@@ -1,3 +1,5 @@
+> **Retired 18 Oct 2026.** Replaced by the content engine plan in POSTING.md. Do not use.
+
 # Visual reels — creative brief (quotes *and* book teasers)
 
 Every post for @trulyaariya is now a **visual reel**: the words (a quote or a book teaser) are
