@@ -19,7 +19,8 @@ re-caption or swap hashtags. (The older `REELS.md` process is retired and must n
    - `format: image` → `create_image_post` with `image_url`.
    On failure retry once. If it still fails, set `status: "failed"` with `error`, and report. Never post a substitute.
    **Story:** right after the feed post succeeds, post the entry's `story` with `create_story`
-   (`video_url` for a reel's video, or `image_url` for the 9:16 story image). Stories take no caption.
+   using the same file that just went to the feed: `video_url` for a reel, `image_url` for an image post, and the
+   first slide's `image_url` for a carousel. No separate story designs. Stories take no caption.
    If the story fails, retry once; a story failure never undoes or blocks the feed post. Record it as
    `story_status: "posted"` or `"failed"` (+ `story_error`).
 5. Read back the newest media (Windsor `get_data`, fields `media_id, media_permalink, timestamp`, date_preset `last_3dT`),
