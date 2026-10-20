@@ -259,15 +259,17 @@
         "time_ist": "12:00",
         "type": "Announcement 1 of 4 · Coming Soon",
         "caption": "Two years ago this was a messy notes app and a lot of 2 a.m. doubts.\n\nNow it has a name. A Self Repaired Soul, and it's coming soon. 🤍\n\nTurn on post notifications so you don't miss the cover.\n\n#ASelfRepairedSoul #JourneyThatHeals #UpcomingBook #DebutAuthor #trulyaariya",
-        "status": "scheduled",
+        "status": "posted",
         "final": true,
-        "media_id": null,
-        "permalink": null,
+        "media_id": "18119338111763133",
+        "permalink": "https://www.instagram.com/p/DetMQNSDGlQ/",
         "format": "image",
         "image": "month/2026-10-20.jpg",
         "story": {
             "image": "month/2026-10-20.jpg"
-        }
+        },
+        "story_status": "posted",
+        "story_media_id": "17898606441393466"
     },
     {
         "id": "m03",
