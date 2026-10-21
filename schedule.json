@@ -296,7 +296,7 @@
         "time_ist": "12:00",
         "type": "Quote card · Quote 2",
         "caption": "I didn't learn anything in this book from a lecture. Every line cost me something first.\n\nSave it for the day you need it. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -304,7 +304,8 @@
         "image": "month/2026-10-22.jpg",
         "story": {
             "image": "month/2026-10-22.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m05",
@@ -312,7 +313,7 @@
         "time_ist": "12:00",
         "type": "F · Interactive",
         "caption": "Okay, I want your words for this one.\n\nA self-repaired soul is someone who ___\n\nI'll pin my favourites. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #trulyaariya #BookstagramIndia",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -321,7 +322,8 @@
         "cover": "month/2026-10-23-cover.jpg",
         "story": {
             "video": "month/2026-10-23-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m06",
@@ -329,7 +331,7 @@
         "time_ist": "12:00",
         "type": "Carousel · 4 signs you're healing",
         "caption": "Healing is quiet. Most days you won't even notice it happening.\n\nWhich one is you right now? 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -344,7 +346,8 @@
         ],
         "story": {
             "image": "month/2026-10-24-1.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m07",
@@ -352,7 +355,7 @@
         "time_ist": "12:00",
         "type": "I · Quote reel · Quote 3",
         "caption": "This is the truest line I've ever written about myself.\n\nTwo years, and I'm not the person who opened that first blank page. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #DebutAuthor #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -361,7 +364,8 @@
         "cover": "month/2026-10-25-cover.jpg",
         "story": {
             "video": "month/2026-10-25-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m08",
@@ -369,7 +373,7 @@
         "time_ist": "12:00",
         "type": "Author note 1",
         "caption": "Sharing something small today. I still can't believe I wrote a whole book. Some mornings I open the file just to check it's real. 🤍\n\n#ASelfRepairedSoul #DebutAuthor #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -377,7 +381,8 @@
         "image": "month/2026-10-26.jpg",
         "story": {
             "image": "month/2026-10-26.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m09",
@@ -385,7 +390,7 @@
         "time_ist": "12:00",
         "type": "C · Author journey",
         "caption": "If you'd told me two years ago I'd be posting about my own book, I would have laughed.\n\nThis is what it looked like most nights. Just me, a notes app and a lot of 'is this even good?' 🤍\n\n#ASelfRepairedSoul #DebutAuthor #UpcomingBook #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -394,7 +399,8 @@
         "cover": "month/2026-10-27-cover.jpg",
         "story": {
             "video": "month/2026-10-27-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m10",
@@ -402,7 +408,7 @@
         "time_ist": "12:00",
         "type": "Question post",
         "caption": "For me it's 'quiet'. What's yours? One word only. 🤍\n\n#JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -410,7 +416,8 @@
         "image": "month/2026-10-28.jpg",
         "story": {
             "image": "month/2026-10-28.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m11",
@@ -418,7 +425,7 @@
         "time_ist": "12:00",
         "type": "E · Slow ritual · Quote 5",
         "caption": "This is how I hope you'll read it. Tea, blanket, no rush.\n\nShoulders down. You're allowed to slow down here. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -427,7 +434,8 @@
         "cover": "month/2026-10-29-cover.jpg",
         "story": {
             "video": "month/2026-10-29-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m12",
@@ -435,7 +443,7 @@
         "time_ist": "12:00",
         "type": "Carousel · Lines from the book",
         "caption": "I wrote these for myself first. Turns out they were never just for me.\n\nWhich one stayed with you? 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -450,7 +458,8 @@
         ],
         "story": {
             "image": "month/2026-10-30-1.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m13",
@@ -458,7 +467,7 @@
         "time_ist": "12:00",
         "type": "B · Curiosity hook",
         "caption": "I hope it feels like company on the heavy days. That's really all I wanted it to be. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #UpcomingBook #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -467,7 +476,8 @@
         "cover": "month/2026-10-31-cover.jpg",
         "story": {
             "video": "month/2026-10-31-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m14",
@@ -475,7 +485,7 @@
         "time_ist": "12:00",
         "type": "Quote card · Quote 9",
         "caption": "Kid at heart, forever. This line is basically my whole personality. 🤍\n\nTell me one childish thing you still love.\n\n#ASelfRepairedSoul #JourneyThatHeals #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -483,7 +493,8 @@
         "image": "month/2026-11-01.jpg",
         "story": {
             "image": "month/2026-11-01.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m15",
@@ -491,7 +502,7 @@
         "time_ist": "12:00",
         "type": "A · Cover Reveal Part 01 / 04 (20%)",
         "caption": "Okay. I'm nervous. Like, refreshing-my-own-post nervous.\n\nThis is part 1. You get a little more every few days. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #UpcomingBook #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -500,7 +511,8 @@
         "cover": "month/2026-11-02-cover.jpg",
         "story": {
             "video": "month/2026-11-02-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m16",
@@ -508,7 +520,7 @@
         "time_ist": "12:00",
         "type": "Author note 2",
         "caption": "People keep asking what kind of book it is. Honestly? Not a guide. More like a mirror. 🤍\n\n#ASelfRepairedSoul #DebutAuthor #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -516,7 +528,8 @@
         "image": "month/2026-11-03.jpg",
         "story": {
             "image": "month/2026-11-03.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m17",
@@ -524,7 +537,7 @@
         "time_ist": "12:00",
         "type": "D · Mirror / POV",
         "caption": "If no one told you today: you're allowed to choose you. No explanation needed. 🤍\n\n#JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -533,7 +546,8 @@
         "cover": "month/2026-11-04-cover.jpg",
         "story": {
             "video": "month/2026-11-04-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m18",
@@ -541,7 +555,7 @@
         "time_ist": "12:00",
         "type": "Question post",
         "caption": "Mine is 'rest', I think. Yours? 🤍\n\n#JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -549,7 +563,8 @@
         "image": "month/2026-11-05.jpg",
         "story": {
             "image": "month/2026-11-05.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m19",
@@ -557,7 +572,7 @@
         "time_ist": "12:00",
         "type": "A · Cover Reveal Part 02 / 04 (50%)",
         "caption": "Halfway. Can you guess the colours yet? Tell me what you see. 🤍\n\n#ASelfRepairedSoul #UpcomingBook #BookstagramIndia #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -566,7 +581,8 @@
         "cover": "month/2026-11-06-cover.jpg",
         "story": {
             "video": "month/2026-11-06-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m20",
@@ -574,7 +590,7 @@
         "time_ist": "12:00",
         "type": "Quote card · Quote 10",
         "caption": "I didn't believe this line until I lived it. Now I can't unsee it. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -582,7 +598,8 @@
         "image": "month/2026-11-07.jpg",
         "story": {
             "image": "month/2026-11-07.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m21",
@@ -590,7 +607,7 @@
         "time_ist": "12:00",
         "type": "F · Interactive",
         "caption": "Last time your answers made me cry a little (good tears). Round two.\n\nHealing feels like ___ 🤍\n\n#JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -599,7 +616,8 @@
         "cover": "month/2026-11-08-cover.jpg",
         "story": {
             "video": "month/2026-11-08-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m22",
@@ -607,7 +625,7 @@
         "time_ist": "12:00",
         "type": "Carousel · More lines from the book",
         "caption": "Part two, because you asked for more after the last one. 🤍\n\nSave the one you needed today.\n\n#ASelfRepairedSoul #JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -622,7 +640,8 @@
         ],
         "story": {
             "image": "month/2026-11-09-1.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m23",
@@ -630,7 +649,7 @@
         "time_ist": "12:00",
         "type": "A · Cover Reveal Part 03 / 04 (80%)",
         "caption": "Part 3. Still soft, I know. I'm making you wait a little longer, and I'm sorry (not really). 🤍\n\n#ASelfRepairedSoul #UpcomingBook #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -639,7 +658,8 @@
         "cover": "month/2026-11-10-cover.jpg",
         "story": {
             "video": "month/2026-11-10-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m24",
@@ -647,7 +667,7 @@
         "time_ist": "12:00",
         "type": "Quote card · Quote 11",
         "caption": "This one took me the longest to write. And the longest to believe. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -655,7 +675,8 @@
         "image": "month/2026-11-11.jpg",
         "story": {
             "image": "month/2026-11-11.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m25",
@@ -663,7 +684,7 @@
         "time_ist": "12:00",
         "type": "E · Slow ritual · Book lines",
         "caption": "Some days I don't want advice. I just want quiet.\n\nIf that's you today, this one's yours. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -672,7 +693,8 @@
         "cover": "month/2026-11-12-cover.jpg",
         "story": {
             "video": "month/2026-11-12-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m26",
@@ -680,7 +702,7 @@
         "time_ist": "12:00",
         "type": "Question post",
         "caption": "I'm asking because I know what mine feels like. I want to know if you'll feel it too. 🤍\n\n#ASelfRepairedSoul #UpcomingBook #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -688,7 +710,8 @@
         "image": "month/2026-11-13.jpg",
         "story": {
             "image": "month/2026-11-13.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m27",
@@ -696,7 +719,7 @@
         "time_ist": "12:00",
         "type": "B · Curiosity hook",
         "caption": "I know, I know. You want to see it. Soon, I promise. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #UpcomingBook #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -705,7 +728,8 @@
         "cover": "month/2026-11-14-cover.jpg",
         "story": {
             "video": "month/2026-11-14-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m28",
@@ -713,7 +737,7 @@
         "time_ist": "12:00",
         "type": "Author note 3",
         "caption": "Thank you for guessing the colours in the comments. Some of you are very close. 🤍\n\n#ASelfRepairedSoul #DebutAuthor #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -721,7 +745,8 @@
         "image": "month/2026-11-15.jpg",
         "story": {
             "image": "month/2026-11-15.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m29",
@@ -729,7 +754,7 @@
         "time_ist": "12:00",
         "type": "I · Quote reel · Quote 4",
         "caption": "If you're looking for answers, I don't have them. I just hope you see yourself somewhere in it. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -738,7 +763,8 @@
         "cover": "month/2026-11-16-cover.jpg",
         "story": {
             "video": "month/2026-11-16-reel.mp4"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m30",
@@ -746,7 +772,7 @@
         "time_ist": "12:00",
         "type": "Quote card · Book line",
         "caption": "It took me a long time to stop asking 'why me' and start asking 'what is this teaching me'. 🤍\n\n#ASelfRepairedSoul #JourneyThatHeals #HealingReads #trulyaariya",
-        "status": "scheduled",
+        "status": "hold",
         "final": true,
         "media_id": null,
         "permalink": null,
@@ -754,7 +780,8 @@
         "image": "month/2026-11-17.jpg",
         "story": {
             "image": "month/2026-11-17.jpg"
-        }
+        },
+        "note": "Paused 21 Oct: replaced by the all-reels plan, waiting for Aariya to approve the new reels"
     },
     {
         "id": "m31",
