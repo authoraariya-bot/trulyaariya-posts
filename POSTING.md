@@ -3,7 +3,7 @@
 Instagram @trulyaariya (account id `17841468564888977`, Windsor.ai connector `instagram`).
 Book: *A Self Repaired Soul* · Journey That Heals · Aariya Sharma. Launch date and buy link: not announced yet.
 
-One piece goes out **every day at 12:00 PM IST**, alternating reel and post. Every entry in `schedule.json`
+One reel goes out **every day at 12:00 PM IST** (from 22 Oct: all reels, quotes & poetry alternating with book promotion; files in `month/reels/`). Every entry in `schedule.json`
 with `"final": true` is finished and approved by Aariya: post it exactly as it is. Do not redesign, re-render,
 re-caption or swap hashtags. (The older `REELS.md` process is retired and must not be used.)
 
@@ -11,6 +11,7 @@ re-caption or swap hashtags. (The older `REELS.md` process is retired and must n
 
 1. `git pull`. Open `schedule.json`. Today's date is Asia/Kolkata.
 2. Find the entry with today's `date` and `status: "scheduled"`. If none, reply "Nothing due today." and stop.
+   If today's entry is still `status: "rendering"` (its file is not uploaded yet), do not post anything; report that to Aariya.
    If an earlier `scheduled` entry was missed, post only today's and mention the missed one in the report.
 3. URLs: `https://raw.githubusercontent.com/authoraariya-bot/trulyaariya-posts/main/<path>`. Check each returns HTTP 200.
 4. Publish with Windsor `execute_action` (connector `instagram`, account `17841468564888977`), caption exactly as stored:
