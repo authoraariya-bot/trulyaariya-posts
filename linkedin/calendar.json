@@ -1,0 +1,285 @@
+{
+    "name": "Truly Aariya LinkedIn calendar",
+    "range": "2026-10-23 to 2026-11-18",
+    "post_time_ist": "10:00",
+    "direction": "The Manuscript Edition: LinkedIn visuals look like pages from a working author's desk and a premium magazine, not like Instagram. Left-aligned editorial type, running headers and folio marks like a printed book, gold handwritten margin notes, deep plum full-bleed on some days so the post stands out in LinkedIn's white feed. No arches and no centred quote cards (those are the Instagram look). Every visual carries @trulyaariya and the line 'A Self Repaired Soul · Book coming soon'.",
+    "series": {
+        "Notes from a Debut Author": "Building in public: what two years of writing a first book looked like, and what she is learning about launching it. LinkedIn rewards honest work stories.",
+        "The 9-to-5 Edition": "The same healing theme as Instagram, moved into working life: meetings, inboxes, team photos, burnout, the LinkedIn feed itself.",
+        "Then / Now": "Split before/after designs. Before/after is one of the most saved formats on LinkedIn this month.",
+        "I'll Go First": "She answers first, then invites one-line answers. Posts built this way are pulling the most comments in the personal-growth niche right now.",
+        "Margin Notes": "Reels set on a manuscript page, with a gold handwritten note in the margin carrying the payoff line."
+    },
+    "days": [
+        {
+            "date": "2026-10-23", "format": "reel", "instagram_id": null, "instagram_theme": "No Instagram post today: LinkedIn introduction",
+            "series": "Notes from a Debut Author", "layout": "manuscript-page",
+            "angle": "Her first ever LinkedIn piece. Introduce the book and herself as a first-time author, plainly.",
+            "lines": ["Two years ago, this page was blank.", "Most evenings went to one thing.", "Today I can finally say it.", "I wrote a book."],
+            "visual": "A cream manuscript page. A typing cursor blinks at the top; tally marks fill the margin in plum ink, row after row, until the page is full. On 'I wrote a book' a fine gold kintsugi crack runs down the page and the title sets in letterpress.",
+            "hook": "For two years, most of my evenings went to one thing.\nToday I'm finally saying it here: I wrote a book.",
+            "cta": "Follow along if you want to see what happens next.",
+            "hashtags": ["#DebutAuthor", "#Writing", "#IndianAuthor", "#SelfHelp", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-10-24", "format": "post", "post_kind": "image", "instagram_id": "r02", "instagram_theme": "If my book were a song, a season, a place, a person",
+            "series": "I'll Go First", "layout": "questionnaire",
+            "angle": "A magazine-style questionnaire page. She answers four questions about the book; the last answer is in her gold handwriting.",
+            "lines": ["The Questionnaire", "If it were a song: your 1 a.m. playlist", "A season: the first cool morning after summer", "A place: the warm corner of your bed", "A person: the friend who stays on the call till you fall asleep"],
+            "visual": "Editorial Q&A page with hairline rules between answers and small Jost labels. The final answer is written by hand in gold Caveat.",
+            "hook": "If my book were a person, it would be the friend who stays on the call until you fall asleep.\nI answered four questions about it. Your turn for one.",
+            "cta": "If your work were a season, which one would it be?",
+            "hashtags": ["#Writing", "#Books", "#SelfLove", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-10-25", "format": "reel", "instagram_id": "r03", "instagram_theme": "The song you play when no one's home is healing too",
+            "series": "The 9-to-5 Edition", "layout": "planner-staff",
+            "angle": "The song people play in the car or on the commute before walking into work.",
+            "lines": ["The song you play", "in the parking lot before work…", "that counts as healing too."],
+            "visual": "A weekly planner page. A music staff runs across Monday to Friday; notes land on each day, wobble on the busy days, and the whole staff turns gold on Friday.",
+            "hook": "Everyone has a song they play in the parking lot before walking in.\nI think it's doing more for us than we give it credit for.",
+            "cta": "What's yours? One song, no explanation needed.",
+            "hashtags": ["#MentalHealth", "#WorkLife", "#SelfCare", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-10-26", "format": "post", "post_kind": "carousel", "instagram_id": "r04", "instagram_theme": "Writing a book was never on my list",
+            "series": "Notes from a Debut Author", "layout": "five-year-plan",
+            "angle": "Monday, career brain: the best thing she did was not in any plan.",
+            "lines": ["My five-year plan", "(as written)", "Every item ticked.", "The one thing that mattered most", "was never on the list.", "Write a book."],
+            "visual": "Document carousel, 5 pages. Page 1: a lined planner titled 'My five-year plan'. Pages 2-3: items get ticked in plum. Page 4: blank line, gold pen appears. Page 5: 'Write a book.' in gold handwriting with the book label.",
+            "hook": "Writing a book was not in my five-year plan.\nNot even at the bottom.",
+            "cta": "What's the best thing you've done that was never on your list?",
+            "hashtags": ["#CareerGrowth", "#DebutAuthor", "#Writing", "#PersonalGrowth", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-10-27", "format": "reel", "instagram_id": "r05", "instagram_theme": "Pressed flower regains its colour; not the person who opened the first page",
+            "series": "Margin Notes", "layout": "folio-flip",
+            "angle": "How two years of writing changed the writer.",
+            "lines": ["Day 1.", "Day 300.", "Day 730.", "I'm not the person who opened the first blank page."],
+            "visual": "Pages flip with folio marks counting Day 1, Day 300, Day 730. A pressed leaf between them gains colour with each turn. Payoff written in the margin in gold.",
+            "hook": "I'm not the person who opened that first blank page two years ago.\nThe book changed. So did I.",
+            "cta": "What have you worked on long enough that it changed you?",
+            "hashtags": ["#PersonalGrowth", "#Writing", "#SelfGrowth", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-10-28", "format": "post", "post_kind": "image", "instagram_id": "r06", "instagram_theme": "Seasons pass in a window, 2 a.m. rain, pages stack",
+            "series": "Notes from a Debut Author", "layout": "plum-night",
+            "angle": "The unseen hours behind a first book.",
+            "lines": ["Most of this book", "was written after midnight."],
+            "visual": "Deep plum full-bleed. A tall rectangular window with fine rain lines, a desk lamp throwing a gold cone of light onto a stack of pages. Cream serif headline top left.",
+            "hook": "Some of the most important work of my life happened when nobody was watching.\nMostly after midnight.",
+            "cta": "When do you do your best thinking?",
+            "hashtags": ["#Writing", "#DebutAuthor", "#WritingLife", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-10-29", "format": "reel", "instagram_id": "r07", "instagram_theme": "Read this if sorry is the first word you say",
+            "series": "The 9-to-5 Edition", "layout": "sorry-notes",
+            "angle": "Over-apologising at work.",
+            "lines": ["Sorry, quick question.", "Sorry for the late reply.", "Sorry to bother you.", "Your feelings were never an inconvenience."],
+            "visual": "A keyboard and laptop edge in line drawing. Pastel sticky notes saying 'sorry' pile up over it, then peel away one by one before the payoff line.",
+            "hook": "\"Sorry, quick question.\" \"Sorry for the late reply.\" \"Sorry to bother you.\"\nHow many of those did you send this week?",
+            "cta": "Try one message today without the sorry. Tell me how it felt.",
+            "hashtags": ["#WorkplaceWellbeing", "#Boundaries", "#SelfLove", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-10-30", "format": "post", "post_kind": "image", "instagram_id": "r08", "instagram_theme": "When you reach the last page, go a little easier on yourself",
+            "series": "Notes from a Debut Author", "layout": "letter",
+            "angle": "What she wants a reader to feel, written as a short typed letter.",
+            "lines": ["Dear reader,", "When you reach the last page,", "I hope you go a little easier on yourself.", "Aariya"],
+            "visual": "A typed letter sheet lying slightly angled on a dusty-rose textured surface, a pressed leaf on the corner, her name signed in gold Caveat.",
+            "hook": "Writers are told to know what they want a reader to feel.\nMine fits in six words: go a little easier on yourself.",
+            "cta": "If a book could do one thing for you this year, what would it be?",
+            "hashtags": ["#Books", "#SelfCompassion", "#DebutAuthor", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-10-31", "format": "reel", "instagram_id": "r09", "instagram_theme": "Grey knot unravels into gold; you're allowed to choose you",
+            "series": "The 9-to-5 Edition", "layout": "knot-ribbon",
+            "angle": "Saying no without a long explanation.",
+            "lines": ["A no", "doesn't need three paragraphs.", "You're allowed to choose you."],
+            "visual": "A tight grey knot of thread with tiny tags (invites, favours, 'can you just') unwinds into one straight gold line that underlines the payoff.",
+            "hook": "A \"no\" doesn't need a three-paragraph explanation.\nI'm still learning this one.",
+            "cta": "What's the hardest thing for you to say no to?",
+            "hashtags": ["#Boundaries", "#SelfLove", "#MentalHealth", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-01", "format": "post", "post_kind": "carousel", "instagram_id": "r10", "instagram_theme": "What this book won't tell you",
+            "series": "Notes from a Debut Author", "layout": "strike-list",
+            "angle": "Contrarian list: the clichés the book refuses to say.",
+            "lines": ["5 things my book won't tell you", "Just be positive.", "Everything happens for a reason.", "Others have it worse.", "Just let it go.", "It sits with you through it."],
+            "visual": "Document carousel, 6 pages. Each cliché set large in plum serif, struck through by a single gold line. Last page: the payoff with the book label.",
+            "hook": "My book won't tell you to \"just be positive.\"\nHere are four more things it won't say.",
+            "cta": "Which one have you heard the most?",
+            "hashtags": ["#MentalHealth", "#Healing", "#SelfHelp", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-02", "format": "reel", "instagram_id": "r11", "instagram_theme": "Then: one text left on seen. Same text, softer you",
+            "series": "Then / Now", "layout": "split-then-now",
+            "angle": "Overthinking a message, then and now.",
+            "lines": ["Then:", "one message on 'seen' ran my whole night.", "Now:", "same message. Softer me."],
+            "visual": "Vertical split. THEN half: a paper phone with 'Seen 11:47 pm', ink scribbles multiplying. NOW half: the same phone, scribbles thinned to one calm line and warm lamp light.",
+            "hook": "Then: one message left on \"seen\" could take over my whole night.\nNow: same message. Different me.",
+            "cta": "What's one thing that used to shake you and doesn't anymore?",
+            "hashtags": ["#Overthinking", "#MentalHealth", "#PersonalGrowth", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-03", "format": "post", "post_kind": "image", "instagram_id": "r12", "instagram_theme": "Coming soon: the cover behind the glass",
+            "series": "Notes from a Debut Author", "layout": "frosted-cover",
+            "angle": "Cover tease. Fully blurred, never revealed.",
+            "lines": ["The cover is done.", "You'll see it soon."],
+            "visual": "Deep plum frame. A frosted glass panel with soft droplets; behind it only a blurred rectangle of colour. Label 'REVEALING SOON'. The cover is never legible.",
+            "hook": "The cover is finished.\nI'm just not ready to show you yet.",
+            "cta": "Follow so you see it the day it's out.",
+            "hashtags": ["#CoverReveal", "#DebutAuthor", "#Books", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-04", "format": "reel", "instagram_id": "r13", "instagram_theme": "Rest before you're empty",
+            "series": "The 9-to-5 Edition", "layout": "hourglass-calendar",
+            "angle": "Burnout and back-to-back calendars, the biggest wellbeing topic on LinkedIn right now.",
+            "lines": ["Everyone says:", "rest when you're done.", "Nobody says:", "rest before you're empty."],
+            "visual": "A work calendar fills with back-to-back blocks while an hourglass pours fast beside it. On 'Nobody says' the hourglass tips onto its side, the sand stops, and one block turns gold: 'Rest'.",
+            "hook": "We schedule meetings, deadlines and launches.\nAlmost nobody puts rest on the calendar before they need it.",
+            "cta": "Have you blocked any time for yourself this week?",
+            "hashtags": ["#Burnout", "#WorkLifeBalance", "#MentalHealth", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-05", "format": "post", "post_kind": "image", "instagram_id": "r14", "instagram_theme": "An envelope opens: the first words",
+            "series": "Notes from a Debut Author", "layout": "sealed-envelope",
+            "angle": "Curiosity about the opening of the book without revealing a word of it.",
+            "lines": ["Some words take two years to get right.", "These stay sealed till launch."],
+            "visual": "A cream envelope tied with a gold ribbon on a mauve textured ground, the flap closed. A small tag reads 'Open on launch day'.",
+            "hook": "Some words take two years to get right.\nThe first ones in my book stay sealed until launch.",
+            "cta": "Do you read the first page of a book before you buy it?",
+            "hashtags": ["#Books", "#Reading", "#DebutAuthor", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-06", "format": "reel", "instagram_id": "r15", "instagram_theme": "Read this if everyone around you seems ahead",
+            "series": "The 9-to-5 Edition", "layout": "feed-lane",
+            "angle": "The LinkedIn feed itself: promotions everywhere, and the person who closes the app feeling behind.",
+            "lines": ["Read this if everyone on your feed", "seems ahead.", "You were busy surviving.", "That counts."],
+            "visual": "Paper cards slide up like a feed: 'New role', 'Promoted', 'Started a company'. One small paper figure walks slowly; its lane curves off into a garden path with small leaves opening.",
+            "hook": "This app is full of announcements.\nThis one is for anyone who closes it feeling behind.",
+            "cta": "Save it for the next scroll that makes you feel slow.",
+            "hashtags": ["#Comparison", "#CareerGrowth", "#MentalHealth", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-07", "format": "post", "post_kind": "image", "instagram_id": "r16", "instagram_theme": "A line from the book: the roots behind it",
+            "series": "Margin Notes", "layout": "roots-pullquote",
+            "angle": "Leaders and colleagues notice the change in someone, rarely the reason.",
+            "lines": ["We wonder why someone isn't quite themselves anymore…", "without ever seeing the roots behind it."],
+            "visual": "Editorial pull quote with one phrase highlighted in soft gold. Below it a cross-section of soil with a small plant and its roots drawn in fine plum line.",
+            "hook": "We notice when someone at work changes.\nWe rarely ask what's underneath.",
+            "cta": "Who checked on you when you weren't yourself?",
+            "hashtags": ["#Leadership", "#EmotionalIntelligence", "#Healing", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-08", "format": "reel", "instagram_id": "r17", "instagram_theme": "I miss the version of me who…",
+            "series": "Margin Notes", "layout": "instant-photo",
+            "angle": "Her line about herself, 'a kid at heart', and the version of us work tends to bury.",
+            "lines": ["I miss the version of me who…", "…played without a reason.", "She's waiting for me to let her play again."],
+            "visual": "An instant photo develops from grey into colour line by line; at the end the small swing inside it starts to move.",
+            "hook": "I call myself a kid at heart.\nSome weeks I forget to act like one.",
+            "cta": "What did ten-year-old you want to be?",
+            "hashtags": ["#InnerChild", "#SelfLove", "#WorkLife", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-09", "format": "post", "post_kind": "image", "instagram_id": "r18", "instagram_theme": "One word: ink rain slows and stops",
+            "series": "I'll Go First", "layout": "one-word-blank",
+            "angle": "A one-word comment prompt. Easy to answer, so it gets answers.",
+            "lines": ["Healing feels like", "________."],
+            "visual": "Deep plum page, a few ink drops falling and slowing to stillness above a long gold blank line. Huge serif type, nothing else.",
+            "hook": "One word. No explanation.\nWhat does healing feel like for you?",
+            "cta": "I'll read every word in the comments.",
+            "hashtags": ["#Healing", "#MentalHealth", "#SelfLove", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-10", "format": "reel", "instagram_id": "r19", "instagram_theme": "Then: couldn't talk about it without crying. That's how I knew it had healed",
+            "series": "Then / Now", "layout": "crumpled-page",
+            "angle": "What healing actually looks like from the outside.",
+            "lines": ["Then:", "I couldn't talk about it without crying.", "Now:", "I can tell the story. That's how I knew."],
+            "visual": "A tightly crumpled sheet slowly opens and smooths flat; the creases stay but soften and a gold line traces the deepest one like kintsugi.",
+            "hook": "Healing didn't look like forgetting.\nIt looked like being able to tell the story without falling apart.",
+            "cta": "Have you got a story like this?",
+            "hashtags": ["#Healing", "#Resilience", "#PersonalGrowth", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-11", "format": "post", "post_kind": "image", "instagram_id": "r20", "instagram_theme": "Smiled in a photo on your worst day",
+            "series": "The 9-to-5 Edition", "layout": "team-photo",
+            "angle": "The team photo, the offsite picture, the profile picture.",
+            "lines": ["Read this if you've smiled", "in a team photo", "on your worst week."],
+            "visual": "A row of three paper photo frames like a team photo strip. One frame has a small gold handwritten note beside it: 'the real week'.",
+            "hook": "Every team photo has at least one person smiling through their worst week.\nSometimes it's the one holding the camera.",
+            "cta": "Check on someone today. Even a one-line message counts.",
+            "hashtags": ["#MentalHealthAtWork", "#Wellbeing", "#Leadership", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-12", "format": "reel", "instagram_id": "r21", "instagram_theme": "Sometimes a little space is what softens it",
+            "series": "The 9-to-5 Edition", "layout": "paper-boats",
+            "angle": "Hard conversations at work and at home: not all of them have to happen today.",
+            "lines": ["Everyone says: fix it right now.", "Sometimes a little space", "is what softens it."],
+            "visual": "Two paper boats tied by a tangled rope on choppy ink water. The rope loosens, the boats drift a little apart, the water calms into flat lines.",
+            "hook": "Not every hard conversation has to happen today.\nSome go better tomorrow.",
+            "cta": "Do you talk it out straight away or take a day?",
+            "hashtags": ["#Communication", "#EmotionalIntelligence", "#Relationships", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-13", "format": "post", "post_kind": "carousel", "instagram_id": "r22", "instagram_theme": "Send this to the friend who…",
+            "series": "I'll Go First", "layout": "two-cups",
+            "angle": "The colleague or friend who makes things survivable.",
+            "lines": ["Send this to the colleague who…", "…asks if you've eaten.", "…covers for you without asking why.", "…notices when you're off.", "This book is for both of you."],
+            "visual": "Document carousel, 5 pages. Two paper cups side by side on a desk on page 1; each page adds one small object of care. Last page: two little fingers linked in fine gold line.",
+            "hook": "Every workplace has one person who makes it survivable.\nTag yours.",
+            "cta": "Tag them. They should know.",
+            "hashtags": ["#Friendship", "#WorkplaceCulture", "#Gratitude", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-14", "format": "reel", "instagram_id": "r23", "instagram_theme": "Forgiven everyone except yourself",
+            "series": "Margin Notes", "layout": "crossed-lines",
+            "angle": "Self-forgiveness after a mistake.",
+            "lines": ["Read this if you've forgiven everyone", "except yourself.", "Start with her."],
+            "visual": "A notebook page of ink lines crossed out one by one. One line is left. The ink lifts off the page as small birds.",
+            "hook": "Most of us forgive other people's mistakes faster than our own.\nI'm working on that.",
+            "cta": "Save this for the nights you're hard on yourself.",
+            "hashtags": ["#SelfCompassion", "#SelfLove", "#Healing", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-15", "format": "post", "post_kind": "image", "instagram_id": "r24", "instagram_theme": "Every name is made up. Every feeling is real",
+            "series": "Notes from a Debut Author", "layout": "name-tags",
+            "angle": "Why readers will recognise themselves without any real names.",
+            "lines": ["Every name in my book is made up.", "Every feeling in it is real."],
+            "visual": "Three blank 'Hello, my name is' tags pinned to textured paper; the middle one has a small gold mended crack across it.",
+            "hook": "Every name in my book is made up.\nEvery feeling in it is real.",
+            "cta": "Have you ever read a book that felt like it knew you?",
+            "hashtags": ["#Books", "#DebutAuthor", "#Writing", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-16", "format": "reel", "instagram_id": "r25", "instagram_theme": "Healing is a hundred small ordinary days",
+            "series": "The 9-to-5 Edition", "layout": "tracker-grid",
+            "angle": "Compounding, the habit-tracker way LinkedIn loves.",
+            "lines": ["Healing isn't one big moment.", "It's a hundred small,", "ordinary days."],
+            "visual": "A 10x10 tracker grid fills square by square, each with a tiny everyday thing (water, walk, early night). As it fills, the squares turn into a warm patchwork with one gold seam.",
+            "hook": "We celebrate launch day.\nNobody posts the hundred ordinary days before it.",
+            "cta": "What small thing did you do for yourself today?",
+            "hashtags": ["#Habits", "#Healing", "#PersonalGrowth", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-17", "format": "post", "post_kind": "image", "instagram_id": "r26", "instagram_theme": "Remember the name",
+            "series": "Notes from a Debut Author", "layout": "letterpress",
+            "angle": "Name recall: the title set in letterpress.",
+            "lines": ["Four words I've lived with", "for two years."],
+            "visual": "Wooden letterpress blocks seen from above, the title set in them in reverse, with a fresh plum-ink print of the title on paper beside them; the last word printed in gold.",
+            "hook": "Four words I've lived with for two years.\nSave this so you remember them.",
+            "cta": "Follow along for the launch.",
+            "hashtags": ["#DebutAuthor", "#BookLaunch", "#IndianAuthor", "#ASelfRepairedSoul"]
+        },
+        {
+            "date": "2026-11-18", "format": "reel", "instagram_id": "r27", "instagram_theme": "Calendar pages flip through two years",
+            "series": "Notes from a Debut Author", "layout": "two-year-calendar",
+            "angle": "Twenty-four months in twenty seconds.",
+            "lines": ["24 months.", "Most of them looked like nothing", "from the outside.", "All of them are in this book."],
+            "visual": "Month pages tear off a wall calendar, each margin filling with ink notes; the last page is gold with the title.",
+            "hook": "Twenty-four months.\nMost of them looked like nothing from the outside.",
+            "cta": "What are you building that nobody can see yet?",
+            "hashtags": ["#DebutAuthor", "#Writing", "#Consistency", "#ASelfRepairedSoul"]
+        }
+    ]
+}
