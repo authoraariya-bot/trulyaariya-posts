@@ -483,6 +483,229 @@ def d1118(d):
  document.querySelectorAll('.nt').forEach(p=>{p.style.opacity=(+p.dataset.r < 0.35+0.4*Math.abs(Math.sin(m*1.7)))?1:0;});};'''
     return page(svg_, html, False, 'TWO YEARS', 'NO. 10'), js
 
+
+# ====================== v3 heroes (stronger concepts) ======================
+def _heart_pts(cx, cy, s, n=240, rot=0):
+    pts = []
+    for i in range(n + 1):
+        t = 2 * math.pi * i / n
+        x = 16 * math.sin(t) ** 3
+        y = -(13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t))
+        pts.append((cx + x * s, cy + y * s))
+    return pts
+
+def _path(pts, close=False):
+    return 'M' + ' L'.join(f'{x:.1f} {y:.1f}' for x, y in pts) + (' Z' if close else '')
+
+# 24 Oct · the friend who stays on the call: a gold phone cord coiling into a heart
+def d1024(d):
+    base = _heart_pts(800, 650, 11.5, 600)
+    coil = []
+    for i, (x, y) in enumerate(base):
+        (xa, ya), (xb, yb) = base[max(0, i - 1)], base[min(len(base) - 1, i + 1)]
+        dx, dy = xb - xa, yb - ya; l = math.hypot(dx, dy) or 1
+        tx, ty, nx, ny = dx / l, dy / l, -dy / l, dx / l
+        a = i * .62
+        coil.append((x + 16 * math.cos(a) * nx + 10 * math.sin(a) * tx, y + 16 * math.cos(a) * ny + 10 * math.sin(a) * ty))
+    tail = [(800 + 0, 650 + 13 * 11.5 - 40 + k * 9, ) for k in range(0)]
+    cord = _path(coil)
+    lead = 'M800 806 C 790 900, 640 930, 560 1010'
+    svg_ = (velvet(3, (.3, .2), 'cream') + halo(f'<path d="{cord}" stroke="#f2c56a" stroke-width="22" fill="none"/>', .35) +
+            foil(f'<path d="{cord}" stroke="url(#gold)" stroke-width="4.2" fill="none" stroke-linejoin="round"/><path d="{lead}" stroke="url(#gold)" stroke-width="4.2" fill="none"/>'))
+    rows = [('A song', 'your 1 a.m. playlist'), ('A season', 'the first cool morning after summer'), ('A place', 'the warm corner of your bed')]
+    h, y = '', 470
+    for q, a in rows:
+        h += T(84, y, 520, f'<div class="cap" style="font-size:17px;opacity:.7">{q}</div>') + txt(84, y + 28, 540, a, 44, italic=True, lh=1.05)
+        y += 140
+    html = (eyebrow(84, 200, 'Four questions about my book') + txt(80, 250, 920, 'If my book were…', 116) + h +
+            T(84, 1000, 300, '<div class="cap gold" style="font-size:18px">A person</div>') +
+            txt(80, 1032, 920, 'the friend who stays on the call till you fall asleep.', 60, italic=True, gold=True, weight=500, lh=1.02))
+    return page(svg_, html, False, "I'LL GO FIRST", 'NO. 01')
+
+# 25 Oct · the song before work: a gold equaliser rising like a sunrise over the day
+def d1025(d):
+    bars = ''
+    n = 29
+    for i in range(n):
+        u = (i - (n - 1) / 2) / ((n - 1) / 2)
+        hmax = 330 * math.sqrt(max(0, 1 - u * u)) + 30
+        x = 540 + u * 430 - 9
+        bars += f'<rect class="eq" data-h="{hmax:.0f}" data-i="{i}" x="{x:.0f}" y="980" width="18" height="10" rx="9" fill="url(#goldV)"/>'
+    svg_ = (velvet(4, (.5, .55), 'cream') +
+            '<radialGradient id="sun" cx=".5" cy=".73" r=".42"><stop offset="0" stop-color="#f6d58e" stop-opacity=".55"/><stop offset="1" stop-color="#f6d58e" stop-opacity="0"/></radialGradient>'
+            '<rect width="1080" height="1350" fill="url(#sun)"/>' +
+            f'<g filter="url(#foil)">{bars}<rect x="84" y="990" width="912" height="5" fill="url(#goldH)"/></g>')
+    html = (eyebrow(84, 200, 'The 9-to-5 Edition') +
+            txt(80, 250, 920, 'The song you play in the parking lot before work', 92, lh=1.02) +
+            txt(84, 1040, 900, 'counts as healing too.', 84, a=10.8, italic=True, gold=True, weight=500))
+    js = '''window.custom=t=>{document.querySelectorAll('.eq').forEach(b=>{const i=+b.dataset.i,H=+b.dataset.h;
+ const rise=ease(clamp((t+0.8)/6));const beat=.72+.28*Math.abs(Math.sin(t*3.1+i*.55))*Math.abs(Math.cos(t*1.7+i*.31));
+ const h=Math.max(10,H*rise*beat);b.setAttribute('height',h.toFixed(0));b.setAttribute('y',(985-h).toFixed(0));});};'''
+    return page(svg_, html, False, 'MONDAY MORNING', 'NO. 01'), js
+
+# 26 Oct · five-year plan: the straight grey route vs the gold detour that mattered
+def d1026(d):
+    pins = ''.join(f'<path d="M{x} 700 l-9 -22 a 9 9 0 1 1 18 0 z" fill="#b3a7a3"/><text x="{x}" y="740" text-anchor="middle" font-family="Jost" font-size="15" letter-spacing="3" fill="#9c8e8a">{lab}</text>'
+                   for x, lab in [(170, 'YEAR 1'), (390, 'YEAR 2'), (610, 'YEAR 3'), (830, 'YEAR 5')])
+    route = '<path d="M120 700 L 960 700" stroke="#b3a7a3" stroke-width="4" stroke-dasharray="2 14" stroke-linecap="round"/>'
+    detour = 'M390 700 C 420 820, 260 900, 330 990 C 400 1080, 620 1010, 700 1060 C 760 1100, 800 1080, 830 1050'
+    svg_ = (velvet(5, (.4, .3), 'cream') + route + pins +
+            f'<g {ani(1)}>' + halo(f'<path d="{detour}" stroke="#f2c56a" stroke-width="40" fill="none"/>', .35) + '</g>' +
+            f'<g filter="url(#foil)">{drawp(detour, 0, 3, 9)}<path d="M830 1050 l-30 -8 l22 -22 z" fill="url(#gold)"/></g>')
+    html = (eyebrow(84, 200, 'Notes from a debut author') +
+            txt(80, 250, 900, 'Writing a book was never in my five-year plan.', 84, lh=1.02) +
+            txt(640, 1090, 360, 'Write a book.', 64, italic=True, gold=True, weight=500) + swipe(5))
+    return page(svg_, html, False, 'MONDAY', 'NO. 02')
+
+# 27 Oct · it ends up rewriting you: a gold butterfly rising out of an open book
+def d1027(d):
+    wing_u = 'M0 0 C 20 -90, 150 -160, 190 -80 C 210 -30, 120 10, 0 0 Z'
+    wing_l = 'M0 6 C 80 20, 150 70, 120 140 C 90 190, 20 110, 0 6 Z'
+    veins = '<path d="M0 0 C 60 -40, 120 -80, 170 -80 M0 0 C 70 -10, 120 -20, 160 -40 M0 6 C 50 40, 90 80, 110 130" stroke="#7d5518" stroke-width="2" fill="none" opacity=".6"/>'
+    wing = f'<g class="wingR">{halo(f"<path d={chr(39)}{wing_u}{chr(39)} fill={chr(39)}#f2c56a{chr(39)}/>", .35)}{foil(f"<path d={chr(39)}{wing_u}{chr(39)} fill={chr(39)}url(#gold){chr(39)}/><path d={chr(39)}{wing_l}{chr(39)} fill={chr(39)}url(#gold){chr(39)}/>")}{veins}</g>'
+    bfly = (f'<g id="bfly"><g transform="scale(-1 1)"><g class="wingS">{wing}</g></g><g class="wingS">{wing}</g>'
+            '<rect x="-7" y="-60" width="14" height="140" rx="7" fill="url(#goldV)" filter="url(#foil)"/>'
+            '<path d="M-3 -58 C -20 -100, -40 -110, -52 -118 M3 -58 C 20 -100, 40 -110, 52 -118" stroke="url(#gold)" stroke-width="3" fill="none"/></g>')
+    book = ''
+    for k in range(6):
+        o = k * 5
+        book += (f'<path d="M540 {1092+o} C 440 {1046+o}, 290 {1046+o}, 160 {1074+o} L 160 {1086+o} C 290 {1058+o}, 440 {1058+o}, 540 {1104+o} Z" fill="#f4ede3" stroke="#d5c7ba" stroke-width="1"/>'
+                 f'<path d="M540 {1092+o} C 640 {1046+o}, 790 {1046+o}, 920 {1074+o} L 920 {1086+o} C 790 {1058+o}, 640 {1058+o}, 540 {1104+o} Z" fill="#f4ede3" stroke="#d5c7ba" stroke-width="1"/>')
+    book += ('<path d="M540 1088 C 440 1040, 290 1040, 160 1068 C 290 1050, 440 1052, 540 1096 Z" fill="#fbf8f2"/>'
+             '<path d="M540 1088 C 640 1040, 790 1040, 920 1068 C 790 1050, 640 1052, 540 1096 Z" fill="#fbf8f2"/>'
+             '<path d="M160 1068 L160 1112 M920 1068 L920 1112" stroke="url(#goldV)" stroke-width="5"/>'
+             '<path d="M540 1088 L 540 1132" stroke="url(#goldV)" stroke-width="4"/>')
+    book += ''.join(f'<path d="M{520-j*0} {1080-j*0} " />' for j in range(0))
+    book += ''.join(f'<path d="M{200+i*28} {1066-math.sin(i/12*math.pi)*16:.0f} L {200+i*28+20} {1066-math.sin(i/12*math.pi)*16:.0f}" stroke="#cdbfb3" stroke-width="1.5"/>' for i in range(0))
+    book = f'<g transform="translate(0 40)">{book}</g>'
+    trail = ''.join(f'<path class="trail" data-k="{k}" d="M0 -3 L2 0 L0 3 L-2 0 Z" fill="url(#gold)"/>' for k in range(18))
+    svg_ = velvet(6, (.5, .45), 'cream') + book + trail + bfly
+    html = (eyebrow(84, 200, 'Margin notes') +
+            txt(80, 250, 900, 'Day 1.', 150, b=3.2) + txt(80, 250, 900, 'Day 300.', 150, a=3.4, b=6.6) + txt(80, 250, 900, 'Day 730.', 150, a=6.8, b=10.1) +
+            txt(80, 250, 920, 'I started writing a book.', 82, a=10.3, lh=1.02) +
+            txt(80, 345, 920, 'It ended up rewriting me.', 82, a=11.2, italic=True, gold=True, weight=500, lh=1.02))
+    js = '''window.custom=t=>{const p=ease(clamp((t+0.5)/11));const x=540+Math.sin(t*.7)*60*p, y=1060-p*420+Math.sin(t*1.3)*14;
+ const flap=.35+.65*Math.abs(Math.cos(t*4.2));const sc=.55+.45*p;
+ document.getElementById('bfly').setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${sc.toFixed(3)}) rotate(${(Math.sin(t*.9)*8).toFixed(1)})`);
+ document.querySelectorAll('.wingS').forEach(w=>w.setAttribute('transform',`scale(${flap.toFixed(3)} 1)`));
+ document.querySelectorAll('.trail').forEach(d=>{const k=+d.dataset.k;const q=clamp(p-k*.03);const tx=540+Math.sin((t-k*.12)*.7)*60*q+Math.sin(k*2.1)*18,ty=1060-q*420+k*16;
+  d.setAttribute('transform',`translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${(1.6-k*.05).toFixed(2)})`);d.style.opacity=(q>0?(1-k/18)*.9:0).toFixed(2);});};'''
+    return page(svg_, html, False, 'TWO YEARS', 'NO. 01'), js
+
+# 31 Oct · a no doesn't need three paragraphs: the paragraphs collapse into one gold word
+def d1031(d):
+    r = random.Random(31); paras = ''
+    for k in range(3):
+        y0 = 520 + k * 190
+        lines = ''.join(f'<rect x="84" y="{y0 + j*34}" width="{r.uniform(520, 900) if j < 3 else r.uniform(260, 520):.0f}" height="12" rx="6" fill="#c9bdb6"/>' for j in range(4))
+        paras += f'<g class="para" data-k="{k}" style="transform-origin:540px {y0+60}px">{lines}</g>'
+    svg_ = velvet(9, (.3, .25), 'cream') + paras
+    html = (eyebrow(84, 200, 'The 9-to-5 Edition') +
+            txt(80, 250, 920, "A no doesn't need three paragraphs.", 88, lh=1.02) +
+            T(70, 470, 960, f'<div class="gold" {ani(7.6)} style="font-size:420px;line-height:1;font-weight:500;letter-spacing:-.02em">No.</div>') +
+            txt(84, 1020, 900, "You're allowed to choose you.", 70, a=10.4, italic=True, gold=True, weight=500))
+    js = '''window.custom=t=>{document.querySelectorAll('.para').forEach(g=>{const k=+g.dataset.k;const p=ease(clamp((t-3.2-k*.9)/1.6));
+ g.style.transform=`translateY(${p*(150-k*190)}px) scaleY(${1-p*.92}) scaleX(${1-p*.35})`;g.style.opacity=(1-p).toFixed(2);});};'''
+    return page(svg_, html, False, 'BOUNDARIES', 'NO. 03'), js
+
+# 2 Nov · then / now: an anxious grey signal that calms into one gold wave
+def d1102(d):
+    svg_ = (velvet(11, (.4, .4), 'cream') +
+            '<path id="wGrey" stroke="#9a8f92" stroke-width="2.4" fill="none" stroke-linejoin="round"/>' +
+            f'<g {ani(9.5)}><path id="wGlow" stroke="#f2c56a" stroke-width="40" fill="none" filter="url(#glow)" opacity=".4"/></g>' +
+            '<g filter="url(#foil)"><path id="wGold" stroke="url(#goldH)" stroke-width="8" fill="none" stroke-linecap="round"/></g>')
+    html = (T(84, 200, 400, '<div class="cap" style="font-size:22px;opacity:.75">Then</div>') +
+            txt(80, 240, 920, 'One message on "seen" ran my whole night.', 76, italic=True, lh=1.02, extra='color:#8d7f80') +
+            T(84, 940, 400, f'<div class="cap gold" style="font-size:22px" {ani(7.4)}>Now</div>') +
+            txt(80, 980, 920, 'Same message.', 80, a=8.2) + txt(80, 1070, 920, 'Softer me.', 110, a=9.2, italic=True, gold=True, weight=500))
+    js = '''const H=(i)=>{const s=Math.sin(i*12.9898)*43758.5453;return s-Math.floor(s);};
+window.custom=t=>{const m=ease(clamp((t-5)/5.5));let d='';
+ for(let x=60,i=0;x<=1020;x+=8,i++){const jag=(H(i+Math.floor(t*9))-.5)*2*150*(1-m)*(.6+.4*Math.sin(i*.3));
+  const calm=46*Math.sin(x/120+t*1.4)*m;const y=720+jag+calm;d+=(i?' L':'M')+x+' '+y.toFixed(1);}
+ const g=document.getElementById('wGrey');g.setAttribute('d',d);g.style.opacity=(1-m).toFixed(2);
+ const go=document.getElementById('wGold');go.setAttribute('d',d);go.style.opacity=m.toFixed(2);document.getElementById('wGlow').setAttribute('d',d);};'''
+    return page(svg_, html, False, 'THEN / NOW', 'NO. 01'), js
+
+# 11 Nov · the smile in the team photo: a gold smile held over a softer, sadder line
+def d1111(d):
+    frame_ = paper_card(300, 520, 480, 560, -2, '#fbf8f3')
+    inner = ('<g transform="rotate(-2 540 800)"><rect x="330" y="550" width="420" height="420" fill="#efe7df"/>'
+             '<path d="M410 840 C 470 800, 610 800, 670 840" stroke="#a89a98" stroke-width="3" fill="none" opacity=".55"/></g>')
+    smile = 'M395 760 C 460 830, 620 830, 685 760'
+    gold_smile = (f'<g transform="rotate(-2 540 800)">' + halo(f'<path d="{smile}" stroke="#f2c56a" stroke-width="40" fill="none"/>', .45) +
+                  foil(f'<path d="{smile}" stroke="url(#gold)" stroke-width="14" fill="none" stroke-linecap="round"/>') +
+                  foil('<path d="M690 800 C 704 826, 712 846, 700 860 C 690 870, 674 866, 672 852 C 670 838, 682 822, 690 800 Z" fill="url(#gold)"/>') + '</g>')
+    svg_ = velvet(20, (.3, .25), 'cream') + frame_ + inner + gold_smile
+    html = (eyebrow(84, 200, 'The 9-to-5 Edition') + txt(80, 250, 920, "Read this if you've smiled in a team photo on your worst week.", 78, lh=1.02) +
+            txt(560, 1100, 440, 'the real week, underneath', 44, italic=True, gold=True, weight=500))
+    return page(svg_, html, False, 'TEAM PHOTO', 'NO. 06')
+
+# 12 Nov · a little space softens it: two tangled gold ribbons loosen into two calm waves
+def d1112(d):
+    svg_ = (velvet(21, (.4, .45), 'cream') +
+            '<g filter="url(#foil)"><path id="ra" stroke="url(#goldH)" stroke-width="10" fill="none" stroke-linecap="round"/>'
+            '<path id="rb" stroke="url(#gold)" stroke-width="10" fill="none" stroke-linecap="round" opacity=".85"/></g>')
+    html = (eyebrow(84, 200, 'Everyone says', b=7) + txt(80, 250, 920, 'Fix it right now.', 110, b=7) +
+            txt(80, 230, 920, 'Sometimes a little space', 96, a=7.4, lh=1.02) +
+            txt(80, 340, 920, 'is what softens it.', 110, a=9, italic=True, gold=True, weight=500))
+    js = '''window.custom=t=>{const m=ease(clamp((t-6.5)/5));let a='',b='';
+ for(let x=60,i=0;x<=1020;x+=10,i++){const tight=Math.sin(x/22+t*3)*70*(1-m), loose=Math.sin(x/150+t*1.2)*40*m, gap=110*m;
+  a+=(i?' L':'M')+x+' '+(820+tight+loose-gap/2).toFixed(1); b+=(i?' L':'M')+x+' '+(820-tight+loose*.9+gap/2).toFixed(1);}
+ document.getElementById('ra').setAttribute('d',a);document.getElementById('rb').setAttribute('d',b);};'''
+    return page(svg_, html, False, 'THE 9-TO-5 EDITION', 'NO. 07'), js
+
+# 14 Nov · start with her: a porcelain heart, broken and mended in gold
+def d1114(d):
+    heart = _path(_heart_pts(540, 760, 17), True)
+    crack = crack_shape(jag((540, 560), (560, 1010), 9, 46, 14), 10, 14, taper=True)
+    br = crack_shape(jag((520, 760), (370, 700), 4, 20, 15), 5, 15)
+    svg_ = (velvet(23, (.4, .35), 'cream') +
+            f'<path d="{heart}" fill="#7a5a4e" opacity=".18" filter="url(#glowS)" transform="translate(10 22)"/>'
+            f'<path d="{heart}" fill="#fbf7f1" stroke="#d8cbc0" stroke-width="2"/>'
+            '<radialGradient id="por" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#e9ddd3" stop-opacity=".6"/></radialGradient>'
+            f'<path d="{heart}" fill="url(#por)"/>' +
+            f'<g class="wipe" data-a="8" data-b="11">' + halo(f'<path d="{crack}" fill="#f2c56a"/>', .5) + foil(f'<path d="{crack}" fill="url(#gold)"/><path d="{br}" fill="url(#gold)"/>') + '</g>')
+    html = (eyebrow(84, 200, 'Margin notes') + txt(80, 250, 920, "Read this if you've forgiven everyone except yourself.", 80, lh=1.02) +
+            txt(84, 1100, 700, 'Start with her.', 74, a=11.6, italic=True, gold=True, weight=500))
+    js = "window.custom=t=>{const h=document.querySelector('.wipe');if(h){const v=ease(clamp((t-8)/3));h.style.clipPath=`inset(0 0 ${100-v*100}% 0)`;}};"
+    return page(svg_, html, False, 'SELF-FORGIVENESS', 'NO. 04'), js
+
+# 15 Nov · every feeling is real: invented names fade, a gold fingerprint stays
+def d1115(d):
+    r = random.Random(115); ridges = ''
+    cx, cy = 540, 760
+    for k in range(22):
+        rx, ry = 18 + k * 9.5, 28 + k * 11.5
+        gap = r.uniform(0, 6.28); span = 6.28 - (0.5 if k % 3 else 1.1)
+        pts = []
+        for i in range(90):
+            a = gap + span * i / 89
+            wob = 1 + .035 * math.sin(3 * a + k) + .02 * math.sin(7 * a + k * 1.7)
+            pts.append((cx + rx * wob * math.cos(a), cy + ry * wob * math.sin(a) - k * 1.5))
+        ridges += f'<path class="draw" data-a="{2 + k*.26:.2f}" data-b="{3.2 + k*.26:.2f}" d="{_path(pts)}" stroke="url(#gold)" stroke-width="3.6" fill="none" stroke-linecap="round"/>'
+    names = ''
+    for i, (x, y, rot) in enumerate([(120, 560, -4), (700, 600, 3), (150, 980, 2), (720, 1010, -3), (430, 470, 1)]):
+        names += T(x, y, 300, f'<div class="nm" {ani(-1, 7 + i*.4)} style="font-family:Caveat;font-size:48px;color:#a89a98;transform:rotate({rot}deg)">a made-up name</div>')
+    svg_ = (velvet(24, (.45, .45), 'cream') + f'<g {ani(6)}>' + halo(f'<g>{ridges.replace("class=" + chr(34) + "draw" + chr(34), "")}</g>', .35) + '</g>' +
+            f'<g filter="url(#foil)">{ridges}</g>')
+    html = (eyebrow(84, 200, 'Notes from a debut author') + txt(80, 250, 920, 'Every name in my book is made up.', 86, lh=1.02) + names +
+            txt(84, 1100, 920, 'Every feeling in it is real.', 76, a=8.6, italic=True, gold=True, weight=500))
+    return page(svg_, html, False, 'THE CHARACTERS', 'NO. 08')
+
+# 17 Nov · four words: the title itself, broken and mended in gold
+def d1117(d):
+    title = ('<text x="84" y="700" font-family="Cormorant Garamond" font-weight="500" font-size="170" fill="url(#goldH)" letter-spacing="-2">A Self</text>'
+             '<text x="84" y="860" font-family="Cormorant Garamond" font-weight="500" font-size="170" fill="url(#goldH)" letter-spacing="-2">Repaired</text>'
+             '<text x="84" y="1020" font-family="Cormorant Garamond" font-weight="500" font-style="italic" font-size="170" fill="url(#goldH)" letter-spacing="-2">Soul</text>')
+    crack_pts = jag((60, 600), (760, 1030), 14, 60, 17)
+    crack_line = _path(crack_pts)
+    svg_ = (velvet(26, (.35, .3), 'cream') + f'<clipPath id="tc">{title}</clipPath>' + foil(title) +
+            f'<g clip-path="url(#tc)"><path d="{crack_line}" stroke="#f6f0e6" stroke-width="16" fill="none" stroke-linejoin="round"/>'
+            f'<path d="{crack_line}" stroke="#6b4512" stroke-width="3.2" fill="none" stroke-linejoin="round"/></g>')
+    html = (eyebrow(84, 200, 'Notes from a debut author') + txt(80, 250, 920, "Four words I've lived with for two years.", 82, lh=1.02) +
+            txt(84, 1090, 900, 'Broken in places. Mended in gold.', 50, italic=True, extra='opacity:.85'))
+    return page(svg_, html, False, 'REMEMBER THE NAME', 'NO. 09')
+
 DESIGNS = {k[1:5] and f"2026-{k[1:3]}-{k[3:5]}": v for k, v in globals().items() if k.startswith('d1') and callable(v)}
 
 BASE_JS = '''
@@ -496,7 +719,17 @@ function base(t){
   for(const p of draws){const a=+p.dataset.a,b=+p.dataset.b;const v=clamp((t-a)/(b-a));p.style.strokeDashoffset=p._L*(1-v);}
   for(const w of wipes){const a=+w.dataset.a,b=+w.dataset.b;const v=ease(clamp((t-a)/(b-a)));w.style.clipPath=`inset(0 ${100-v*100}% 0 0)`;}
 }
-window.render=t=>{base(t); if(window.custom) custom(t);};
+const ribs=[...document.querySelectorAll('.rib')], ribe=[...document.querySelectorAll('.ribe')], dust=[...document.querySelectorAll('.dust')], fls=[...document.querySelectorAll('.fl')];
+function amb(t){
+  ribs.forEach((p,k)=>{const y0=+p.dataset.y,A=+p.dataset.a,f=+p.dataset.f,sp=+p.dataset.s,w=+p.dataset.w,ph=+p.dataset.ph;
+    let up='',lo=[];for(let x=-40;x<=1120;x+=20){const y=y0+A*Math.sin(x*f+t*sp+ph)+.4*A*Math.sin(x*f*2.3-t*sp*.7);
+      const ww=w*(.55+.45*Math.sin(x*f*.8+t*sp*.5+ph));up+=(x<-30?'M':' L')+x+' '+y.toFixed(1);lo.push(x+' '+(y+ww).toFixed(1));}
+    p.setAttribute('d',up+' L'+lo.reverse().join(' L')+' Z'); if(ribe[k]) ribe[k].setAttribute('d',up);});
+  dust.forEach(d=>{const x=+d.dataset.x,y0=+d.dataset.y,s=+d.dataset.s,p=+d.dataset.p;let y=y0-t*s;y=120+((y-120)%1130+1130)%1130;
+    d.setAttribute('transform',`translate(${(x+Math.sin(t*.6+p)*14).toFixed(1)} ${y.toFixed(1)})`);d.style.opacity=(.25+.6*Math.abs(Math.sin(t*1.6+p))).toFixed(2);});
+  fls.forEach(l=>l.setAttribute('x',(250+620*Math.sin(t*.42-1)).toFixed(0)));
+}
+window.render=t=>{base(t); amb(t); if(window.custom) custom(t);};
 '''
 
 def html_for(date):

@@ -29,7 +29,7 @@ DEFS = f'''<defs>
   <feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="b"/>
   <feComposite in="b" in2="ng" operator="arithmetic" k1="0" k2="1" k3=".18" k4="0" result="bump"/>
   <feSpecularLighting in="bump" surfaceScale="5" specularConstant="1.25" specularExponent="26" lighting-color="#fff4d2" result="s">
-    <fePointLight x="250" y="-260" z="520"/></feSpecularLighting>
+    <fePointLight class="fl" x="250" y="-260" z="520"/></feSpecularLighting>
   <feComposite in="s" in2="SourceAlpha" operator="in" result="si"/>
   <feComposite in="SourceGraphic" in2="si" operator="arithmetic" k1="0" k2="1" k3=".85" k4="0" result="lit"/>
   <feDropShadow in="lit" dx="0" dy="3" stdDeviation="3" flood-color="#1a0d10" flood-opacity=".45"/>
@@ -50,13 +50,30 @@ DEFS = f'''<defs>
 OFFWHITE = '#f6f0e6'
 PASTEL = {k: OFFWHITE for k in ('blush', 'rose', 'cream', 'sage', 'lilac', 'peach', 'butter')}
 
+def ambient(seed=0):
+    """Living background: flowing gold silk ribbons + drifting gold dust (animated by JS in goldleaf.BASE_JS)."""
+    r = random.Random(seed + 500)
+    ribs = ''
+    for k, (y0, amp, f, sp, w, op) in enumerate([(1090, 34, .0042, .55, 70, .10), (1135, 26, .0055, -.42, 44, .13), (1175, 22, .0068, .7, 30, .16), (150, 18, .005, .35, 26, .06)]):
+        ribs += (f'<path class="rib" data-y="{y0}" data-a="{amp}" data-f="{f}" data-s="{sp}" data-w="{w}" data-ph="{r.uniform(0, 6):.2f}" fill="url(#goldH)" opacity="{op}"/>'
+                 f'<path class="ribe" data-k="{k}" stroke="url(#goldH)" stroke-width="1.3" fill="none" opacity="{op*3:.2f}"/>')
+    dust = ''
+    for i in range(38):
+        x, y, k = r.uniform(60, 1020), r.uniform(120, 1250), r.uniform(1.5, 4.2)
+        dust += (f'<path class="dust" data-x="{x:.0f}" data-y="{y:.0f}" data-s="{r.uniform(6, 22):.1f}" data-p="{r.uniform(0, 6):.2f}" '
+                 f'd="M0 {-k:.1f} L{k*.7:.1f} 0 L0 {k:.1f} L{-k*.7:.1f} 0 Z" fill="url(#gold)"/>')
+    return f'<g class="amb" filter="url(#glowS)" opacity=".9">{ribs}</g><g class="amb">{dust}</g>'
+
+PASTEL_DEF = None
+
 def velvet(seed=0, light=(0.32, 0.22), tint='blush'):
-    """Pastel textured paper (kept the old name so designs still call it)."""
+    """Cream off-white textured paper with the living gold background."""
     lx, ly = light
     c = PASTEL.get(tint, tint)
     return (f'<rect width="{W}" height="{H}" fill="{c}"/>'
             f'<radialGradient id="vl{seed}" cx="{lx}" cy="{ly}" r="1"><stop offset="0" stop-color="#fffaf2" stop-opacity=".85"/><stop offset=".55" stop-color="#fffaf2" stop-opacity=".15"/><stop offset="1" stop-color="#9b7a6e" stop-opacity=".18"/></radialGradient>'
-            f'<rect width="{W}" height="{H}" filter="url(#linen)" opacity=".45"/><rect width="{W}" height="{H}" fill="url(#vl{seed})"/><rect width="{W}" height="{H}" filter="url(#grain)"/>')
+            f'<rect width="{W}" height="{H}" filter="url(#linen)" opacity=".45"/><rect width="{W}" height="{H}" fill="url(#vl{seed})"/><rect width="{W}" height="{H}" filter="url(#grain)"/>'
+            + ambient(seed))
 
 def linen(tint='#efe4d2'):
     return (f'<rect width="{W}" height="{H}" fill="{tint}"/>'
