@@ -1,6 +1,6 @@
 // Rig + choreography for "The Paper Boat" (v2). Frames @30fps, 1080x1920 design space.
 export const FPS = 30;
-export const END = 570; // 19s
+export const END = 615; // 20.5s
 export const GROUND = 1540;
 export const SCALE = 1.45;
 
@@ -13,22 +13,43 @@ export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 // ---------------- beats
 export const T = {
   paperOut: 82, foldStart: 104, foldEnd: 140, kneel: 140, place: 165, wind: 172,
-  standA: 186, standB: 214, walkA: 214, walkB: 392, kneel2: 418, bloom: 440, lookUp: 446,
-  wipe: 470, card: 488,
+  standA: 186, standB: 214, walkA: 214, skipA: 318, skipB: 352, walkB: 440, kneel2: 466, bloom: 488, lookUp: 494,
+  wipe: 518, card: 536,
 };
 
 // ---------------- the soul's journey (world x)
-export const WALK_FROM = 330, WALK_TO = 1290;
-export const STRIDE = 248; // world px per full gait cycle (two steps)
-export const soulX = (f: number) => lerp(WALK_FROM, WALK_TO, smoother(seg01(f, T.walkA, T.walkB)));
-// every footfall (half cycle) — used to sync words, flowers and notes
+export const WALK_FROM = 330, WALK_TO = 1840;
+export const STRIDE = 248; // walk: world px per gait cycle
+export const SKIP_STRIDE = 330; // skip: longer, bouncier
+// skipping amount (0 walk → 1 playful skip)
+export const skipAmt = (f: number) => smoother(seg01(f, T.skipA, T.skipB)) * (1 - smoother(seg01(f, T.walkB - 34, T.walkB - 8)));
+const speed = (f: number) => {
+  const go = smoother(seg01(f, T.walkA, T.walkA + 30)) * (1 - smoother(seg01(f, T.walkB - 34, T.walkB)));
+  return go * (1 + 1.55 * skipAmt(f));
+};
+const N = 700;
+const XS: number[] = [], PH: number[] = [];
+(() => {
+  let x = 0, ph = 0;
+  const raw: number[] = [];
+  for (let f = 0; f < N; f++) { raw.push(f >= T.walkA ? speed(f) : 0); }
+  const total = raw.reduce((a, v) => a + v, 0);
+  const k = (WALK_TO - WALK_FROM) / total;
+  for (let f = 0; f < N; f++) {
+    const dx = raw[f] * k;
+    const stride = lerp(STRIDE, SKIP_STRIDE, skipAmt(f));
+    x += dx; ph += (dx / stride) * Math.PI * 2;
+    XS.push(WALK_FROM + x); PH.push(ph);
+  }
+})();
+const at = (arr: number[], f: number) => { const i = Math.max(0, Math.min(N - 2, Math.floor(f))); const u = f - i; return arr[i] * (1 - u) + arr[i + 1] * u; };
+export const soulX = (f: number) => (f < T.walkA ? WALK_FROM : at(XS, f));
+export const gaitPhase = (f: number) => (f < T.walkA ? 0 : at(PH, f));
+// every footfall (each half cycle)
 export const STEP_FRAMES: number[] = (() => {
   const out: number[] = [];
   let next = 1;
-  for (let f = T.walkA; f <= T.walkB; f++) {
-    const d = soulX(f) - WALK_FROM;
-    if (d >= next * (STRIDE / 2) - 30) { out.push(f); next++; }
-  }
+  for (let f = T.walkA; f <= T.walkB; f++) if (gaitPhase(f) >= next * Math.PI - 0.6) { out.push(f); next++; }
   return out;
 })();
 
@@ -36,11 +57,12 @@ export const STEP_FRAMES: number[] = (() => {
 export const camX = (f: number) => Math.max(0, soulX(f) - 360) + 60 * sstep(seg01(f, T.walkB, T.wipe));
 
 // ---------------- the paper boat (world coords)
-export const streamY = (x: number) => 1592 + 8 * Math.sin(x / 150) + 4 * Math.sin(x / 61);
+export const streamY = (x: number) => 1590 + 9 * Math.sin(x / 170) + 4 * Math.sin(x / 61);
+export const POOL_X = 2010, TREE_X = 2130;
 export const boatPos = (f: number) => {
   if (f < T.place) return null;
   const p = smoother(seg01(f, T.place + 4, T.walkB - 6));
-  const x = lerp(418, 1400, p) + 4 * Math.sin(f / 20) * (1 - p);
+  const x = lerp(418, 1910, p) + 4 * Math.sin(f / 20) * (1 - p);
   const settle = seg01(f, T.walkB - 10, T.walkB + 50);
   const yIn = lerp(1566, streamY(x), smoother(seg01(f, T.place + 4, T.place + 50)));
   const y = yIn + 3 * Math.sin(f / 9);
@@ -74,25 +96,35 @@ const mix = (a: Pose, b: Pose, t: number): Pose => ({
 
 // smooth, natural gait (phase tied to distance so feet never slide)
 const walkPose = (f: number, base: Pose, amt: number): Pose => {
-  const ph = ((soulX(f) - WALK_FROM) / STRIDE) * Math.PI * 2;
+  const ph = gaitPhase(f);
+  const sk = skipAmt(f);
   const leg = (o: number) => {
     const p = ph + o;
-    const th = 23 * Math.cos(p);
     const swing = Math.max(0, -Math.sin(p)); // leg moving forward → knee lifts
     const stance = Math.max(0, Math.sin(p));
-    const sh = th - (48 * Math.pow(swing, 1.3) + 7 * stance);
+    const th = lerp(23, 30, sk) * Math.cos(p) + sk * 58 * Math.pow(swing, 1.2);  // skipping: knee lifts high
+    const sh = th - (lerp(48, 92, sk) * Math.pow(swing, 1.3) + 7 * stance);
     return [th, sh];
   };
   const [tb, sb] = leg(Math.PI), [tf, sf] = leg(0);
-  const armB = -0.75 * tb, armF = -0.75 * tf;
+  const armB = -lerp(0.75, 1.9, sk) * tb + sk * 26, armF = -lerp(0.75, 1.9, sk) * tf + sk * 26;
   const w: Pose = {
-    lean: base.lean + 2.5 + 1.2 * Math.cos(ph * 2),
-    head: base.head - 1.2 * Math.cos(ph * 2) - 3,
+    lean: base.lean + 2.5 + 1.2 * Math.cos(ph * 2) - sk * 5,
+    head: base.head - 1.2 * Math.cos(ph * 2) - 3 - sk * 14,
     th: [tb, tf], sh: [sb, sf],
-    ua: [armB, armF], fa: [armB + 14 + 10 * Math.max(0, Math.sin(ph + Math.PI)), armF + 14 + 10 * Math.max(0, Math.sin(ph))],
+    ua: [armB, armF], fa: [armB + 14 + lerp(10, 40, sk) * Math.max(0, Math.sin(ph + Math.PI)), armF + 14 + lerp(10, 40, sk) * Math.max(0, Math.sin(ph))],
   };
   return mix(base, w, amt);
 };
+// little hop while skipping (local px, before SCALE)
+export const hopAt = (f: number) => (f < T.walkA ? 0 : 27 * skipAmt(f) * Math.pow(Math.abs(Math.sin(gaitPhase(f))), 0.8));
+
+// how the face feels: 0 sad → 0.5 hopeful → 1 joyful
+export const moodAt = (f: number) =>
+  0.22 * smoother(seg01(f, T.paperOut, T.foldEnd)) + 0.2 * smoother(seg01(f, T.place, T.standB)) +
+  0.1 * smoother(seg01(f, T.walkA, T.skipA)) + 0.48 * smoother(seg01(f, T.skipA - 10, T.skipB));
+// overthinking scribble above the head: present in the silence, unravels in the wind
+export const thoughtAt = (f: number) => 1 - smoother(seg01(f, T.wind, T.wind + 40));
 
 export const poseAt = (f: number): Pose => {
   const S = POSES;
@@ -123,14 +155,14 @@ type V = { x: number; y: number };
 const go = (p: V, ang: number, len: number): V => ({ x: p.x + len * Math.sin(rad(ang)), y: p.y + len * Math.cos(rad(ang)) });
 export type Rig = { hip: V; neck: V; head: V; headAng: number; lean: number; legs: { knee: V; foot: V; fa: number }[]; arms: { sh: V; el: V; hand: V }[] };
 
-export const solve = (pose: Pose, x: number, ground = GROUND): Rig => {
+export const solve = (pose: Pose, x: number, ground = GROUND, hop = 0): Rig => {
   const L1 = 58, L2 = 56;
   const drops = [0, 1].flatMap((i) => {
     const k = L1 * Math.cos(rad(pose.th[i]));
     return [k + 9, k + L2 * Math.cos(rad(pose.sh[i])) + 7];
   });
   drops.push(22); // seat
-  const hip = { x, y: ground - Math.max(...drops) };
+  const hip = { x, y: ground - Math.max(...drops) - hop };
   const legs = [0, 1].map((i) => {
     const knee = go(hip, pose.th[i], L1);
     return { knee, foot: go(knee, pose.sh[i], L2), fa: pose.sh[i] };
@@ -154,6 +186,8 @@ export const soulWorldX = (f: number) => (f < T.walkA ? WALK_FROM : soulX(f));
 
 // how healed: drives colour, wind, light
 export const healAt = (f: number) =>
-  0.12 * sstep(seg01(f, T.paperOut, T.place)) + 0.35 * sstep(seg01(f, T.place, T.walkA + 40)) +
-  0.38 * sstep(seg01(f, T.walkA + 40, T.walkB)) + 0.15 * sstep(seg01(f, T.walkB, T.bloom + 20));
+  0.12 * sstep(seg01(f, T.paperOut, T.place)) + 0.3 * sstep(seg01(f, T.place, T.walkA + 40)) +
+  0.4 * sstep(seg01(f, T.walkA + 40, T.walkB)) + 0.18 * sstep(seg01(f, T.walkB, T.bloom + 20));
+// the river turns from blue to glowing gold as the soul heals
+export const goldAt = (f: number) => sstep(seg01(f, T.skipA - 30, T.walkB + 20));
 export const innerLight = (f: number) => 0.25 + 0.75 * healAt(f) - 0.18 * Math.sin(Math.PI * seg01(f, T.paperOut - 8, T.foldStart));

@@ -1,8 +1,8 @@
 import React from "react";
 import { interpolateColors } from "remotion";
 import {
-  boatPos, camX, clamp01, FPS, GROUND, healAt, innerLight, lerp, poseAt, Rig, SCALE, scaled, seg01, smoother,
-  solve, soulWorldX, sstep, STEP_FRAMES, streamY, T,
+  boatPos, camX, clamp01, FPS, goldAt, GROUND, healAt, hopAt, innerLight, lerp, moodAt, POOL_X, poseAt, Rig, SCALE, scaled, seg01, smoother,
+  solve, soulWorldX, sstep, STEP_FRAMES, streamY, T, thoughtAt, TREE_X,
 } from "./pose";
 
 const W = 1080, H = 1920;
@@ -68,7 +68,30 @@ const Spark: React.FC<{ s: number; o: number }> = ({ s, o }) => (
 
 // ------------------------------------------------ the soul
 const line = (a: { x: number; y: number }, b: { x: number; y: number }, c: { x: number; y: number }) => `M${a.x},${a.y} Q${b.x},${b.y} ${c.x},${c.y}`;
-export const Body: React.FC<{ r: Rig; fill: string; back: string }> = ({ r, fill, back }) => {
+const BLINKS = [46, 128, 226, 300, 372, 452, 560];
+const Face: React.FC<{ r: Rig; f: number; mood: number }> = ({ r, f, mood }) => {
+  const blink = BLINKS.reduce((a, b) => { const d = f - b; return d >= 0 && d < 6 ? Math.min(a, Math.abs(d - 2.5) / 3) : a; }, 1);
+  const sad = 1 - sstep(mood / 0.45), joy = sstep((mood - 0.55) / 0.4);
+  const ink = "#5F4C48";
+  const eye = (x: number, sc: number) => (
+    <g key={x}>
+      <ellipse cx={x} cy={-1 + 2.5 * sad} rx={3.5 * sc} ry={Math.max(0.5, 4.6 * sc * (1 - 0.4 * sad) * blink)} fill={ink} opacity={1 - joy} />
+      <path d={`M${x - 5 * sc},${1} Q${x},${-5 * sc} ${x + 5 * sc},${1}`} stroke={ink} strokeWidth={2.3} fill="none" strokeLinecap="round" opacity={joy} />
+      <path d={`M${x - 5 * sc},${-9 + 2 * sad} L${x + 5 * sc},${-9 - 2.5 * sad * (x > 8 ? -1 : 1)}`} stroke={ink} strokeWidth={1.8} strokeLinecap="round" opacity={0.75 * sad} />
+    </g>
+  );
+  const c = lerp(-5, 7, mood); // mouth curve: frown → smile
+  return (
+    <g transform={`translate(${r.head.x} ${r.head.y}) rotate(${r.headAng})`}>
+      <ellipse cx={22} cy={9} rx={7} ry={4} fill="#F4A8A0" opacity={0.5 * mood} />
+      <ellipse cx={1} cy={9} rx={5} ry={3.5} fill="#F4A8A0" opacity={0.35 * mood} />
+      {eye(-1, 0.85)}{eye(16, 1)}
+      <path d={`M${4},${16} Q${10},${16 + c} ${16},${15}`} stroke="#B97A6E" strokeWidth={2.4} fill={joy > 0.5 ? "#D99487" : "none"} fillOpacity={0.5 * joy} strokeLinecap="round" />
+    </g>
+  );
+};
+
+export const Body: React.FC<{ r: Rig; fill: string; back: string; face?: { f: number; mood: number } }> = ({ r, fill, back, face }) => {
   const l = (r.lean * Math.PI) / 180, px = Math.cos(l), py = Math.sin(l);
   const torso = `M${r.hip.x - 24 * px},${r.hip.y - 24 * py}
     C${r.hip.x - 32 * px},${r.hip.y - 32 * py - 44} ${r.neck.x - 30 * px},${r.neck.y - 30 * py + 34} ${r.neck.x - 20 * px},${r.neck.y - 20 * py}
@@ -89,6 +112,7 @@ export const Body: React.FC<{ r: Rig; fill: string; back: string }> = ({ r, fill
       <path d={line(r.hip, r.legs[1].knee, r.legs[1].foot)} stroke={fill} strokeWidth={27} />
       {foot(1, fill)}
       <path d={line(r.arms[1].sh, r.arms[1].el, r.arms[1].hand)} stroke={fill} strokeWidth={19} />
+      {face && <Face r={r} f={face.f} mood={face.mood} />}
     </g>
   );
 };
@@ -128,18 +152,28 @@ export const World: React.FC<{ f: number }> = ({ f }) => {
   const cam = camX(f);
   const sx = soulWorldX(f);
   const pose = poseAt(f);
-  const rig = solve(pose, sx);
+  const rig = solve(pose, sx, GROUND, hopAt(f));
+  const mood = moodAt(f);
+  const gold = goldAt(f);
   const wx = (x: number, par = 1) => x - cam * par; // world → screen
 
   // palette: muted silence → warm healing
-  const skyTop = col(h, "#E5E1E3", "#FCF5EC"), skyMid = col(h, "#E8E0DE", "#FAE5D7"), skyLow = col(h, "#E4E3DC", "#F6EAD3");
-  const far = col(h, "#D6D6DF", "#E3D9E6"), far2 = col(h, "#D8DBD8", "#DCE3D6");
-  const mid = col(h, "#CCD4C6", "#C9DDBC"), near = col(h, "#BCC7B2", "#B2CF9F");
-  const mead1 = col(h, "#B9C3AE", "#B8D3A4"), mead2 = col(h, "#A9B59F", "#A0C08D");
-  const water1 = col(h, "#CDD3D4", "#D7ECEA"), water2 = col(h, "#B9C2C4", "#B4D8D6");
-  const grassC = col(h, "#9EA996", "#93B783"), grassL = col(h, "#B0B9A6", "#ABCB97");
+  const skyTop = col(h, "#E5E1E3", "#B9DDF2"), skyMid = col(h, "#E8E0DE", "#F9E2D6"), skyLow = col(h, "#E4E3DC", "#FFEFD2");
+  const far = col(h, "#D6D6DF", "#C4C2E6"), far2 = col(h, "#D8DBD8", "#B9DCC2");
+  const mid = col(h, "#CCD4C6", "#A6D597"), near = col(h, "#BCC7B2", "#8EC97E");
+  const mead1 = col(h, "#B9C3AE", "#A9D893"), mead2 = col(h, "#A9B59F", "#7FBE6C");
+  const water2 = col(h, "#B4C0C4", "#6FC0E0");
+  const grassC = col(h, "#9EA996", "#6FAE5E"), grassL = col(h, "#B0B9A6", "#9BD27F");
   const bloom = (i: number) => clamp01(Math.pow(clamp01((f - T.bloom - i * 1.2) / 18), 0.7)) * (1 + 0.25 * Math.sin(Math.PI * clamp01((f - T.bloom - i * 1.2) / 18)));
   const boat = boatPos(f);
+  const riverPath = (() => {
+    const top: [number, number][] = [], bot: [number, number][] = [];
+    for (let x = 740; x <= 1840; x += 30) {
+      const w = 18 + 6 * Math.sin(x / 90);
+      top.push([x, streamY(x) - w]); bot.unshift([x, streamY(x) + w]);
+    }
+    return smooth([...top, ...bot]);
+  })();
   const light = innerLight(f);
 
   // hand-held paper before it touches the water
@@ -156,11 +190,11 @@ export const World: React.FC<{ f: number }> = ({ f }) => {
   }
 
   // flowers along the bank wake as the soul walks past
-  const bankFlowers = Array.from({ length: 34 }, (_, i) => {
-    const x = 260 + i * 46 + rnd(i) * 30;
+  const bankFlowers = Array.from({ length: 50 }, (_, i) => {
+    const x = 260 + i * 44 + rnd(i) * 30;
     const y = 1548 + rnd(i + 5) * 6 + (i % 4 === 0 ? 70 + rnd(i) * 40 : 0);
     const wake = x < 700 ? T.place + 20 + i * 2 : (STEP_FRAMES.find((sf) => soulWorldX(sf) > x - 60) ?? T.bloom);
-    return { x, y, wake, c: ["#F5CDC9", "#FFF2E6", "#E6D3EC", "#F8DAC6", "#F3C2C9"][i % 5], s: 0.75 + rnd(i + 9) * 0.6 };
+    return { x, y, wake, c: ["#F2866F", "#FFF4E2", "#B9A5E3", "#F6D46B", "#F4A3B8"][i % 5], s: 0.75 + rnd(i + 9) * 0.6 };
   });
 
   return (
@@ -173,13 +207,18 @@ export const World: React.FC<{ f: number }> = ({ f }) => {
           <stop offset="0" stopColor="#FFF1D8" stopOpacity={0.95 * h} /><stop offset="0.45" stopColor="#FFE7CF" stopOpacity={0.35 * h} /><stop offset="1" stopColor="#FFE7CF" stopOpacity={0} />
         </radialGradient>
         <linearGradient id="mead2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={mead1} /><stop offset="1" stopColor={mead2} /></linearGradient>
-        <linearGradient id="water2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={water1} /><stop offset="1" stopColor={water2} /></linearGradient>
+        <linearGradient id="water2" gradientUnits="userSpaceOnUse" x1={380} y1={0} x2={2240} y2={0}>
+          {[0, 0.2, 0.4, 0.6, 0.8, 1].map((o) => (
+            <stop key={o} offset={o} stopColor={interpolateColors(clamp01(gold * (0.1 + o * 0.28)), [0, 1], [water2, "#9ED3D0"])} />
+          ))}
+        </linearGradient>
+        <linearGradient id="waterShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#FFFFFF" stopOpacity={0.18} /><stop offset="1" stopColor="#FFFFFF" stopOpacity={0} /></linearGradient>
         <linearGradient id="trunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#B39A86" /><stop offset="1" stopColor="#937B6A" /></linearGradient>
         <filter id="b4" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4" /></filter>
         <filter id="b8" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="8" /></filter>
         <filter id="b16" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="16" /></filter>
         <filter id="b40" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="40" /></filter>
-        <clipPath id="pool2"><path d={blob(wx(1500), 1600, 225, 4, 0.24)} /></clipPath>
+        <clipPath id="pool2"><path d={blob(wx(POOL_X), 1600, 225, 4, 0.24)} /></clipPath>
       </defs>
 
       {/* sky, light, clouds */}
@@ -231,45 +270,60 @@ export const World: React.FC<{ f: number }> = ({ f }) => {
         return <path key={i} d={`M${bx - 14},${by - w} Q${bx - 5},${by - 3} ${bx},${by + 2} Q${bx + 5},${by - 3} ${bx + 14},${by - w}`} stroke="#A3948C" strokeWidth={2.8} fill="none" strokeLinecap="round" />;
       })}
 
-      {/* the tree */}
-      <g transform={`translate(${wx(1590)} 0)`}>
-        {(() => {
-          const g = 0.7 * Math.sin(t * 0.9) * (0.4 + h) + 2.2 * gust(wx(1590), f);
-          const clusters = [
-            [-10, 990, 160, 1, "d"], [-140, 1060, 118, 2, "d"], [130, 1050, 126, 3, "d"],
-            [-80, 920, 118, 4, "m"], [70, 925, 122, 5, "m"], [0, 860, 100, 6, "l"],
-            [-185, 985, 88, 7, "m"], [180, 975, 92, 8, "m"], [10, 1110, 112, 9, "d"], [-60, 1020, 70, 10, "l"], [90, 1000, 70, 11, "l"],
-          ] as const;
-          const cc = { d: col(h, "#9DAE93", "#8FB683"), m: col(h, "#AEBCA5", "#A6C998"), l: col(h, "#C1CBB8", "#C3DDB2") };
-          return (
-            <>
-              <ellipse cx={0} cy={1548} rx={260} ry={22} fill="#7F946F" opacity={0.18} filter="url(#b16)" />
+      {/* trees: layered sway, gusts ripple through and settle back */}
+      {[[1010, 0.5, false], [1500, 0.58, false], [TREE_X, 1, true]].map(([tx, sc, hero], ti) => {
+        const xs = wx(tx as number);
+        if (xs < -350 || xs > W + 350) return null;
+        const calm = (0.35 + 0.65 * h) * (0.8 * Math.sin(t * 0.8 + ti) + 0.35 * Math.sin(t * 1.7 + 1 + ti) + 0.15 * Math.sin(t * 3.1 + 2));
+        const push = (lag: number) => 2.4 * gust(xs, f - lag) - 0.9 * gust(xs, f - lag - 16);
+        const clusters = [
+          [-10, 990, 160, 1, "d"], [-140, 1060, 118, 2, "d"], [130, 1050, 126, 3, "d"],
+          [-80, 920, 118, 4, "m"], [70, 925, 122, 5, "m"], [0, 860, 100, 6, "l"],
+          [-185, 985, 88, 7, "m"], [180, 975, 92, 8, "m"], [10, 1110, 112, 9, "d"], [-60, 1020, 70, 10, "l"], [90, 1000, 70, 11, "l"],
+        ] as const;
+        const cc = { d: col(h, "#9DAE93", "#6DAE62"), m: col(h, "#AEBCA5", "#89C677"), l: col(h, "#C1CBB8", "#B3E09A") };
+        return (
+          <g key={ti} transform={`translate(${xs} ${1550}) scale(${sc}) translate(0 -1550)`}>
+            <ellipse cx={0} cy={1548} rx={260} ry={22} fill="#7F946F" opacity={0.18} filter="url(#b16)" />
+            <g transform={`rotate(${0.35 * calm + 0.5 * push(4)} 0 1550)`}>
               <path d="M-16,1550 C-12,1440 -24,1320 -8,1170 L12,1170 C8,1320 22,1440 26,1550 Z" fill="url(#trunk)" />
               <path d="M-6,1300 C-50,1250 -95,1215 -140,1195 L-136,1186 C-88,1202 -40,1236 2,1282 Z" fill="#A58D7B" />
               <path d="M10,1255 C46,1205 92,1180 136,1166 L140,1175 C98,1190 58,1222 22,1268 Z" fill="#A58D7B" />
-              <g transform={`rotate(${g} 0 1290)`}>
-                {clusters.map(([x, y, r, s, k], i) => {
-                  const rs = 3 * Math.sin(t * 1.3 + i) + 6 * gust(wx(1590 + x), f);
-                  return <path key={i} d={blob(x + rs, y + Math.cos(t + i) * 2, r, s, 0.82, 0.02 * Math.sin(t * 2 + i))} fill={cc[k]} />;
+              <g transform={`rotate(${0.9 * calm + push(6)} 0 1290)`}>
+                {clusters.map(([x, y, r, sd, k], i) => {
+                  const lag = (1290 - y) / 60;
+                  const flut = 2.5 * Math.sin(t * (2.2 + (i % 3) * 0.4) + i) * (0.4 + h) + 9 * gust(xs + x * (sc as number), f - lag);
+                  return <path key={i} d={blob(x + flut, y + Math.cos(t * 1.4 + i) * 2 - 2 * gust(xs, f - lag), r, sd + ti * 3, 0.82, 0.025 * Math.sin(t * 2.4 + i) + 0.02 * gust(xs, f))} fill={cc[k]} />;
                 })}
-                {Array.from({ length: 34 }, (_, i) => {
-                  const a = rnd(i) * Math.PI * 2, d = Math.sqrt(rnd(i + 40));
-                  const x = Math.cos(a) * 215 * d, y = 990 + Math.sin(a) * 160 * d;
+                {hero && Array.from({ length: 34 }, (_, i) => {
+                  const a2 = rnd(i) * Math.PI * 2, d = Math.sqrt(rnd(i + 40));
+                  const x = Math.cos(a2) * 215 * d, y = 990 + Math.sin(a2) * 160 * d;
                   return (
-                    <g key={i} transform={`translate(${x},${y}) rotate(${i * 37 + t * 10})`}>
+                    <g key={`f${i}`} transform={`translate(${x},${y}) rotate(${i * 37 + t * 10})`}>
                       <Flower s={(0.9 + rnd(i + 9) * 0.7) * bloom(i)} c={["#F6CFCB", "#FCE4DA", "#EFC0C6", "#FFF3EA"][i % 4]} />
                     </g>
                   );
                 })}
               </g>
-            </>
-          );
-        })()}
-      </g>
+            </g>
+          </g>
+        );
+      })}
+      {/* a few leaves shaken loose by each gust */}
+      {GUSTS.flatMap((g, gi) => [0, 1, 2, 3].map((i) => {
+        const tx = [1010, 1500, TREE_X][(gi + i) % 3];
+        const xs0 = wx(tx);
+        const arrive = g + (xs0 + 260) / 30;
+        const p = (f - arrive - i * 4) / 80;
+        if (p <= 0 || p >= 1) return null;
+        const x = xs0 - 80 + rnd(gi * 7 + i) * 160 + p * 380 + 30 * Math.sin(p * 9 + i);
+        const y = 1000 + rnd(gi * 5 + i) * 160 + p * 420;
+        return <path key={`lv${gi}${i}`} d={leaf} fill={col(h, "#AEBCA5", "#A9C996")} opacity={Math.sin(p * Math.PI)} transform={`translate(${x},${y}) rotate(${p * 600 + i * 40}) scale(0.8)`} />;
+      }))}
 
       {/* meadow */}
       <g transform={`translate(${-cam} 0)`}>
-        <path d={ridge(1508, 14, 3, -40, 2700, 30, 0.8)} fill="url(#mead2)" />
+        <path d={ridge(1508, 14, 3, -40, 3100, 30, 0.8)} fill="url(#mead2)" />
         {/* soft light patches drifting over the grass */}
         <g filter="url(#b40)" opacity={0.35 * h}>
           <ellipse cx={600 + t * 20} cy={1700} rx={420} ry={60} fill="#F6F0D2" />
@@ -277,24 +331,38 @@ export const World: React.FC<{ f: number }> = ({ f }) => {
         </g>
         {/* pond → stream → pool */}
         <path d={blob(590, 1594, 205, 1, 0.24)} fill="url(#water2)" />
-        <path d={(() => {
-          const top: [number, number][] = [], bot: [number, number][] = [];
-          for (let x = 740; x <= 1330; x += 30) {
-            const w = 18 + 6 * Math.sin(x / 90);
-            top.push([x, streamY(x) - w]); bot.unshift([x, streamY(x) + w]);
-          }
-          return smooth([...top, ...bot]);
-        })()} fill="url(#water2)" />
-        <path d={blob(1500, 1600, 225, 4, 0.24)} fill="url(#water2)" />
+        <path d={riverPath} fill="url(#water2)" />
+        <path d={blob(POOL_X, 1600, 225, 4, 0.24)} fill="url(#water2)" />
+        {/* the river begins to glow gold */}
+        <g opacity={0.14 * gold} filter="url(#b8)">
+          <path d={riverPath} fill="#FFE3A0" />
+          <path d={blob(POOL_X, 1600, 225, 4, 0.24)} fill="#FFE3A0" />
+        </g>
+        <path d={riverPath} fill="url(#waterShade)" />
+        {/* golden streams flowing through the blue */}
+        {Array.from({ length: 20 }, (_, i) => {
+          if (gold <= 0) return null;
+          const x = 760 + ((i * 113 + f * 4.2) % 1420);
+          const y = x < 1810 ? streamY(x) + (i % 3 - 1) * 7 : 1585 + (i % 5) * 7;
+          const len = 60 + 50 * rnd(i + 2);
+          return <path key={`gs${i}`} d={`M${x},${y} q${len / 2},${-4} ${len},0`} stroke="#FFC94D" strokeWidth={5} strokeLinecap="round" fill="none" opacity={gold * (0.75 + 0.25 * Math.sin(t * 3 + i))} />;
+        })}
+        {/* golden sparkles riding the current */}
+        {Array.from({ length: 22 }, (_, i) => {
+          if (gold <= 0) return null;
+          const x = 760 + ((i * 131 + f * 3.2) % 1450);
+          const y = x < 1810 ? streamY(x) + (rnd(i) - 0.5) * 22 : 1590 + (rnd(i) - 0.5) * 60;
+          return <g key={`sp${i}`} transform={`translate(${x},${y})`}><Spark s={0.3 + 0.25 * rnd(i + 4)} o={gold * (0.5 + 0.5 * Math.sin(t * 5 + i))} /></g>;
+        })}
         {/* flowing shimmer */}
-        {Array.from({ length: 26 }, (_, i) => {
-          const span = 1200, x = 380 + ((i * 97 + f * (0.6 + 1.6 * h)) % span);
-          const y = x < 760 ? 1576 + (i % 4) * 9 : x < 1300 ? streamY(x) - 6 + (i % 3) * 6 : 1582 + (i % 5) * 9;
-          return <path key={i} d={`M${x},${y} l${22 + 18 * rnd(i)},0`} stroke="#FFFFFF" strokeWidth={2.6} strokeLinecap="round" opacity={(0.25 + 0.45 * h) * (0.6 + 0.4 * Math.sin(t * 2 + i))} />;
+        {Array.from({ length: 40 }, (_, i) => {
+          const span = 1840, x = 380 + ((i * 71 + f * (0.6 + 2.2 * h)) % span);
+          const y = x < 760 ? 1576 + (i % 4) * 9 : x < 1810 ? streamY(x) - 6 + (i % 3) * 6 : 1582 + (i % 5) * 9;
+          return <path key={i} d={`M${x},${y} l${22 + 18 * rnd(i)},0`} stroke={col(gold * clamp01((x - 500) / 900 + 0.3), "#FFFFFF", "#FFE7A6")} strokeWidth={2.6} strokeLinecap="round" opacity={(0.25 + 0.45 * h) * (0.6 + 0.4 * Math.sin(t * 2 + i))} />;
         })}
         {/* ripples when the boat touches the water, and at the pool */}
         {[T.place + 4, T.walkB - 4].map((st, j) => {
-          const x0 = j ? 1400 : 420, y0 = j ? 1592 : 1568;
+          const x0 = j ? 1910 : 420, y0 = j ? 1592 : 1568;
           return [0, 1, 2].map((i) => {
             const p = seg01(f, st + i * 8, st + i * 8 + 50);
             if (p <= 0 || p >= 1) return null;
@@ -302,9 +370,23 @@ export const World: React.FC<{ f: number }> = ({ f }) => {
           });
         })}
         {/* stones */}
-        {[[392, 1612, 20, 0.55], [800, 1570, 15, 0.6], [1290, 1610, 18, 0.5], [1735, 1606, 28, 0.5], [1010, 1622, 13, 0.6]].map(([x, y, r, q], i) => (
+        {[[392, 1612, 20, 0.55], [800, 1570, 15, 0.6], [1180, 1618, 13, 0.6], [1560, 1616, 15, 0.55], [1790, 1612, 18, 0.5], [2245, 1606, 28, 0.5]].map(([x, y, r, q], i) => (
           <path key={i} d={blob(x, y, r, i + 2, q)} fill={col(h, "#D2CEC6", "#DCD3C6")} />
         ))}
+        {/* wildflower patches across the meadow */}
+        {Array.from({ length: 160 }, (_, i) => {
+          const patch = i % 8, cx = 300 + patch * 360 + rnd(patch) * 120;
+          const x = cx + (rnd(i + 11) - 0.5) * 260, y = 1700 + rnd(patch + 3) * 150 + (rnd(i + 12) - 0.5) * 90;
+          if (x - cam < -40 || x - cam > W + 40) return null;
+          const g = sstep(clamp01((healAt(f) - 0.25 - rnd(i) * 0.3) / 0.25));
+          if (g <= 0) return null;
+          const c = ["#F2866F", "#F4A3B8", "#F6D46B", "#B9A5E3", "#FFF4E2", "#F7A072"][(i + patch) % 6];
+          const sw = breeze(x - cam, f, h) * 2;
+          return <g key={`wf${i}`} transform={`translate(${x},${y}) rotate(${sw})`}>
+            <path d={`M0,0 q-1,-8 0,${-16 * g}`} stroke={grassC} strokeWidth={2.2} fill="none" />
+            <g transform={`translate(0,${-16 * g})`}><Flower s={(0.55 + 0.4 * rnd(i + 5)) * g} c={c} /></g>
+          </g>;
+        })}
         {/* bank flowers */}
         {bankFlowers.map((b, i) => {
           const g = clamp01((f - b.wake) / 16);
@@ -326,7 +408,7 @@ export const World: React.FC<{ f: number }> = ({ f }) => {
             {f > T.walkB && (
               <g opacity={0.78 * sstep(seg01(f, T.walkB + 10, T.kneel2 + 10))} transform={`translate(40 ${2 * 1552}) scale(1,-1)`}>
                 <g transform={`translate(${sx} ${GROUND}) scale(${SCALE}) translate(${-sx} ${-GROUND})`} filter="url(#b4)">
-                  <Body r={rig} fill="#FFE5D2" back="#FFE5D2" />
+                  <Body r={rig} fill="#FFE5D2" back="#FFE5D2" face={{ f, mood }} />
                 </g>
               </g>
             )}
@@ -345,23 +427,34 @@ export const World: React.FC<{ f: number }> = ({ f }) => {
         <g transform={`translate(${sx} ${GROUND}) scale(${SCALE}) translate(${-sx} ${-GROUND})`}>
           <ellipse cx={(rig.legs[0].foot.x + rig.legs[1].foot.x) / 2} cy={GROUND + 6} rx={62} ry={9} fill="#6F8461" opacity={0.2} filter="url(#b4)" />
           <g filter="url(#b16)" opacity={0.5 + 0.35 * h}><Body r={rig} fill="#F8C9AE" back="#F8C9AE" /></g>
-          <Body r={rig} fill="#FFFBF4" back="#F2E7DA" />
+          <Body r={rig} fill="#FFFBF4" back="#F2E7DA" face={{ f, mood }} />
           <g transform={`translate(${rig.neck.x + (rig.hip.x - rig.neck.x) * 0.32 + 7} ${rig.neck.y + (rig.hip.y - rig.neck.y) * 0.32})`}>
             <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${2.2 + 2 * light})`} fill="#FFC98F" opacity={0.25 + 0.5 * light} filter="url(#b4)" />
             <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${0.55 + 0.45 * light})`} fill="#FFD7A6" opacity={0.55 + 0.45 * light} />
           </g>
         </g>
+        {thoughtAt(f) > 0.01 && (() => {
+          const hd = scaled(rig.head, sx);
+          const u = 1 - thoughtAt(f);
+          const pts: [number, number][] = [];
+          for (let i = 0; i < 70; i++) {
+            const a = i * 0.83 + t * 0.9, r = 30 + 18 * Math.sin(i * 1.7) + 8 * Math.sin(i * 0.37 + t);
+            const k = i / 70;
+            pts.push([hd.x + 10 + r * Math.cos(a) * 1.5 + u * (k * 520 + 40), hd.y - 120 + r * Math.sin(a) * 0.8 - u * (k * 140) + u * 30 * Math.sin(k * 12)]);
+          }
+          return <path d={smooth(pts, false)} stroke="#8E8580" strokeWidth={2.2} fill="none" strokeLinecap="round" opacity={0.8 * (1 - u) + 0.2 * Math.sin(Math.PI * u)} />;
+        })()}
         {paper && (
           <g transform={`translate(${paper.x},${paper.y}) scale(${paper.s})`}><Paper t={paper.t} glow={1} /></g>
         )}
 
         {/* grass, moving with the wind */}
-        {Array.from({ length: 520 }, (_, i) => {
-          const x = rnd(i) * 2700 - 40;
+        {Array.from({ length: 600 }, (_, i) => {
+          const x = rnd(i) * 3000 - 40;
           const xs = x - cam;
           if (xs < -40 || xs > W + 40) return null;
           const y = 1530 + Math.pow(rnd(i + 3), 0.8) * 400;
-          if (y > 1546 && y < 1660 && ((x > 380 && x < 800) || (x > 740 && x < 1340 && Math.abs(y - streamY(x)) < 30) || (x > 1270 && x < 1730))) return null;
+          if (y > 1546 && y < 1660 && ((x > 380 && x < 800) || (x > 740 && x < 1850 && Math.abs(y - streamY(x)) < 30) || (x > 1780 && x < 2240))) return null;
           const len = (14 + rnd(i + 5) * 26) * (0.7 + (y - 1530) / 400);
           const b = breeze(xs, f, h) * (6 + rnd(i + 7) * 5) + 1.5;
           return <path key={i} d={`M${x},${y} q${b * 0.4},${-len * 0.55} ${b},${-len}`} stroke={i % 3 ? grassC : grassL} strokeWidth={2.6 + rnd(i) * 1.4} fill="none" strokeLinecap="round" />;
@@ -414,7 +507,7 @@ export const World: React.FC<{ f: number }> = ({ f }) => {
         if (f < st) return null;
         const p = (f - st) / 140;
         if (p > 1) return null;
-        const x = wx(1590) - 200 + rnd(i + 30) * 420 + p * 500 + 40 * Math.sin(p * 7 + i);
+        const x = wx(TREE_X) - 200 + rnd(i + 30) * 420 + p * 500 + 40 * Math.sin(p * 7 + i);
         const y = 900 + rnd(i + 50) * 260 + p * 560;
         return <path key={i} d={petal} fill={i % 2 ? "#F6CFCB" : "#FCE4DA"} opacity={Math.min(1, (1 - p) * 2)} transform={`translate(${x},${y}) rotate(${p * 420 + i * 30}) scale(1.5)`} />;
       })}

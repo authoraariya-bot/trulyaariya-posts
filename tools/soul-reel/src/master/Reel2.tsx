@@ -17,7 +17,7 @@ const useFonts = () => {
   }, [handle]);
 };
 
-export const Reel2: React.FC = () => {
+export const Reel3: React.FC = () => {
   useFonts();
   const f = useCurrentFrame();
   return (
@@ -33,7 +33,7 @@ export const Reel2: React.FC = () => {
         <rect width={1080} height={1920} filter="url(#grain2)" opacity={0.08} style={{ mixBlendMode: "multiply" }} />
       </svg>
       <Overlay f={f} />
-      <Audio src={staticFile("music2.wav")} />
+      <Audio src={staticFile("music3.wav")} />
     </AbsoluteFill>
   );
 };

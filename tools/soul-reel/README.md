@@ -1,6 +1,6 @@
 # Truly Aariya — Soul reels (master template)
 
-The approved master is **"The Paper Boat"** (`src/master`). Every Soul reel starts as a copy of it.
+The approved master is **"The Paper Boat" v2** (soul with a face, playful skip, golden river, fresh colours) (`src/master`). Every Soul reel starts as a copy of it.
 
 - `src/master/pose.ts` — the Soul's rig, poses (joint angles), beats `T`, walk cycle tied to distance, camera, heal arc.
 - `src/master/World.tsx` — the landscape (parallax sky, mountains, hills, meadow, water, tree, wind, flowers, birds, butterflies, petals) and the Soul's `Body`.

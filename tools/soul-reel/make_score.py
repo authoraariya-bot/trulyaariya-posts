@@ -1,8 +1,8 @@
 """Score generator used for the master reel "The Paper Boat".
 Copy and edit the event list (frame numbers) to sync a new reel's score.
-Run: python3 make_score.py  ->  public/music2.wav (19 s)."""
+Run: python3 make_score.py  ->  public/music3.wav (20.5 s)."""
 import numpy as np, wave
-fps=30; sr=44100; T=19.0; n=int(sr*T); t=np.arange(n)/sr
+fps=30; sr=44100; T=20.5; n=int(sr*T); t=np.arange(n)/sr
 rng=np.random.default_rng(3)
 out=np.zeros(n)
 at=lambda fr: fr/fps
@@ -42,5 +42,5 @@ for m in [62,69,74,78]: piano(N(m),at(520),0.06,3.5)       # resolve
 ir=np.exp(-np.arange(int(sr*2.2))/(sr*0.6))*rng.normal(0,1,int(sr*2.2))*0.012
 y=out+np.convolve(out,ir)[:n]; y*=np.clip((T-t)/0.6,0,1); y/=np.abs(y).max()/0.7
 st=np.stack([y,np.roll(y,240)],1)
-with wave.open("public/music2.wav","wb") as w:
+with wave.open("public/music3.wav","wb") as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(sr); w.writeframes((st*32767).astype(np.int16).tobytes())
