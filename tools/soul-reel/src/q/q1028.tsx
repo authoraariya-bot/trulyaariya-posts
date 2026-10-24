@@ -21,11 +21,12 @@ const Phone: React.FC<{ f: number }> = ({ f }) => {
   const flip = sm(seg(f, T.flip, T.flip + 20));
   const glow = (1 - flip) * (0.6 + 0.2 * Math.sin(f / 6) * (1 - nowAmt(f)));
   const sy = Math.cos(flip * Math.PI);   // 1 → -1 : face up → face down
-  const lieY = lerp(0, 470, flip);        // tips down onto the nightstand
   const face = sy > 0;
+  const hs = Math.max(0.06, Math.abs(sy) * lerp(1, 0.13, sm(seg(flip, 0.5, 1))));   // ends lying flat
+  const lieY = (1440 - 310 * hs) - 1110;  // its bottom always rests on the nightstand
   const seenT = nowAmt(f) > 0.5 ? T.now + 6 : 8;
   return (
-    <g transform={`translate(540 ${1110 + lieY}) scale(${lerp(1, 1.05, flip)} ${Math.max(0.1, Math.abs(sy))})`}>
+    <g transform={`translate(540 ${1110 + lieY}) scale(${lerp(1, 1.08, flip)} ${hs})`}>
       <ellipse cx={0} cy={310} rx={170} ry={18} fill="#0E0A1C" opacity={0.5} filter="url(#qb10)" />
       <circle r={380} fill="#B9A7FF" opacity={0.18 * glow} filter="url(#qb40)" />
       <rect x={-150} y={-310} width={300} height={620} rx={46} fill={face ? "#211B33" : "url(#case28)"} />
@@ -78,7 +79,7 @@ const World: React.FC<{ f: number }> = ({ f }) => {
       <g clipPath="url(#win28)">
         <rect x={150} y={470} width={780} height={690} fill="url(#nsky28)" />
         {Array.from({ length: 60 }, (_, i) => <circle key={i} cx={160 + rnd(i) * 760} cy={480 + rnd(i + 1) * 380} r={1 + 2 * rnd(i + 2)} fill="#FFF6E0" opacity={n * (0.4 + 0.6 * Math.abs(Math.sin(t * 1.5 + i)))} />)}
-        <circle cx={790} cy={600} r={54} fill="#FFF2D9" opacity={0.3 + 0.7 * n} /><circle cx={812} cy={588} r={50} fill={mix("#2B3A68", "#22306A", n)} opacity={0.3 + 0.7 * n} />
+        <g opacity={n}><circle cx={790} cy={600} r={54} fill="#FFF2D9" /><circle cx={812} cy={588} r={50} fill="#22306A" /></g>
         {Array.from({ length: 11 }, (_, i) => { const x = 150 + i * 74, h = 160 + 200 * rnd(i + 7), w = 70;
           return <g key={i}><rect x={x} y={1160 - h} width={w} height={h} fill={i % 2 ? "#3D2F66" : "#47367A"} />
             {Array.from({ length: Math.floor(h / 34) * 2 }, (_, k) => { const lit = rnd(i * 31 + k) > 0.45; const flick = n > 0.5 ? 1 : 0.6 + 0.4 * Math.sin(t * 7 + k * 3 + i);
@@ -118,11 +119,11 @@ const World: React.FC<{ f: number }> = ({ f }) => {
         if (f < at || out >= 1) return null;
         const a = (i / THEORIES.length) * Math.PI * 2 + rnd(i) * 0.6, rx = 330 + 70 * rnd(i + 2), ry = 430 + 80 * rnd(i + 3);
         const x = 540 + Math.cos(a) * rx, y = 1060 + Math.sin(a) * ry * 0.85 + 6 * Math.sin(t * 3 + i);
-        const wd = w.length * 15 + 40;
+        const wd = w.length * 17 + 44;
         return (
           <g key={i} transform={`translate(${x} ${y}) scale(${p * (1 + 0.6 * out)})`} opacity={1 - out}>
             <rect x={-wd / 2} y={-30} width={wd} height={60} rx={30} fill={["#FFFFFF", "#FFE3EE", "#E9E1FF", "#DDF7EE"][i % 4]} opacity={0.95} />
-            <text y={9} textAnchor="middle" fontFamily="Jost" fontWeight={500} fontSize={25} fill="#4A2E5A">{w}</text>
+            <text y={9} textAnchor="middle" fontFamily="Jost" fontWeight={500} fontSize={30} fill="#4A2E5A">{w}</text>
           </g>
         );
       })}
@@ -131,8 +132,8 @@ const World: React.FC<{ f: number }> = ({ f }) => {
         return <g transform={`translate(540 700) scale(${p})`} opacity={o}><rect x={-230} y={-40} width={460} height={80} rx={40} fill="#FFFFFF" /><text y={12} textAnchor="middle" fontFamily="Caveat" fontWeight={700} fontSize={44} fill="#7A4FD0">they're probably busy.</text></g>; })()}
       <Phone f={f} />
       {/* silk sleep mask drops onto the nightstand */}
-      {f >= T.mask && (() => { const p = seg(f, T.mask, T.mask + 16), y = lerp(-200, 1416, p * p) - 22 * Math.sin(Math.PI * seg(f, T.mask + 16, T.mask + 26)), r = lerp(-30, -6, p);
-        return <g transform={`translate(330 ${y}) rotate(${r})`}>
+      {f >= T.mask && (() => { const p = seg(f, T.mask, T.mask + 14), y = lerp(820, 1408, p * p) - 22 * Math.sin(Math.PI * seg(f, T.mask + 16, T.mask + 26)), r = lerp(-30, -6, p);
+        return <g transform={`translate(400 ${y}) rotate(${r})`} opacity={seg(f, T.mask, T.mask + 5)}>
           <path d="M-110,0 C-110,-50 -40,-56 0,-30 C40,-56 110,-50 110,0 C110,40 50,52 0,30 C-50,52 -110,40 -110,0 Z" fill="#C7B3FF" />
           <path d="M-60,4 Q-40,18 -20,4 M20,4 Q40,18 60,4" stroke="#7A5FC8" strokeWidth={5} fill="none" strokeLinecap="round" />
           <path d="M-110,-4 C-150,-10 -170,10 -190,30 M110,-4 C150,-10 170,10 190,30" stroke="#C7B3FF" strokeWidth={10} fill="none" strokeLinecap="round" />
@@ -153,12 +154,12 @@ const Overlay: React.FC<{ f: number }> = ({ f }) => {
     <AbsoluteFill>
       {tag("THEN", 0, T.now - 8, "#FFC2D6")}
       {tag("NOW", T.now, T.same - 6, "#BDF2DE")}
-      <Words f={f} from={0} to={T.now - 8} top={230} size={72} color="#FFFFFF" glow={g}>
+      <Words f={f} from={0} to={T.now - 8} top={200} size={66} color="#FFFFFF" glow={g}>
         <div><W f={f} at={2}>one</W><W f={f} at={6}>text</W><W f={f} at={10}>left</W><W f={f} at={14}>on</W><W f={f} at={18} last>“seen.”</W></div>
         <div style={{ marginTop: 14 }}><W f={f} at={T.th + 20}>Twenty</W><W f={f} at={T.th + 26} last>theories.</W></div>
         <div><W f={f} at={T.sleep}>Zero</W><W f={f} at={T.sleep + 6} last>sleep.</W></div>
       </Words>
-      <Words f={f} from={T.now} to={T.same - 6} top={230} size={72} color="#FFFFFF" glow={g}>
+      <Words f={f} from={T.now} to={T.same - 6} top={200} size={66} color="#FFFFFF" glow={g}>
         <div><W f={f} at={T.now + 4}>one</W><W f={f} at={T.now + 8}>text</W><W f={f} at={T.now + 12}>left</W><W f={f} at={T.now + 16}>on</W><W f={f} at={T.now + 20} last>“seen.”</W></div>
         <div style={{ marginTop: 14 }}><W f={f} at={T.lamp + 2} last>Goodnight.</W></div>
       </Words>
