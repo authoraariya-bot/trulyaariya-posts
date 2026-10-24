@@ -1,20 +1,21 @@
 // 26 Oct · "Don't shrink yourself because someone can't see your worth."
 // Minimal line art on a soft dawn beach. An oyster sits closed on the sand. A crab strolls up, peers at it,
-// says "meh." and strolls away. The oyster opens anyway: inside, a pearl glows and lights the morning.
+// says "meh." and strolls away. Then the Soul walks up, sits beside it and chooses to stay ("i'll stay."); only then
+// does the oyster open, and its pearl glows for the one who stayed.
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { LFrame, Caption, Hl, Spark, INK, LW, seg, sm, lerp, rnd, back } from "./line";
+import { LFrame, Caption, Hl, Spark, LSoul, INK, LW, seg, sm, lerp, rnd, back } from "./line";
 import { EndCard } from "../kit/Words";
 
-export const END = 360; const WIPE = 270, CARD = 288;
-const T = { cin: 12, cstop: 70, look: 76, meh: 100, cturn: 136, cout: 196, open0: 186, open1: 214, glow: 206 };
-const O = { x: 610, y: 1250 }; // oyster hinge-line centre
+export const END = 435; const WIPE = 345, CARD = 363;
+const T = { cin: 8, cstop: 52, look: 56, meh: 70, cturn: 100, cout: 150, sIn: 120, sStop: 184, sLook: 186, sit: 196, stay: 226, open0: 258, open1: 286, glow: 278, happy: 290 };
+const O = { x: 520, y: 1250 }; // oyster hinge-line centre
 const ROSE = "#E2507F";
 
 // crab x over time: walks in, pauses, walks back out
 const crabX = (f: number) => {
   const inn = sm(seg(f, T.cin, T.cstop)), out = sm(seg(f, T.cturn, T.cout));
-  return lerp(-160, 300, inn) - 560 * out;
+  return lerp(-160, 230, inn) - 520 * out;
 };
 const crabWalking = (f: number) => (f > T.cin && f < T.cstop) || (f > T.cturn && f < T.cout);
 
@@ -119,6 +120,18 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
       <g transform={`translate(540 ${O.y}) scale(1.45) translate(-540 ${-O.y})`}>
       <Oyster f={f} />
       <Crab f={f} />
+      {/* the Soul: walks in from the right, looks, sits beside the oyster and stays */}
+      {f > T.sIn - 2 && (() => {
+        const x = lerp(1150, 800, sm(seg(f, T.sIn, T.sStop)));
+        const walk = Math.min(sm(seg(f, T.sIn, T.sIn + 10)), 1 - sm(seg(f, T.sStop - 10, T.sStop)));
+        const blink = [212, 300, 330].some((b) => f >= b && f < b + 4);
+        return <LSoul x={x} y={O.y + 62} facing={-1} s={0.85} p={{ walk, phase: (1150 - x) / 34, sit: seg(f, T.sit, T.sit + 26), look: sm(seg(f, T.sLook, T.sLook + 10)) * (1 - sm(seg(f, T.happy - 10, T.happy))), happy: seg(f, T.happy, T.happy + 4), glow: sm(seg(f, T.glow, T.glow + 30)), blink }} />;
+      })()}
+      {f > T.stay && f < T.open0 + 14 && (() => { const p = back(seg(f, T.stay, T.stay + 10), 2), o = 1 - seg(f, T.open0, T.open0 + 14);
+        return <g transform={`translate(${790} ${O.y - 240}) scale(${p})`} opacity={o}>
+          <path d="M-90,-40 Q-90,-70 -60,-70 L60,-70 Q90,-70 90,-40 L90,-10 Q90,20 60,20 L-10,20 L-30,44 L-28,20 L-60,20 Q-90,20 -90,-10 Z" fill="#FFFFFF" stroke={INK} strokeWidth={LW - 1} strokeLinejoin="round" />
+          <text x={0} y={-12} textAnchor="middle" fontFamily="Hand" fontSize={44} fill={INK}>i'll stay.</text>
+        </g>; })()}
       {/* "meh." speech bubble */}
       {f > T.meh && f < T.cturn + 6 && (() => { const p = back(seg(f, T.meh, T.meh + 10), 2), o = 1 - seg(f, T.cturn - 4, T.cturn + 6), cx = crabX(f) - 10;
         return <g transform={`translate(${cx} ${O.y - 210}) scale(${p})`} opacity={o}>

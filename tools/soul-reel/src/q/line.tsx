@@ -71,3 +71,73 @@ export const Spark: React.FC<{ x: number; y: number; s: number; c?: string }> = 
 );
 
 export { Audio };
+
+// ---------- the Soul, in clean line art ----------
+// Drawn facing right (+x); origin = point on the ground between the feet. Every pose is a blend of two clean
+// key poses (stand / sit) plus a distance-locked walk cycle, so there are no stray joints or wobbles.
+const Limb: React.FC<{ x1: number; y1: number; x2: number; y2: number; w: number; fill?: string }> = ({ x1, y1, x2, y2, w, fill = "#FFFBF5" }) => (
+  <g>
+    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={INK} strokeWidth={w + LW * 2} strokeLinecap="round" />
+    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={fill} strokeWidth={w} strokeLinecap="round" />
+  </g>
+);
+
+export type SoulPose = { walk?: number; phase?: number; sit?: number; happy?: number; look?: number; wave?: number; glow?: number; blink?: boolean };
+// Front-facing Soul: round head, soft bean body, two stubby arms at the sides, two short legs. The face turns toward
+// `facing`. Walking = small alternating steps + a gentle bob (distance-locked phase). Sitting = body lowers onto the
+// ground and the feet rest in front. Nothing ever crosses the body, so the outline always stays clean.
+export const LSoul: React.FC<{ x: number; y: number; facing?: 1 | -1; s?: number; p: SoulPose }> = ({ x, y, facing = 1, s = 1, p }) => {
+  const walk = p.walk ?? 0, ph = p.phase ?? 0, sit = sm(p.sit ?? 0), happy = p.happy ?? 0, look = p.look ?? 0, glow = p.glow ?? 0, wave = p.wave ?? 0;
+  const LEG = 30;
+  const step = Math.sin(ph);
+  const bob = walk * 4 * Math.abs(step);
+  const hipY = lerp(-LEG, -4, sit) - bob;          // bottom of the body
+  const top = hipY - 104;                          // top of the body / neck
+  const headY = top - 30;
+  const lean = facing * (walk * 3 + 0);
+  const fx = facing * 9 * (1 - 0.3 * sit);         // face offset toward facing
+  // legs: while standing, two short capsules; each lifts on its step. While sitting, two feet resting in front.
+  const lift = (k: number) => walk * 9 * Math.max(0, k ? step : -step);
+  const swing = (k: number) => walk * 8 * (k ? step : -step) * facing;
+  const arm = (side: number) => {
+    const base = { x: side * 52, y: top + 40 };
+    const ang = side * (24 + 6 * Math.sin(ph + (side > 0 ? 0 : Math.PI)) * walk) - (side === facing ? 140 * wave : 0);
+    const r = (ang * Math.PI) / 180; return { a: base, b: { x: base.x + Math.sin(r) * 34, y: base.y + Math.cos(r) * 34 } };
+  };
+  const eyeY = headY - 4 - 3 * look;
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s}) rotate(${lean} 0 ${hipY})`}>
+      <ellipse cx={0} cy={4} rx={lerp(56, 70, sit)} ry={9} fill={INK} opacity={0.08} />
+      {/* legs / feet */}
+      {[0, 1].map((k) => {
+        const lx = (k ? 22 : -22);
+        if (sit > 0.5) return null;
+        return <Limb key={k} x1={lx} y1={hipY - 8} x2={lx + swing(k)} y2={-12 - lift(k)} w={24} />;
+      })}
+      {/* arms behind the body edge */}
+      {[-1, 1].map((side) => { const { a, b } = arm(side); return <Limb key={side} x1={a.x} y1={a.y} x2={b.x} y2={b.y} w={20} />; })}
+      {/* body: a soft bean */}
+      <path d={`M-58,${hipY - 16} C-62,${hipY - 70} -46,${top} 0,${top} C46,${top} 62,${hipY - 70} 58,${hipY - 16} C54,${hipY + 4} 30,${hipY + 8} 0,${hipY + 8} C-30,${hipY + 8} -54,${hipY + 4} -58,${hipY - 16} Z`}
+        fill="#FFFBF5" stroke={INK} strokeWidth={LW} strokeLinejoin="round" />
+      {/* feet resting in front while sitting */}
+      {sit > 0.5 && [-1, 1].map((k) => <ellipse key={k} cx={k * 28 + facing * 4} cy={-4} rx={21} ry={13} fill="#FFFBF5" stroke={INK} strokeWidth={LW} />)}
+      {/* chest heart-light */}
+      <circle cx={0} cy={hipY - 50} r={16 + 26 * glow} fill="#FFD9A6" opacity={0.3 + 0.45 * glow} filter="url(#lb12)" />
+      <path d="M0,-6 C3,-12 12,-10 10,-2 C8,4 2,8 0,10 C-2,8 -8,4 -10,-2 C-12,-10 -3,-12 0,-6 Z" transform={`translate(0 ${hipY - 50}) scale(${1.2 + 0.3 * glow})`} fill="#FF9DB0" />
+      {/* head */}
+      <circle cx={0} cy={headY} r={50} fill="#FFFBF5" stroke={INK} strokeWidth={LW} />
+      {happy > 0.5 ? (
+        <g stroke={INK} strokeWidth={4.5} fill="none" strokeLinecap="round">
+          <path d={`M${fx - 22},${eyeY + 3} q7,-9 14,0`} /><path d={`M${fx + 8},${eyeY + 3} q7,-9 14,0`} />
+        </g>
+      ) : p.blink ? (
+        <g stroke={INK} strokeWidth={4.5} strokeLinecap="round"><path d={`M${fx - 21},${eyeY} h12`} /><path d={`M${fx + 9},${eyeY} h12`} /></g>
+      ) : (
+        <g fill={INK}><circle cx={fx - 15} cy={eyeY} r={5.5} /><circle cx={fx + 15} cy={eyeY} r={5.5} /></g>
+      )}
+      <ellipse cx={fx - 28} cy={eyeY + 16} rx={8} ry={5} fill="#FFB3C4" opacity={0.85} />
+      <ellipse cx={fx + 28} cy={eyeY + 16} rx={8} ry={5} fill="#FFB3C4" opacity={0.85} />
+      <path d={`M${fx - 7},${eyeY + 15} q7,${5 + 4 * happy} 14,0`} stroke={INK} strokeWidth={4} fill="none" strokeLinecap="round" />
+    </g>
+  );
+};
