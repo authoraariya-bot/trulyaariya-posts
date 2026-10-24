@@ -60,13 +60,22 @@ const World: React.FC<{ f: number }> = ({ f }) => {
       <g transform={`translate(${BASE.x} ${BASE.y}) rotate(${2 * Math.sin(t * 0.9)})`}>
         <path d="M-40,0 C-30,-200 -20,-380 -10,-520 L10,-520 C20,-380 30,-200 40,0 Z" fill="#8A6050" />
         <path d="M-6,-420 C-80,-480 -150,-520 -210,-600 M6,-450 C80,-510 160,-540 220,-610 M0,-500 C-10,-580 10,-640 0,-700" stroke="#8A6050" strokeWidth={22} fill="none" strokeLinecap="round" />
-        {/* crown: sparse pale droop → lush with blossom */}
-        {Array.from({ length: 22 }, (_, i) => { const a = rnd(i) * Math.PI * 2, d = 120 + 140 * rnd(i + 1), x = Math.cos(a) * d * 1.25, y = -640 + Math.sin(a) * d * 0.7;
-          const keep = rnd(i + 3) < 0.45 || bloom > 0; const droop = (1 - heal) * 40;
-          if (!keep) return null;
-          return <circle key={i} cx={x + 6 * Math.sin(t * 1.4 + i)} cy={y + droop} r={lerp(52, 92, sm(seg(f, T.rise1 - 20, T.rise1 + 20))) * (0.7 + 0.5 * rnd(i + 2))} fill={mix("#B9BFA0", "#8FD69A", heal)} opacity={0.95} />; })}
-        {bloom > 0 && Array.from({ length: 46 }, (_, i) => { const a = rnd(i + 50) * Math.PI * 2, d = 60 + 250 * rnd(i + 51), p = sm(seg(f, T.bloom + rnd(i) * 30, T.bloom + rnd(i) * 30 + 16));
-          return <circle key={`b${i}`} cx={Math.cos(a) * d * 1.2} cy={-640 + Math.sin(a) * d * 0.7} r={(16 + 14 * rnd(i + 52)) * p} fill={["#FF9DBD", "#FFC2D6", "#FF7FA8", "#FFFFFF"][i % 4]} />; })}
+        {/* crown: layered leaf clusters (shadow, mid, light), sparse and pale while wilted, full when healed */}
+        {(() => { const full = sm(seg(f, T.rise1 - 30, T.rise1 + 10)); const items: React.ReactNode[] = [];
+          for (let layer = 0; layer < 3; layer++) for (let i = 0; i < 26; i++) {
+            const n = i + layer * 40; const a = rnd(n) * Math.PI * 2, d = 40 + 230 * Math.sqrt(rnd(n + 1)); const x = Math.cos(a) * d * 1.3, y = -650 + Math.sin(a) * d * 0.62 - layer * 18;
+            const keep = rnd(n + 3) < lerp(0.38, 1, full); if (!keep) continue;
+            const c = mix(["#A8AC8C", "#BFC2A2", "#D2D4B8"][layer], ["#5FB37A", "#7CCB8C", "#A6E0A8"][layer], heal);
+            const r = (34 + 26 * rnd(n + 2)) * lerp(0.75, 1.15, full);
+            items.push(<circle key={n} cx={x + (4 + layer * 2) * Math.sin(t * 1.4 + i)} cy={y + (1 - heal) * 36} r={r} fill={c} />);
+          }
+          return items; })()}
+        {bloom > 0 && Array.from({ length: 40 }, (_, i) => { const a = rnd(i + 50) * Math.PI * 2, d = 50 + 230 * Math.sqrt(rnd(i + 51)), p = sm(seg(f, T.bloom + rnd(i) * 30, T.bloom + rnd(i) * 30 + 16));
+          const x = Math.cos(a) * d * 1.3 + 6 * Math.sin(t * 1.4 + i), y = -680 + Math.sin(a) * d * 0.62;
+          return <g key={`b${i}`} transform={`translate(${x} ${y}) scale(${p * (0.8 + 0.5 * rnd(i + 52))}) rotate(${i * 37})`}>
+            {Array.from({ length: 5 }, (_, k) => <ellipse key={k} cx={0} cy={-11} rx={8} ry={12} fill={["#FFB7CF", "#FF9DBD", "#FFD3E1"][i % 3]} transform={`rotate(${k * 72})`} />)}
+            <circle r={4} fill="#FFE38A" />
+          </g>; })}
       </g>
       {/* pale leaves torn away by the wind at the start */}
       {Array.from({ length: 16 }, (_, i) => { const p = seg(f, 10 + i * 4, 70 + i * 4); if (p <= 0 || p >= 1) return null;
@@ -106,7 +115,7 @@ const Overlay: React.FC<{ f: number }> = ({ f }) => {
         <div><W f={f} at={2}>A</W><W f={f} at={5}>tree</W><W f={f} at={9}>stands</W><W f={f} at={14}>only</W><W f={f} at={18}>as</W><W f={f} at={21}>long</W><W f={f} at={25} last>as</W></div>
         <div><W f={f} at={30}>its</W><W f={f} at={34}><i>roots</i></W><W f={f} at={39}>are</W><W f={f} at={43} last>strong.</W></div>
       </Words>
-      <Words f={f} from={T.line2 - 4} to={T.line3 - 8} top={300} size={84} color={under > 0.5 ? "#FFF6E6" : "#3B2340"} glow={under > 0.5 ? "rgba(40,20,50,0.7)" : "rgba(255,248,240,0.9)"}>
+      <Words f={f} from={T.line2 - 4} to={T.rise0 - 4} top={300} size={84} color={under > 0.5 ? "#FFF6E6" : "#3B2340"} glow={under > 0.5 ? "rgba(40,20,50,0.7)" : "rgba(255,248,240,0.9)"}>
         <div><W f={f} at={T.line2}>Your</W><W f={f} at={T.line2 + 6} last>roots</W></div>
         <div><W f={f} at={T.line2 + 12}>are</W><W f={f} at={T.line2 + 17}>your</W><W f={f} at={T.line2 + 22} last><i>soul.</i></W></div>
       </Words>
