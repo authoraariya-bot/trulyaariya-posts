@@ -6,13 +6,13 @@
 // blanket drapes over the battery and it refills mint.
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { QFrame, Words, W, KeyW, seg, sm, lerp, rnd, back, mix } from "./kit";
+import { QFrame, Words, W, KeyW, seg, sm, lerp, rnd, back } from "./kit";
 import { EndCard } from "../kit/Words";
 import { LightLeak } from "../kit/fx";
 
 export const END = 420; const WIPE = 330, CARD = 348;
 const T = { l2: 56, drain: [74, 100, 126], one: 150, l3: 160, rewind: 214, plug: 232, blanket: 246, l4: 238, key: 268 };
-const BAT = { x: 540, y: 1000, w: 560, h: 260 };
+const BAT = { x: 540, y: 1068, w: 560, h: 260 };
 const LABELS = ["emails", "the chores", "everyone else's needs"];
 const TODO = ["reply to emails", "laundry", "call mom back", "fix the slides", "groceries", "help with the move", "plan the party", "answer the group chat", "pay the bills", "be there for everyone"];
 
@@ -59,6 +59,7 @@ const World: React.FC<{ f: number }> = ({ f }) => {
       <line x1={540} x2={540} y1={420} y2={860} stroke="#FFF4EE" strokeWidth={12} />
       {/* fairy lights along the window */}
       {Array.from({ length: 14 }, (_, i) => <circle key={i} cx={140 + i * 61} cy={410 + 18 * Math.sin(i * 0.9)} r={9} fill={["#FFD36E", "#FF9DBD", "#9FE3FF"][i % 3]} opacity={0.6 + 0.4 * Math.sin(t * 3 + i)} />)}
+      <rect x={0} y={1555} width={1080} height={370} fill="#E7B8B6" /><rect x={0} y={1555} width={1080} height={10} fill="#D9A4A6" />
       {/* side table */}
       <rect x={140} y={1200} width={800} height={40} rx={14} fill="#C98E78" /><rect x={180} y={1238} width={30} height={320} fill="#B47A66" /><rect x={870} y={1238} width={30} height={320} fill="#B47A66" />
       {/* wall socket + cable */}
@@ -77,24 +78,25 @@ const World: React.FC<{ f: number }> = ({ f }) => {
           <rect x={BAT.x - BAT.w / 2 + 22} y={BAT.y - BAT.h / 2 + 22} width={(BAT.w - 44) * lvl} height={40} fill="#FFFFFF" opacity={0.3 * blink} />
           {charge > 0 && Array.from({ length: 6 }, (_, k) => <circle key={k} cx={BAT.x - BAT.w / 2 + 40 + ((f * 4 + k * 90) % ((BAT.w - 60) * lvl + 1))} cy={BAT.y - 40 + 80 * rnd(k)} r={6} fill="#FFFFFF" opacity={0.5} />)}
         </g>
-        <text x={BAT.x} y={BAT.y + 32} textAnchor="middle" fontFamily="Jost" fontWeight={700} fontSize={96} fill="#3B2340" opacity={0.85}>{`${Math.max(1, Math.round(lvl * 100))}%`}</text>
-        {charge > 0 && <path d="M0,-50 L-24,6 L-2,6 L-14,50 L26,-12 L4,-12 L16,-50 Z" transform={`translate(${BAT.x + 190} ${BAT.y}) scale(${back(seg(f, T.plug, T.plug + 12), 2)})`} fill="#FFD36E" stroke="#3B2340" strokeWidth={3} />}
+        <text x={BAT.x + 62} y={BAT.y + 32} textAnchor="middle" fontFamily="Jost" fontWeight={700} fontSize={86} fill="#3B2340" opacity={0.85}>{`${Math.max(1, Math.round(lvl * 100))}%`}</text>
+        {charge > 0 && <path d="M0,-50 L-24,6 L-2,6 L-14,50 L26,-12 L4,-12 L16,-50 Z" transform={`translate(${BAT.x + 225} ${BAT.y}) scale(${back(seg(f, T.plug, T.plug + 12), 2)})`} fill="#FFD36E" stroke="#3B2340" strokeWidth={3} />}
         {/* the tiny knit blanket */}
-        {f >= T.blanket && (() => { const y0 = lerp(560, BAT.y - BAT.h / 2 - 20, bl);
-          return <g transform={`translate(${BAT.x - 40} ${y0})`}>
-            <path d={`M-260,0 C-200,-14 200,-14 260,0 L${lerp(200, 250, bl)},${lerp(60, 210, bl)} C120,${lerp(70, 230, bl)} -120,${lerp(70, 230, bl)} ${lerp(-200, -250, bl)},${lerp(60, 210, bl)} Z`} fill="#C9B6FF" opacity={0.96} />
-            {Array.from({ length: 10 }, (_, k) => <path key={k} d={`M${-220 + k * 48},6 L${-230 + k * 50},${lerp(60, 210, bl)}`} stroke="#B49DF2" strokeWidth={5} opacity={0.7} />)}
-            {Array.from({ length: 9 }, (_, k) => <path key={`f${k}`} d={`M${-240 + k * 60},${lerp(60, 212, bl)} l0,26`} stroke="#FFB7CF" strokeWidth={6} strokeLinecap="round" />)}
+        {f >= T.blanket && (() => { const y0 = lerp(520, BAT.y - BAT.h / 2 - 4, sm(bl)), x0 = BAT.x - BAT.w / 2 + 30, hang = lerp(30, 1, bl);
+          return <g transform={`translate(${x0} ${y0}) scale(0.78 1)`}>
+            <path d={`M0,-8 Q105,${-20 + hang} 210,-8 L214,${lerp(40, 118, bl)} Q160,${lerp(52, 138, bl)} 106,${lerp(44, 124, bl)} Q52,${lerp(52, 140, bl)} -4,${lerp(40, 120, bl)} Z`} fill="#C9B6FF" />
+            <path d="M0,-8 Q105,-20 210,-8 L210,14 Q105,2 0,14 Z" fill="#D9CBFF" />
+            {Array.from({ length: 7 }, (_, k) => <path key={k} d={`M${16 + k * 30},10 L${16 + k * 30},${lerp(40, 116, bl)}`} stroke="#B49DF2" strokeWidth={4} opacity={0.7} />)}
+            {Array.from({ length: 9 }, (_, k) => <path key={`f${k}`} d={`M${4 + k * 25},${lerp(44, 124 + 10 * Math.sin(k), bl)} l0,18`} stroke="#FFB7CF" strokeWidth={6} strokeLinecap="round" />)}
           </g>; })()}
       </g>
       {/* labels that drop in and drain it */}
       {LABELS.map((l, i) => { const a = T.drain[i]; const p = seg(f, a - 8, a + 8); if (p <= 0 || f > a + 22) return null;
-        const y = lerp(820, BAT.y, sm(p)), s = 1 - 0.6 * seg(f, a + 6, a + 22), o = 1 - seg(f, a + 12, a + 22);
-        const w = l.length * 22 + 60;
-        return <g key={i} transform={`translate(${BAT.x + (i - 1) * 120} ${y}) scale(${s})`} opacity={o}><rect x={-w / 2} y={-38} width={w} height={76} rx={38} fill={["#FFB7CF", "#FFE38A", "#B9E8FF"][i]} /><text y={12} textAnchor="middle" fontFamily="Jost" fontWeight={600} fontSize={36} fill="#3B2340">{l}</text></g>; })}
+        const y = lerp(700, BAT.y - BAT.h / 2 + 10, sm(p)) + 60 * seg(f, a + 6, a + 22), s = 1 - 0.6 * seg(f, a + 6, a + 22), o = 1 - seg(f, a + 12, a + 22);
+        const w = l.length * 25 + 70;
+        return <g key={i} transform={`translate(${BAT.x + (i - 1) * 120} ${y}) scale(${s})`} opacity={o}><rect x={-w / 2} y={-38} width={w} height={76} rx={38} fill={["#FFB7CF", "#FFE38A", "#B9E8FF"][i]} /><text y={14} textAnchor="middle" fontFamily="Jost" fontWeight={600} fontSize={42} fill="#3B2340">{l}</text></g>; })}
       {/* the never-ending to-do list */}
       <g>
-        <rect x={570} y={1380} width={440} height={400} rx={16} fill="#FFFDF6" transform="rotate(3 790 1580)" />
+        <ellipse cx={800} cy={1790} rx={230} ry={16} fill="#8A4A5A" opacity={0.2} filter="url(#qb6)" /><rect x={570} y={1380} width={440} height={400} rx={16} fill="#FFFDF6" transform="rotate(3 790 1580)" /><rect x={730} y={1360} width={120} height={40} rx={10} fill="#C9A385" transform="rotate(3 790 1580)" />
         <g transform="rotate(3 790 1580)">
           <text x={600} y={1415} fontFamily="Caveat" fontWeight={700} fontSize={40} fill="#E0567F">to-do</text>
           <g clipPath="url(#todo1103)">
@@ -111,7 +113,7 @@ const World: React.FC<{ f: number }> = ({ f }) => {
         </g>
       </g>
       {/* a mug and a plant on the table to keep it homely */}
-      <g transform="translate(250 1200)"><path d="M-46,-90 L46,-90 L40,0 L-40,0 Z" fill="#9EE6CF" /><path d="M46,-74 C76,-74 76,-30 42,-30" stroke="#9EE6CF" strokeWidth={10} fill="none" />
+      <g transform="translate(900 1200)"><path d="M-46,-90 L46,-90 L40,0 L-40,0 Z" fill="#9EE6CF" /><path d="M46,-74 C76,-74 76,-30 42,-30" stroke="#9EE6CF" strokeWidth={10} fill="none" />
         {[0, 1].map((k) => <path key={k} d={`M${-10 + 20 * k},-100 C${-20 + 20 * k},-130 ${20 * k},-150 ${-10 + 20 * k},-180`} stroke="#FFFFFF" strokeWidth={5} fill="none" opacity={0.5 * (0.5 + 0.5 * Math.sin(t * 2 + k))} strokeLinecap="round" />)}</g>
       {/* rewind scanlines */}
       {rew > 0.02 && Array.from({ length: 14 }, (_, i) => <rect key={i} x={0} y={((i * 140 + f * 60) % 1920)} width={1080} height={8} fill="#FFFFFF" opacity={0.25 * rew} />)}
