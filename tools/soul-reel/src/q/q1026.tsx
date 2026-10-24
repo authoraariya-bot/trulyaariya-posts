@@ -1,176 +1,145 @@
-// 26 Oct · Savage · "Don't shrink yourself because someone can't see your worth."
-// A jewellery-shop window on a pastel street at dusk; the awning flaps, leaves blow past. A diamond sits on a velvet
-// stand with its price tag. Outside, a pair of fogged-up glasses (someone who can't see clearly) squints at it, and
-// each squint marks the price down: ₹1,00,000 → ₹1,000 → ₹10. With every markdown the diamond shrinks and dims.
-// Then it stops ("nope."), blazes back to full size and floods the street with rainbow light, the tag flips to
-// PRICELESS, and the foggy glasses slide off and drop out of frame.
+// 26 Oct · "Don't shrink yourself because someone can't see your worth."
+// Minimal line art on a soft dawn beach. An oyster sits closed on the sand. A crab strolls up, peers at it,
+// says "meh." and strolls away. The oyster opens anyway: inside, a pearl glows and lights the morning.
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { QFrame, Words, W, KeyW, Aside, Motes, seg, sm, lerp, rnd, back, spring, mix } from "./kit";
+import { LFrame, Caption, Hl, Spark, INK, LW, seg, sm, lerp, rnd, back } from "./line";
 import { EndCard } from "../kit/Words";
-import { LightLeak } from "../kit/fx";
 
-export const END = 420; const WIPE = 330, CARD = 348;
-const T = { in: 14, sq: [44, 84, 120], stop: 148, blaze: 166, flip: 180, drop: 196, line2: 214, key: 250 };
-const ACCENT = "#E2376F";
-const D = { x: 430, y: 1090 }; // diamond centre
-const PRICES = ["₹ 1,00,000", "₹ 1,000", "₹ 10"];
+export const END = 360; const WIPE = 270, CARD = 288;
+const T = { cin: 12, cstop: 70, look: 76, meh: 100, cturn: 136, cout: 196, open0: 186, open1: 214, glow: 206 };
+const O = { x: 610, y: 1250 }; // oyster hinge-line centre
+const ROSE = "#E2507F";
 
-const scaleAt = (f: number) => {
-  let s = 1; T.sq.forEach((a) => { s -= 0.17 * sm(seg(f, a + 10, a + 22)); });
-  return lerp(s, 1.22, spring(seg(f, T.blaze, T.blaze + 50), 2.2, 4.4));
+// crab x over time: walks in, pauses, walks back out
+const crabX = (f: number) => {
+  const inn = sm(seg(f, T.cin, T.cstop)), out = sm(seg(f, T.cturn, T.cout));
+  return lerp(-160, 300, inn) - 560 * out;
 };
-const dimAt = (f: number) => { let d = 0; T.sq.forEach((a) => { d += 0.25 * sm(seg(f, a + 10, a + 22)); }); return d * (1 - sm(seg(f, T.blaze, T.blaze + 14))); };
+const crabWalking = (f: number) => (f > T.cin && f < T.cstop) || (f > T.cturn && f < T.cout);
 
-const Diamond: React.FC<{ f: number; s: number; dim: number }> = ({ f, s, dim }) => {
-  const g = (k: number) => ["#BFF3EA", "#D9C8FF", "#FFC6DA", "#A8E4FF", "#FFF1B8", "#C8F7DA"][k % 6];
-  const grey = (c: string) => mix(c, "#B8B4C0", dim);
-  const crownY = -78, Wd = 128, T2 = 66, tip = 176;
-  const xs = [-Wd, -Wd * 0.5, 0, Wd * 0.5, Wd];
+const Crab: React.FC<{ f: number }> = ({ f }) => {
+  const x = crabX(f), y = O.y + 6;
+  const walk = crabWalking(f) ? 1 : 0;
+  const ph = f * 0.55;
+  const bob = walk * 3 * Math.abs(Math.sin(ph));
+  const look = sm(seg(f, T.look, T.look + 14)) * (1 - sm(seg(f, T.cturn - 6, T.cturn + 4)));
+  const shrug = Math.sin(Math.PI * seg(f, T.meh, T.meh + 26));
+  const dir = f > T.cturn ? -1 : 1; // faces the way it walks
   return (
-    <g transform={`translate(${D.x} ${D.y + 184 - 176 * s}) scale(${s})`}>
-      <ellipse cx={0} cy={tip + 24} rx={110} ry={16} fill="#7A3D5A" opacity={0.25} filter="url(#qb6)" />
-      <circle r={260} fill="#FFFFFF" opacity={0.25 * (1 - dim)} filter="url(#qb40)" />
-      {xs.slice(0, 4).map((x, i) => <path key={i} d={`M${x},0 L${xs[i + 1]},0 L0,${tip} Z`} fill={grey(g(i + 1))} stroke="#FFFFFF" strokeWidth={2} strokeOpacity={0.7} />)}
-      <path d={`M${-T2},${crownY} L${T2},${crownY} L${Wd * 0.5},0 L${-Wd * 0.5},0 Z`} fill={grey(g(4))} stroke="#FFFFFF" strokeWidth={2} strokeOpacity={0.8} />
-      <path d={`M${-T2},${crownY} L${-Wd * 0.5},0 L${-Wd},0 Z`} fill={grey(g(0))} stroke="#FFFFFF" strokeWidth={2} strokeOpacity={0.8} />
-      <path d={`M${T2},${crownY} L${Wd * 0.5},0 L${Wd},0 Z`} fill={grey(g(2))} stroke="#FFFFFF" strokeWidth={2} strokeOpacity={0.8} />
-      <path d={`M${-T2},${crownY} L0,${crownY} L${-Wd * 0.5},0 Z`} fill="#FFFFFF" opacity={0.35 * (1 - dim)} />
-      <path d={`M${-Wd * 0.5},0 L0,${tip} L${-Wd * 0.2},0 Z`} fill="#FFFFFF" opacity={0.3 * (1 - dim)} />
-      {[[-T2, crownY], [Wd, 0], [0, tip * 0.5], [T2 * 0.5, crownY]].map(([x, y], i) => { const tw = Math.max(0, Math.sin(f / 6 + i * 1.7)) * (1 - dim);
-        return <path key={i} d="M0,-22 L4,-4 L22,0 L4,4 L0,22 L-4,4 L-22,0 L-4,-4 Z" transform={`translate(${x} ${y}) scale(${tw})`} fill="#FFFFFF" />; })}
-    </g>
-  );
-};
-
-const Tag: React.FC<{ f: number }> = ({ f }) => {
-  const sw = 6 * Math.sin(f / 18) + 10 * Math.sin(Math.PI * seg(f, T.blaze, T.blaze + 20));
-  const flip = sm(seg(f, T.flip, T.flip + 14));
-  const sx = Math.cos(flip * Math.PI);
-  return (
-    <g transform={`translate(800 860) rotate(${sw})`}>
-      <path d="M0,0 L0,100" stroke="#C9A45C" strokeWidth={3} />
-      <g transform={`translate(0 220) scale(${Math.abs(sx) + 0.001} 1)`}>
-        <path d="M-120,-120 L120,-120 L120,120 L-120,120 L-150,0 Z" fill={sx > 0 ? "#FFF6EC" : "#FFE7A8"} stroke="#E8CFA0" strokeWidth={3} />
-        <circle cx={-118} cy={0} r={10} fill="#E9D9C6" />
-        {sx > 0 ? (
-          <g>
-            {PRICES.map((p, i) => {
-              if (i > 0 && f < T.sq[i - 1] + 14) return null;
-              const y = -60 + i * 56;
-              const strike = i < 2 ? seg(f, T.sq[i] + 4, T.sq[i] + 12) : seg(f, T.sq[2] + 4, T.sq[2] + 12) * 0; // ₹10 stays until the flip
-              return <g key={i} opacity={i === 0 ? 1 : seg(f, T.sq[i - 1] + 14, T.sq[i - 1] + 22)}>
-                <text x={10} y={y + 14} textAnchor="middle" fontFamily={i ? "Caveat" : "Jost"} fontWeight={i ? 700 : 500} fontSize={i ? 52 : 36} fill={i ? "#C22E5C" : "#3B2340"}>{p}</text>
-                <line x1={-80} x2={-80 + 180 * strike} y1={y + 2} y2={y + 2} stroke="#C22E5C" strokeWidth={5} strokeLinecap="round" />
-              </g>;
-            })}
-          </g>
-        ) : (
-          <text y={14} textAnchor="middle" fontFamily="Jost" fontWeight={700} fontSize={40} letterSpacing={3} fill="#9A6A1A">PRICELESS</text>
-        )}
-      </g>
-    </g>
-  );
-};
-
-const Glasses: React.FC<{ f: number }> = ({ f }) => {
-  if (f < T.in) return null;
-  const enter = back(seg(f, T.in, T.in + 24), 1.4);
-  const sq = T.sq.reduce((m, a) => Math.max(m, Math.sin(Math.PI * seg(f, a, a + 22))), 0);
-  const lean = T.sq.reduce((m, a) => m + sm(seg(f, a, a + 12)), 0) / 3;
-  const drop = seg(f, T.drop, T.drop + 30), fall = drop * drop;
-  const shove = sm(seg(f, T.blaze, T.blaze + 14));
-  const x = lerp(1300, 800 - 40 * lean, enter) + 80 * shove + 30 * fall, y = 1460 - 30 * lean + 1100 * fall + 6 * Math.sin(f / 13);
-  const r = -12 - 6 * sq + 20 * shove + 90 * fall;
-  const lens = (cx: number) => (
-    <g>
-      <ellipse cx={cx} cy={0} rx={96} ry={lerp(72, 40, sq)} fill="#F4F7FB" opacity={0.9} />
-      <ellipse cx={cx} cy={0} rx={96} ry={lerp(72, 40, sq)} fill="url(#fog26)" />
-      {Array.from({ length: 7 }, (_, k) => <circle key={k} cx={cx - 60 + 120 * rnd(k + cx)} cy={-26 + 52 * rnd(k + 9 + cx)} r={4 + 3 * rnd(k)} fill="#FFFFFF" opacity={0.9} />)}
-      <ellipse cx={cx} cy={0} rx={96} ry={lerp(72, 40, sq)} fill="none" stroke="url(#frame26)" strokeWidth={18} />
-    </g>
-  );
-  return (
-    <g transform={`translate(${x} ${y}) rotate(${r}) scale(1.05)`} opacity={1 - seg(f, T.drop + 22, T.drop + 30)}>
-      {lens(-112)}{lens(112)}
-      <path d="M-22,-10 Q0,-34 22,-10" stroke="url(#frame26)" strokeWidth={15} fill="none" strokeLinecap="round" />
-      <path d="M-206,-16 L-240,-30 M206,-16 L240,-30" stroke="#6F55C9" strokeWidth={13} strokeLinecap="round" />
-    </g>
-  );
-};
-
-const World: React.FC<{ f: number }> = ({ f }) => {
-  const t = f / 30, s = scaleAt(f), dim = dimAt(f);
-  const blaze = sm(seg(f, T.blaze, T.blaze + 24));
-  const shake = 5 * Math.sin(f * 2.3) * Math.sin(Math.PI * seg(f, T.blaze, T.blaze + 14));
-  const wind = 1 + 0.6 * Math.sin(t * 0.8);
-  return (
-    <g transform={`translate(${shake} 0)`}>
-      <defs>
-        <linearGradient id="sky26" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#FF9EC0" /><stop offset="0.6" stopColor="#FFC3A6" /><stop offset="1" stopColor="#FFE0B0" /></linearGradient>
-        <linearGradient id="facade26" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#C9B2F2" /><stop offset="1" stopColor="#B49BE6" /></linearGradient>
-        <linearGradient id="inside26" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={mix("#4A2C5C", "#6A3E78", blaze)} /><stop offset="1" stopColor={mix("#6E3E66", "#9A5A86", blaze)} /></linearGradient>
-        <radialGradient id="spot26" cx="0.5" cy="0"><stop offset="0" stopColor="#FFF4D8" stopOpacity={0.85} /><stop offset="1" stopColor="#FFF4D8" stopOpacity={0} /></radialGradient>
-        <linearGradient id="velvet26" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F2789E" /><stop offset="1" stopColor="#C94C78" /></linearGradient>
-        <linearGradient id="frame26" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#B08CFF" /><stop offset="0.5" stopColor="#7C5CE0" /><stop offset="1" stopColor="#C6A9FF" /></linearGradient>
-        <radialGradient id="fog26"><stop offset="0" stopColor="#DDE6F2" stopOpacity={0.4} /><stop offset="1" stopColor="#FFFFFF" stopOpacity={0.9} /></radialGradient>
-        <clipPath id="glass26"><rect x={110} y={640} width={860} height={720} rx={18} /></clipPath>
-      </defs>
-      <rect width={1080} height={1920} fill="url(#sky26)" />
-      {[[40, 760], [1040, 700]].map(([x, y], i) => (
-        <g key={i} transform={`translate(${x} ${y}) rotate(${(3 + 2 * i) * Math.sin(t * 1.3 + i) * wind})`}>
-          <rect x={-10} y={0} width={20} height={600} fill="#8A6A5A" />
-          {Array.from({ length: 6 }, (_, k) => <circle key={k} cx={-80 + 160 * rnd(k + i * 7)} cy={-60 - 120 * rnd(k + 2 + i)} r={70 + 30 * rnd(k + i)} fill={["#9ED9A8", "#86CC98", "#B8E6B0"][k % 3]} />)}
+    <g transform={`translate(${x} ${y - bob}) scale(${dir} 1)`}>
+      <ellipse cx={0} cy={6} rx={78} ry={10} fill={INK} opacity={0.08} />
+      {/* legs */}
+      {[-1, 1].map((side) => [0, 1, 2].map((k) => {
+        const a = side * (24 + k * 16) + walk * 10 * Math.sin(ph + k * 1.6 + (side > 0 ? 0 : Math.PI));
+        const lx = side * (30 + k * 10);
+        return <path key={`${side}${k}`} d={`M${lx},-30 l${side * 26},${-6} l${side * 10},${34}`} stroke={INK} strokeWidth={LW - 1} fill="none" strokeLinecap="round" strokeLinejoin="round" transform={`rotate(${a * 0.25} ${lx} -30)`} />;
+      }))}
+      {/* body */}
+      <path d="M-62,-30 C-62,-74 62,-74 62,-30 C62,-12 40,-4 0,-4 C-40,-4 -62,-12 -62,-30 Z" fill="#FF9C86" stroke={INK} strokeWidth={LW} strokeLinejoin="round" />
+      {/* claws */}
+      {[-1, 1].map((side) => (
+        <g key={side} transform={`translate(${side * 54} -54) rotate(${side * (28 - 60 * shrug)})`}>
+          <path d={`M0,0 L${side * 22},-26`} stroke={INK} strokeWidth={LW - 1} strokeLinecap="round" />
+          <path d={`M${side * 22},-26 c${side * -16},-14 ${side * -6},-40 ${side * 12},-36 c${side * 12},2 ${side * 12},16 ${side * 2},18 c${side * 12},-2 ${side * 16},10 ${side * 6},18 c${side * -6},6 ${side * -16},4 ${side * -20},0 Z`} fill="#FF9C86" stroke={INK} strokeWidth={LW - 1} strokeLinejoin="round" />
         </g>
       ))}
-      <rect x={60} y={360} width={960} height={1200} rx={20} fill="url(#facade26)" />
-      <rect x={300} y={390} width={480} height={90} rx={45} fill="#FFF4EA" />
-      <text x={540} y={450} textAnchor="middle" fontFamily="Cormorant" fontStyle="italic" fontWeight={600} fontSize={52} fill="#7A4A8A">the little jewel shop</text>
-      {Array.from({ length: 8 }, (_, i) => { const x = 80 + i * 115, flap = 10 * Math.sin(t * 4 + i * 0.8) * wind;
-        return <path key={i} d={`M${x},500 L${x + 115},500 L${x + 115},${580 + flap} Q${x + 57},${612 + flap} ${x},${580 + flap} Z`} fill={i % 2 ? "#FFFFFF" : "#FF8FB1"} />; })}
-      <g clipPath="url(#glass26)">
-        <rect x={110} y={640} width={860} height={720} fill="url(#inside26)" />
-        <path d="M300,640 L640,640 L800,1360 L140,1360 Z" fill="url(#spot26)" opacity={0.6 + 0.4 * blaze} />
-        <rect x={D.x - 140} y={D.y + 190} width={280} height={260} rx={16} fill="url(#velvet26)" />
-        <ellipse cx={D.x} cy={D.y + 190} rx={140} ry={26} fill="#FF9DBC" />
-        {blaze > 0 && Array.from({ length: 10 }, (_, i) => { const a = (-150 + i * 30 + 6 * Math.sin(t + i)) * Math.PI / 180, L = 1400;
-          return <path key={i} d={`M${D.x},${D.y} L${D.x + Math.cos(a - 0.06) * L},${D.y + Math.sin(a - 0.06) * L} L${D.x + Math.cos(a + 0.06) * L},${D.y + Math.sin(a + 0.06) * L} Z`}
-            fill={["#FF9DBA", "#FFD27A", "#B8F0A0", "#9AD8FF", "#C9A6FF"][i % 5]} opacity={0.35 * blaze * (0.7 + 0.3 * Math.sin(t * 3 + i))} filter="url(#qb10)" />; })}
-        <Diamond f={f} s={s} dim={dim} />
-        <Tag f={f} />
-        <path d={`M${200 + 30 * Math.sin(t / 2)},640 L${320 + 30 * Math.sin(t / 2)},640 L${180 + 30 * Math.sin(t / 2)},1360 L${60 + 30 * Math.sin(t / 2)},1360 Z`} fill="#FFFFFF" opacity={0.1} />
-        <path d="M760,640 L800,640 L700,1360 L660,1360 Z" fill="#FFFFFF" opacity={0.08} />
-      </g>
-      <rect x={110} y={640} width={860} height={720} rx={18} fill="none" stroke="#FFF4EA" strokeWidth={22} />
-      <rect x={90} y={1360} width={900} height={40} rx={10} fill="#FFF4EA" />
-      {/* rainbow light spilling onto the street */}
-      {blaze > 0 && Array.from({ length: 16 }, (_, i) => <circle key={i} cx={120 + rnd(i) * 860} cy={1420 + rnd(i + 3) * 460} r={10 + 14 * rnd(i + 5)} fill={["#FF9DBA", "#FFD27A", "#B8F0A0", "#9AD8FF", "#C9A6FF"][i % 5]} opacity={0.6 * blaze * (0.5 + 0.5 * Math.sin(t * 4 + i))} filter="url(#qb4)" />)}
-      <rect x={0} y={1560} width={1080} height={360} fill="#F5C6B6" />
-      {Array.from({ length: 6 }, (_, i) => <line key={i} x1={i * 200} x2={i * 200 - 80} y1={1560} y2={1920} stroke="#E7A99A" strokeWidth={4} />)}
-      {Array.from({ length: 14 }, (_, i) => { const p = ((f / (50 + 30 * rnd(i))) + rnd(i + 3)) % 1, x = -80 + p * 1260, y = 500 + rnd(i + 5) * 1200 + 70 * Math.sin(p * 6 + i);
-        return <ellipse key={i} cx={x} cy={y} rx={14} ry={8} transform={`rotate(${p * 540} ${x} ${y})`} fill={["#9ED9A8", "#FFB7C9", "#FFD27A"][i % 3]} opacity={Math.sin(Math.PI * p)} />; })}
-      <Glasses f={f} />
-      <Motes f={f} n={30} color="#FFF4C8" y0={600} y1={1500} gust={blaze} />
+      {/* eyes on stalks: lean toward the oyster when it looks */}
+      {[-14, 14].map((ex, i) => (
+        <g key={i} transform={`rotate(${18 * look} ${ex} -64)`}>
+          <path d={`M${ex},-64 L${ex},-92`} stroke={INK} strokeWidth={LW - 1} strokeLinecap="round" />
+          <circle cx={ex} cy={-98} r={11} fill="#FFFFFF" stroke={INK} strokeWidth={LW - 2} />
+          <circle cx={ex + 3 + 2 * look} cy={-97} r={4.5} fill={INK} />
+        </g>
+      ))}
+      <path d="M-10,-40 Q0,-34 10,-40" stroke={INK} strokeWidth={LW - 2} fill="none" strokeLinecap="round" opacity={1 - shrug} />
+      <path d="M-10,-36 L10,-36" stroke={INK} strokeWidth={LW - 2} strokeLinecap="round" opacity={shrug} />
     </g>
   );
 };
 
-const Overlay: React.FC<{ f: number }> = ({ f }) => (
-  <AbsoluteFill>
-    <LightLeak f={f} amt={0.5 * Math.sin(Math.PI * seg(f, T.blaze - 6, WIPE))} side="left" tint="rose" />
-    <Words f={f} from={0} to={T.blaze - 4} top={150} size={86}>
-      <div><W f={f} at={2}>Don't</W><W f={f} at={8} last>shrink</W></div>
-      <div><W f={f} at={14} last>yourself</W></div>
-    </Words>
-    <Aside f={f} at={T.stop} to={T.blaze + 4} x={300} y={820} color="#FFFFFF" rot={-8} size={110}>nope.</Aside>
-    <Words f={f} from={T.line2 - 4} to={WIPE - 4} top={70} size={70}>
-      <div><W f={f} at={T.line2}>because</W><W f={f} at={T.line2 + 6} last>someone</W></div>
-      <div><W f={f} at={T.line2 + 14}>can't</W><W f={f} at={T.line2 + 20}>see</W><W f={f} at={T.line2 + 26} last>your</W></div>
-      <div style={{ marginTop: -12 }}><KeyW f={f} at={T.key} color={ACCENT} size={120}>worth.</KeyW></div>
-    </Words>
-    <EndCard f={f} wipe={WIPE} card={CARD} />
-  </AbsoluteFill>
-);
+const Oyster: React.FC<{ f: number }> = ({ f }) => {
+  const open = back(seg(f, T.open0, T.open1), 1.2);
+  const ang = -36 * open;
+  const glow = sm(seg(f, T.glow, T.glow + 30));
+  const pulse = 1 + 0.06 * Math.sin((f - T.glow) / 9) * glow;
+  return (
+    <g transform={`translate(${O.x} ${O.y})`}>
+      <ellipse cx={0} cy={58} rx={190} ry={16} fill={INK} opacity={0.08} />
+      {/* glow behind */}
+      <circle cx={30} cy={-40} r={260 * pulse} fill="#FFF3C4" opacity={0.55 * glow} filter="url(#lb40)" />
+      {/* bottom shell */}
+      <path d="M-180,0 C-170,44 -90,70 0,70 C100,70 176,44 180,0 Z" fill="#F7E9DE" stroke={INK} strokeWidth={LW} strokeLinejoin="round" />
+      {[-110, -55, 0, 55, 110].map((x, i) => <path key={i} d={`M${x * 0.9},8 Q${x},40 ${x * 0.85},62`} stroke={INK} strokeWidth={3} fill="none" opacity={0.35} />)}
+      {/* inside: soft pink flesh and the pearl, seen when open */}
+      {open > 0.02 && (
+        <g opacity={Math.min(1, open * 1.6)}>
+          <path d="M-160,0 C-120,-26 120,-26 166,0 Z" fill="#FFC9D6" stroke={INK} strokeWidth={LW - 2} />
+          <circle cx={30} cy={-24} r={40 * pulse} fill="#FFFFFF" opacity={0.7 * glow} filter="url(#lb12)" />
+          <circle cx={30} cy={-28} r={36} fill="url(#pearl26)" stroke={INK} strokeWidth={LW - 1} />
+          <circle cx={18} cy={-40} r={9} fill="#FFFFFF" />
+        </g>
+      )}
+      {/* top shell hinged at the left end */}
+      <g transform={`rotate(${ang} -180 0)`}>
+        <path d="M-180,0 C-176,-66 -80,-112 20,-104 C116,-96 178,-56 180,0 C120,-12 -120,-12 -180,0 Z" fill="#FBF1E8" stroke={INK} strokeWidth={LW} strokeLinejoin="round" />
+        {[-100, -40, 30, 100].map((x, i) => <path key={i} d={`M${x},-10 Q${x + 10},-50 ${x + 4},${-84 + Math.abs(x) * 0.25}`} stroke={INK} strokeWidth={3} fill="none" opacity={0.35} />)}
+      </g>
+      {/* sparkles */}
+      {[[-90, -150, T.glow + 6], [150, -170, T.glow + 16], [40, -230, T.glow + 26], [-170, -90, T.glow + 36]].map(([x, y, a], i) => (
+        <Spark key={i} x={x} y={y} s={back(seg(f, a, a + 12), 2) * (0.75 + 0.15 * Math.sin((f - a) / 6))} c="#E8B04A" />
+      ))}
+    </g>
+  );
+};
 
-export const Q1026: React.FC = () => { const f = useCurrentFrame(); return <QFrame world={<World f={f} />} overlay={<Overlay f={f} />} audio="q1026.wav" />; };
+const Scene: React.FC<{ f: number }> = ({ f }) => {
+  const t = f / 30, warm = sm(seg(f, T.open0 - 10, T.open1 + 40));
+  return (
+    <g>
+      <defs>
+        <radialGradient id="pearl26" cx="0.38" cy="0.35"><stop offset="0" stopColor="#FFFFFF" /><stop offset="0.6" stopColor="#FFF4EC" /><stop offset="1" stopColor="#F1DCE6" /></radialGradient>
+        <linearGradient id="sea26" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#A9E3E0" /><stop offset="1" stopColor="#CFF0E6" /></linearGradient>
+        <linearGradient id="sand26" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#FFE6D2" /><stop offset="1" stopColor="#FFD6C0" /></linearGradient>
+      </defs>
+      {/* subtle dawn: a soft blurred sun low on the sea, very gentle sea band, sand */}
+      <circle cx={760} cy={880} r={170 + 40 * warm} fill="#FFE4B8" opacity={0.65 + 0.3 * warm} filter="url(#lb40)" />
+      <rect x={0} y={910} width={1080} height={160} fill="url(#sea26)" opacity={0.8} />
+      {Array.from({ length: 7 }, (_, i) => { const y = 932 + i * 20, x = ((i * 190 + t * (10 + i * 3)) % 1300) - 150;
+        return <rect key={i} x={x} y={y} width={120 + 60 * rnd(i)} height={3} rx={2} fill="#FFFFFF" opacity={0.6} />; })}
+      {/* the gentle foam edge, breathing in and out */}
+      <path d={`M0,${1066 + 6 * Math.sin(t)} C270,${1056 + 8 * Math.sin(t + 1)} 540,${1076 + 6 * Math.sin(t + 2)} 810,${1062 + 8 * Math.sin(t + 3)} C900,${1058} 1000,${1066} 1080,${1062 + 6 * Math.sin(t)} L1080,1090 L0,1090 Z`} fill="#FFFFFF" opacity={0.75} />
+      <rect x={0} y={1080} width={1080} height={840} fill="url(#sand26)" />
+      {/* a few line-art pebbles and a tiny shell, nothing more */}
+      <path d="M150,1560 q20,-16 40,0 q-20,10 -40,0 Z" fill="#F4DCCB" stroke={INK} strokeWidth={4} opacity={0.6} />
+      <path d="M880,1600 q18,-14 36,0 q-18,9 -36,0 Z" fill="#F4DCCB" stroke={INK} strokeWidth={4} opacity={0.6} />
+      <path d="M860,1420 l-14,22 l28,0 Z" fill="#FFD0DC" stroke={INK} strokeWidth={3} opacity={0.6} />
+      {/* a gull drifting far away */}
+      <path d={`M${200 + t * 12},${760 + 4 * Math.sin(t * 2)} q10,-8 20,0 q10,-8 20,0`} stroke={INK} strokeWidth={3} fill="none" opacity={0.35} />
+      <g transform={`translate(540 ${O.y}) scale(1.45) translate(-540 ${-O.y})`}>
+      <Oyster f={f} />
+      <Crab f={f} />
+      {/* "meh." speech bubble */}
+      {f > T.meh && f < T.cturn + 6 && (() => { const p = back(seg(f, T.meh, T.meh + 10), 2), o = 1 - seg(f, T.cturn - 4, T.cturn + 6), cx = crabX(f) - 10;
+        return <g transform={`translate(${cx} ${O.y - 210}) scale(${p})`} opacity={o}>
+          <path d="M-70,-40 Q-70,-70 -40,-70 L40,-70 Q70,-70 70,-40 L70,-10 Q70,20 40,20 L-6,20 L-26,44 L-24,20 L-40,20 Q-70,20 -70,-10 Z" fill="#FFFFFF" stroke={INK} strokeWidth={LW - 1} strokeLinejoin="round" />
+          <text x={0} y={-12} textAnchor="middle" fontFamily="Hand" fontSize={46} fill={INK}>meh.</text>
+        </g>; })()}
+      </g>
+    </g>
+  );
+};
+
+export const Q1026: React.FC = () => {
+  const f = useCurrentFrame();
+  return (
+    <LFrame f={f} bg={["#FFF1E6", "#FFD9CC"]} audio="q1026.wav"
+      overlay={<AbsoluteFill>
+        <Caption f={f} at={0} to={WIPE - 6} top={330} size={70} lines={[<>don't shrink yourself</>, <>because someone can't see</>, <>your <Hl c={ROSE}>worth.</Hl></>]} />
+        <EndCard f={f} wipe={WIPE} card={CARD} />
+      </AbsoluteFill>}>
+      <Scene f={f} />
+    </LFrame>
+  );
+};
 export const BEATS = { ...T, END, WIPE, CARD };
