@@ -148,7 +148,7 @@ export const Q1026: React.FC = () => {
   return (
     <LFrame f={f} bg={["#FFF1E6", "#FFD9CC"]} audio="q1026.wav"
       overlay={<AbsoluteFill>
-        <Caption f={f} at={0} to={WIPE - 6} top={330} size={70} lines={[<>don't shrink yourself</>, <>because someone can't see</>, <>your <Hl c={ROSE}>worth.</Hl></>]} />
+        <Caption f={f} ats={[2, T.meh, T.glow]} to={WIPE - 6} top={330} size={70} lines={[<>don't shrink yourself</>, <>because someone can't see</>, <>your <Hl c={ROSE}>worth.</Hl></>]} />
         <EndCard f={f} wipe={WIPE} card={CARD} />
       </AbsoluteFill>}>
       <Scene f={f} />

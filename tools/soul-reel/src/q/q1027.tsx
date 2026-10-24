@@ -95,7 +95,7 @@ export const Q1027: React.FC = () => {
   return (
     <LFrame f={f} bg={["#EAF6F4", "#CDE8EC"]} audio="q1027.wav"
       overlay={<AbsoluteFill>
-        <Caption f={f} at={0} to={WIPE - 6} top={300} size={70} lines={[<>in a world full of</>, <>restless waves,</>, <>be the <Hl c={TEAL}>seashore.</Hl></>, <span style={{ fontSize: 56 }}>calm and steady.</span>]} />
+        <Caption f={f} ats={[2, 10, T.breath0 + 20, T.open - 20]} to={WIPE - 6} top={300} size={70} lines={[<>in a world full of</>, <>restless waves,</>, <>be the <Hl c={TEAL}>seashore.</Hl></>, <span style={{ fontSize: 56 }}>calm and steady.</span>]} />
         <EndCard f={f} wipe={WIPE} card={CARD} />
       </AbsoluteFill>}>
       <Scene f={f} />

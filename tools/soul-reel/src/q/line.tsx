@@ -54,12 +54,17 @@ export const LFrame: React.FC<{ f: number; bg: [string, string]; children: React
   );
 };
 
-// the handwritten caption at the top (fades in quickly, like a still caption on a post)
-export const Caption: React.FC<{ f: number; lines: React.ReactNode[]; at?: number; top?: number; size?: number; to?: number }> = ({ f, lines, at = 0, top = 300, size = 66, to = 9999 }) => {
-  const o = interpolate(f, [at, at + 10, to, to + 14], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.bezier(0.3, 0, 0.3, 1) });
+// the handwritten caption at the top. Each line can have its own entry frame (`ats`), so the words land exactly
+// when the matching emotion or movement happens; the whole caption leaves together at `to`.
+export const Caption: React.FC<{ f: number; lines: React.ReactNode[]; at?: number; ats?: number[]; top?: number; size?: number; to?: number }> = ({ f, lines, at = 0, ats, top = 300, size = 66, to = 9999 }) => {
+  const out = 1 - interpolate(f, [to, to + 14], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <div style={{ position: "absolute", top, left: 70, right: 70, textAlign: "center", fontFamily: "Hand", fontSize: size, lineHeight: 1.22, color: INK, opacity: o, translate: `0px ${(1 - o) * 10}px` }}>
-      {lines.map((l, i) => <div key={i}>{l}</div>)}
+    <div style={{ position: "absolute", top, left: 70, right: 70, textAlign: "center", fontFamily: "Hand", fontSize: size, lineHeight: 1.22, color: INK, opacity: out }}>
+      {lines.map((l, i) => {
+        const a0 = ats ? ats[Math.min(i, ats.length - 1)] : at;
+        const o = interpolate(f, [a0, a0 + 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.bezier(0.3, 0, 0.3, 1) });
+        return <div key={i} style={{ opacity: o, translate: `0px ${(1 - o) * 12}px`, filter: `blur(${(1 - o) * 4}px)` }}>{l}</div>;
+      })}
     </div>
   );
 };
