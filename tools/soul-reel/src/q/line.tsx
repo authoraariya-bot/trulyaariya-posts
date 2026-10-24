@@ -82,20 +82,21 @@ const Limb: React.FC<{ x1: number; y1: number; x2: number; y2: number; w: number
   </g>
 );
 
-export type SoulPose = { walk?: number; phase?: number; sit?: number; happy?: number; look?: number; wave?: number; glow?: number; blink?: boolean };
+export type SoulPose = { walk?: number; phase?: number; sit?: number; happy?: number; look?: number; wave?: number; glow?: number; blink?: boolean; worry?: number; glance?: number; tremble?: number; inhale?: number; sweat?: number };
 // Front-facing Soul: round head, soft bean body, two stubby arms at the sides, two short legs. The face turns toward
 // `facing`. Walking = small alternating steps + a gentle bob (distance-locked phase). Sitting = body lowers onto the
 // ground and the feet rest in front. Nothing ever crosses the body, so the outline always stays clean.
 export const LSoul: React.FC<{ x: number; y: number; facing?: 1 | -1; s?: number; p: SoulPose }> = ({ x, y, facing = 1, s = 1, p }) => {
   const walk = p.walk ?? 0, ph = p.phase ?? 0, sit = sm(p.sit ?? 0), happy = p.happy ?? 0, look = p.look ?? 0, glow = p.glow ?? 0, wave = p.wave ?? 0;
+  const worry = p.worry ?? 0, glance = p.glance ?? 0, tremble = p.tremble ?? 0, inhale = p.inhale ?? 0, sweat = p.sweat ?? 0;
   const LEG = 30;
   const step = Math.sin(ph);
   const bob = walk * 4 * Math.abs(step);
   const hipY = lerp(-LEG, -4, sit) - bob;          // bottom of the body
-  const top = hipY - 104;                          // top of the body / neck
+  const top = hipY - 104 - 8 * inhale;             // top of the body / neck (rises on a deep breath)
   const headY = top - 30;
   const lean = facing * (walk * 3 + 0);
-  const fx = facing * 9 * (1 - 0.3 * sit);         // face offset toward facing
+  const fx = facing * 9 * (1 - 0.3 * sit) + 10 * glance; // face offset toward facing (+ darting glance)
   // legs: while standing, two short capsules; each lifts on its step. While sitting, two feet resting in front.
   const lift = (k: number) => walk * 9 * Math.max(0, k ? step : -step);
   const swing = (k: number) => walk * 8 * (k ? step : -step) * facing;
@@ -106,7 +107,7 @@ export const LSoul: React.FC<{ x: number; y: number; facing?: 1 | -1; s?: number
   };
   const eyeY = headY - 4 - 3 * look;
   return (
-    <g transform={`translate(${x} ${y}) scale(${s}) rotate(${lean} 0 ${hipY})`}>
+    <g transform={`translate(${x + tremble} ${y}) scale(${s}) rotate(${lean} 0 ${hipY})`}>
       <ellipse cx={0} cy={4} rx={lerp(56, 70, sit)} ry={9} fill={INK} opacity={0.08} />
       {/* legs / feet */}
       {[0, 1].map((k) => {
@@ -137,7 +138,17 @@ export const LSoul: React.FC<{ x: number; y: number; facing?: 1 | -1; s?: number
       )}
       <ellipse cx={fx - 28} cy={eyeY + 16} rx={8} ry={5} fill="#FFB3C4" opacity={0.85} />
       <ellipse cx={fx + 28} cy={eyeY + 16} rx={8} ry={5} fill="#FFB3C4" opacity={0.85} />
-      <path d={`M${fx - 7},${eyeY + 15} q7,${5 + 4 * happy} 14,0`} stroke={INK} strokeWidth={4} fill="none" strokeLinecap="round" />
+      {worry > 0.5 ? (
+        <path d={`M${fx - 10},${eyeY + 18} q5,-5 10,0 q5,5 10,0`} stroke={INK} strokeWidth={4} fill="none" strokeLinecap="round" />
+      ) : (
+        <path d={`M${fx - 7},${eyeY + 15} q7,${5 + 4 * happy} 14,0`} stroke={INK} strokeWidth={4} fill="none" strokeLinecap="round" />
+      )}
+      {worry > 0.02 && (
+        <g stroke={INK} strokeWidth={4} strokeLinecap="round" opacity={Math.min(1, worry * 1.5)}>
+          <path d={`M${fx - 24},${eyeY - 16} L${fx - 8},${eyeY - 20 - 6 * worry}`} /><path d={`M${fx + 24},${eyeY - 16} L${fx + 8},${eyeY - 20 - 6 * worry}`} />
+        </g>
+      )}
+      {sweat > 0.02 && <path d="M0,-12 C6,-2 8,6 0,10 C-8,6 -6,-2 0,-12 Z" transform={`translate(${42} ${headY - 30 + 10 * sweat})`} fill="#BFE6FF" stroke={INK} strokeWidth={3} opacity={Math.min(1, sweat * 2) * (1 - Math.max(0, sweat - 0.85) * 6)} />}
     </g>
   );
 };

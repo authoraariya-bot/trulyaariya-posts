@@ -8,8 +8,8 @@ import { LFrame, Caption, Hl, LSoul, INK, LW, seg, sm, lerp } from "./line";
 import { EndCard } from "../kit/Words";
 
 export const END = 405; const WIPE = 315, CARD = 333;
-const LAPS = [{ at: 30, g: 1 }, { at: 100, g: 1 }, { at: 170, g: 0.8 }, { at: 240, g: 0.45 }];
-const T = { calm: 200, open: 262 };
+const LAPS = [{ at: 24, g: 1 }, { at: 80, g: 1 }, { at: 170, g: 0.6 }, { at: 240, g: 0.35 }];
+const T = { breath0: 104, breath1: 150, calm: 170, open: 268 };
 const SHORE = 1330, SX = 540, SY = 1440;
 const TEAL = "#2BA39A";
 
@@ -47,7 +47,7 @@ const Chop: React.FC<{ f: number; calm: number }> = ({ f, calm }) => {
 };
 
 const Scene: React.FC<{ f: number }> = ({ f }) => {
-  const t = f / 30, calm = sm(seg(f, T.calm - 20, T.calm + 60));
+  const t = f / 30, calm = sm(seg(f, T.calm, T.calm + 70));
   const breath = 0.5 + 0.5 * Math.sin((f / 30) * Math.PI * 2 / 4.2);
   return (
     <g>
@@ -76,7 +76,16 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
       <path d="M210,1520 l-16,26 l32,0 Z" fill="#FFD0DC" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
       <path d="M850,1560 q16,-14 32,0 q-16,9 -32,0 Z" fill="#E8DDF6" stroke={INK} strokeWidth={4} />
       {/* the Soul: seated, still, breathing */}
-      <LSoul x={SX} y={SY} s={1.55} p={{ sit: 1, happy: f > T.open ? 1 : 0, blink: f <= T.open, glow: 0.25 + 0.5 * breath * (1 - 0.3 * calm) + 0.3 * calm }} />
+      {(() => {
+        // restless → one deep breath → calm
+        const restless = 1 - sm(seg(f, T.breath0, T.breath0 + 30));
+        const inhale = Math.sin(Math.PI * seg(f, T.breath0, T.breath1));
+        const closed = f > T.breath0 + 14 && f <= T.open;
+        const glance = restless * (Math.sin(f / 6) > 0.3 ? 1 : Math.sin(f / 6) < -0.3 ? -1 : 0);
+        const blinkAnx = f < T.breath0 && [34, 72].some((b) => f >= b && f < b + 4);
+        return <LSoul x={SX} y={SY} s={1.55} p={{ sit: 1, worry: restless, glance, tremble: restless * 1.6 * Math.sin(f * 1.7), sweat: seg(f, 20, 96) * restless, inhale,
+          blink: closed || blinkAnx, happy: f > T.open ? 1 : 0, glow: 0.2 + 0.8 * inhale + 0.35 * calm + 0.15 * breath * calm }} />;
+      })()}
     </g>
   );
 };
