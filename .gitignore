@@ -1,2 +1,4 @@
 tools/pad.wav
 __pycache__/
+node_modules/
+tools/soul-reel/out/

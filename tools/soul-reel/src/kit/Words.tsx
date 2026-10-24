@@ -1,0 +1,80 @@
+// Words and end card, identical to the master (src/master/Overlay.tsx), driven by each reel's beats.
+import React from "react";
+import { AbsoluteFill, Easing, interpolate } from "remotion";
+import { clamp01, seg01, smoother } from "./choreo";
+
+export const INK = "rgb(76,57,56)";
+export const GOLD = "rgb(145,116,51)";
+const cl = { extrapolateLeft: "clamp" as const, extrapolateRight: "clamp" as const };
+const out = Easing.bezier(0.16, 1, 0.3, 1);
+
+export const Word: React.FC<{ f: number; at: number; children: React.ReactNode; style?: React.CSSProperties; last?: boolean }> = ({ f, at, children, style, last }) => {
+  const p = interpolate(f, [at, at + 18], [0, 1], { ...cl, easing: out });
+  return <span style={{ display: "inline-block", opacity: p, translate: `0px ${(1 - p) * 20}px`, filter: `blur(${(1 - p) * 9}px)`, marginRight: last ? 0 : "0.26em", ...style }}>{children}</span>;
+};
+export const Block: React.FC<{ f: number; from: number; to: number; top?: number; children: React.ReactNode }> = ({ f, from, to, top = 360, children }) => {
+  if (f < from || f > to + 22) return null;
+  const o = 1 - smoother(seg01(f, to, to + 20));
+  return (
+    <div style={{ position: "absolute", top, left: 40, right: 40, textAlign: "center", fontFamily: "Cormorant", fontWeight: 400, fontSize: 86, lineHeight: 1.18, color: INK,
+      opacity: o, translate: `0px ${-(1 - o) * 26}px`, filter: `blur(${(1 - o) * 8}px)`, textShadow: "0 0 30px rgba(255,250,240,0.85)" }}>{children}</div>
+  );
+};
+// the gold key word, written in left to right (Caveat Bold ~132px)
+export const Key: React.FC<{ f: number; at: number; children: React.ReactNode; size?: number }> = ({ f, at, children, size = 132 }) => {
+  const write = interpolate(f, [at, at + 36], [0, 1], { ...cl, easing: Easing.bezier(0.4, 0, 0.3, 1) });
+  return (
+    <div style={{ position: "relative", display: "inline-block", marginTop: -6 }}>
+      <span style={{ fontFamily: "Caveat", fontWeight: 700, fontSize: size, color: GOLD, display: "inline-block", clipPath: `inset(-25% ${(1 - write) * 100}% -25% -5%)`, textShadow: "none" }}>{children}</span>
+    </div>
+  );
+};
+// a line given as "word word word" with one reveal frame per word
+export const Line: React.FC<{ f: number; text: string; at: number[] | number; gap?: number; style?: React.CSSProperties }> = ({ f, text, at, gap = 7, style }) => {
+  const words = text.split(" ");
+  return <div style={style}>{words.map((w, i) => <Word key={i} f={f} at={Array.isArray(at) ? at[Math.min(i, at.length - 1)] : at + i * gap} last={i === words.length - 1}>{w}</Word>)}</div>;
+};
+
+const Fibres: React.FC = () => (
+  <svg width={1080} height={1920} style={{ position: "absolute", inset: 0 }}>
+    {Array.from({ length: 260 }, (_, i) => {
+      const r = (k: number) => { const x = Math.sin((i + k * 97) * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+      const x = r(1) * 1080, y = r(2) * 1920, a = r(3) * 360, l = 8 + r(4) * 18;
+      return <path key={i} d={`M0,0 q${l / 2},${(r(5) - 0.5) * 8} ${l},0`} transform={`translate(${x} ${y}) rotate(${a})`} stroke="rgb(170,160,148)" strokeWidth={0.9} fill="none" opacity={0.35 + 0.3 * r(6)} />;
+    })}
+  </svg>
+);
+
+// petal gust (at wipe) → end card (thread ties at card, then handle, then the book line) — exactly as the master
+export const EndCard: React.FC<{ f: number; wipe: number; card: number }> = ({ f, wipe, card: cd }) => {
+  const card = smoother(seg01(f, wipe + 6, cd + 6));
+  const thread = interpolate(f, [cd, cd + 30], [0, 1], { ...cl, easing: Easing.bezier(0.45, 0, 0.25, 1) });
+  const handle = interpolate(f, [cd + 18, cd + 40], [0, 1], { ...cl, easing: out });
+  const label = interpolate(f, [cd + 30, cd + 52], [0, 1], { ...cl, easing: out });
+  return (
+    <>
+      {f >= wipe && (
+        <AbsoluteFill style={{ opacity: card, background: "radial-gradient(ellipse at 50% 45%, rgb(244,238,227) 0%, rgb(238,232,220) 60%, rgb(228,221,208) 100%)" }}>
+          <Fibres />
+          <svg width={1080} height={1920} style={{ position: "absolute", inset: 0 }}>
+            <defs><linearGradient id="goldT" x1="0" x2="1"><stop offset="0" stopColor="rgb(134,99,46)" /><stop offset="0.5" stopColor="rgb(205,168,92)" /><stop offset="1" stopColor="rgb(134,99,46)" /></linearGradient></defs>
+            <path d="M340,800 C410,801 470,800 522,798 C536,797 548,789 541,782 C533,775 520,786 530,794 C541,801 556,801 610,800 C670,799 705,801 740,800"
+              fill="none" stroke="url(#goldT)" strokeWidth={3.4} strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - thread} />
+          </svg>
+          <div style={{ position: "absolute", top: 852, left: 0, right: 0, textAlign: "center", fontFamily: "Jost", fontWeight: 400, fontSize: 58, letterSpacing: 7, color: INK, opacity: handle, translate: `0px ${(1 - handle) * 14}px`, filter: `blur(${(1 - handle) * 6}px)` }}>@trulyaariya</div>
+          <div style={{ position: "absolute", top: 955, left: 0, right: 0, textAlign: "center", fontFamily: "Jost", fontWeight: 400, fontSize: 27, letterSpacing: 5.5, color: GOLD, opacity: label, translate: `0px ${(1 - label) * 10}px` }}>A SELF REPAIRED SOUL · COMING SOON</div>
+        </AbsoluteFill>
+      )}
+      {f >= wipe - 10 && f < cd + 30 && (
+        <svg width={1080} height={1920} style={{ position: "absolute", inset: 0 }}>
+          {Array.from({ length: 70 }, (_, i) => {
+            const r = (k: number) => { const x = Math.sin((i + k * 53) * 91.7 + 17.3) * 43758.5453; return x - Math.floor(x); };
+            const p = clamp01((f - (wipe - 10) - r(1) * 14) / 34); if (p <= 0 || p >= 1) return null;
+            const x = -120 + p * 1360 + 60 * Math.sin(p * 6 + i), y = r(2) * 1920 - p * 160;
+            return <path key={i} d="M0,-7 C5,-5 5,4 0,7 C-5,4 -5,-5 0,-7 Z" transform={`translate(${x} ${y}) rotate(${p * 500 + i * 40}) scale(${1.6 + r(3) * 1.6})`} fill={["#F6CFCB", "#FCE4DA", "#FFF3EA", "#EFC0C6"][i % 4]} opacity={Math.sin(p * Math.PI)} />;
+          })}
+        </svg>
+      )}
+    </>
+  );
+};
