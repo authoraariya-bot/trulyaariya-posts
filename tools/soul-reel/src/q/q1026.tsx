@@ -9,13 +9,13 @@ import { EndCard } from "../kit/Words";
 
 export const END = 435; const WIPE = 345, CARD = 363;
 const T = { cin: 8, cstop: 52, look: 56, meh: 70, cturn: 100, cout: 150, sIn: 120, sStop: 184, sLook: 186, sit: 196, stay: 226, open0: 258, open1: 286, glow: 278, happy: 290 };
-const O = { x: 520, y: 1250 }; // oyster hinge-line centre
+const O = { x: 560, y: 1250 }; // oyster hinge-line centre
 const ROSE = "#E2507F";
 
 // crab x over time: walks in, pauses, walks back out
 const crabX = (f: number) => {
   const inn = sm(seg(f, T.cin, T.cstop)), out = sm(seg(f, T.cturn, T.cout));
-  return lerp(-160, 230, inn) - 520 * out;
+  return lerp(-240, 290, inn) - 620 * out;
 };
 const crabWalking = (f: number) => (f > T.cin && f < T.cstop) || (f > T.cturn && f < T.cout);
 
@@ -117,18 +117,18 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
       <path d="M860,1420 l-14,22 l28,0 Z" fill="#FFD0DC" stroke={INK} strokeWidth={3} opacity={0.6} />
       {/* a gull drifting far away */}
       <path d={`M${200 + t * 12},${760 + 4 * Math.sin(t * 2)} q10,-8 20,0 q10,-8 20,0`} stroke={INK} strokeWidth={3} fill="none" opacity={0.35} />
-      <g transform={`translate(540 ${O.y}) scale(1.45) translate(-540 ${-O.y})`}>
+      <g transform={`translate(540 ${O.y}) scale(1.2) translate(-540 ${-O.y})`}>
       <Oyster f={f} />
       <Crab f={f} />
       {/* the Soul: walks in from the right, looks, sits beside the oyster and stays */}
       {f > T.sIn - 2 && (() => {
-        const x = lerp(1150, 800, sm(seg(f, T.sIn, T.sStop)));
+        const x = lerp(1240, 820, sm(seg(f, T.sIn, T.sStop)));
         const walk = Math.min(sm(seg(f, T.sIn, T.sIn + 10)), 1 - sm(seg(f, T.sStop - 10, T.sStop)));
         const blink = [212, 300, 330].some((b) => f >= b && f < b + 4);
-        return <LSoul x={x} y={O.y + 62} facing={-1} s={0.85} p={{ walk, phase: (1150 - x) / 34, sit: seg(f, T.sit, T.sit + 26), look: sm(seg(f, T.sLook, T.sLook + 10)) * (1 - sm(seg(f, T.happy - 10, T.happy))), happy: seg(f, T.happy, T.happy + 4), glow: sm(seg(f, T.glow, T.glow + 30)), blink }} />;
+        return <LSoul x={x} y={O.y + 62} facing={-1} s={0.85} p={{ walk, phase: (1240 - x) / 34, sit: seg(f, T.sit, T.sit + 26), look: sm(seg(f, T.sLook, T.sLook + 10)) * (1 - sm(seg(f, T.happy - 10, T.happy))), happy: seg(f, T.happy, T.happy + 4), glow: sm(seg(f, T.glow, T.glow + 30)), blink }} />;
       })()}
       {f > T.stay && f < T.open0 + 14 && (() => { const p = back(seg(f, T.stay, T.stay + 10), 2), o = 1 - seg(f, T.open0, T.open0 + 14);
-        return <g transform={`translate(${790} ${O.y - 240}) scale(${p})`} opacity={o}>
+        return <g transform={`translate(${800} ${O.y - 250}) scale(${p})`} opacity={o}>
           <path d="M-90,-40 Q-90,-70 -60,-70 L60,-70 Q90,-70 90,-40 L90,-10 Q90,20 60,20 L-10,20 L-30,44 L-28,20 L-60,20 Q-90,20 -90,-10 Z" fill="#FFFFFF" stroke={INK} strokeWidth={LW - 1} strokeLinejoin="round" />
           <text x={0} y={-12} textAnchor="middle" fontFamily="Hand" fontSize={44} fill={INK}>i'll stay.</text>
         </g>; })()}
