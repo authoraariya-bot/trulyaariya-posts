@@ -37,8 +37,8 @@ const story = (dancer: boolean) => makeStory({
   },
 });
 const c = story(false), shadow = story(true);
-const focus = (f: number) => 840;
-const toScreen = (x: number, y: number) => ({ x: (x - 840) * Z + 540, y: (y - 1540) * Z + 1600 });
+const focus = (f: number) => 800;
+const toScreen = (x: number, y: number) => ({ x: (x - 800) * Z + 540, y: (y - 1540) * Z + 1600 });
 
 const World: React.FC<{ f: number }> = ({ f }) => {
   const h = c.healAt(f);
@@ -52,19 +52,19 @@ const World: React.FC<{ f: number }> = ({ f }) => {
   const grow = smoother(seg01(f, T.shadow, T.shadow + 50));
   const sx = c.xAt(f), srig = shadow.rigAt(f);
   const shScale = lerp(1.05, 1.42, grow);
-  const shX = lerp(CHAIR + 470, CHAIR + 520, grow);
+  const shX = lerp(CHAIR + 420, CHAIR + 440, grow);
   return (
     <g>
       <Defs />
       <g transform={`translate(540 1600) scale(${Z}) translate(${-focus(f)} -1540)`}>
         <RoomShell warm={0.35 + 0.65 * h} width={1900} wall={["#E6E2F2", "#FBEAD9"]} />
-        <WindowSky id="w27" x={80} y={760} w={320} h={420} warm={seasons.sun} f={f} night={0.3 * (1 - seasons.sun)}>
-          <Rain f={f} amt={seasons.rain} wind={3} ground={1190} count={70} />
+        <WindowSky id="w27" x={400} y={780} w={300} h={400} warm={seasons.sun} f={f} night={0.3 * (1 - seasons.sun)}>
+          <Rain f={f} amt={seasons.rain} wind={3} ground={1190} count={60} />
           <Snow f={f} amt={seasons.snow} count={60} />
-          {seasons.petals > 0.01 && Array.from({ length: 16 }, (_, i) => { const p = ((f / 90 + rnd(i)) % 1); return <g key={i} transform={`translate(${80 + rnd(i + 3) * 340 + 30 * Math.sin(p * 6 + i)},${760 + p * 440}) rotate(${p * 400})`} opacity={seasons.petals}><Flower s={0.9} c={i % 2 ? "#F6CFCB" : "#FCE4DA"} /></g>; })}
+          {seasons.petals > 0.01 && Array.from({ length: 16 }, (_, i) => { const p = ((f / 90 + rnd(i)) % 1); return <g key={i} transform={`translate(${400 + rnd(i + 3) * 300 + 30 * Math.sin(p * 6 + i)},${780 + p * 420}) rotate(${p * 400})`} opacity={seasons.petals}><Flower s={0.9} c={i % 2 ? "#F6CFCB" : "#FCE4DA"} /></g>; })}
         </WindowSky>
-        <Curtain x={80} y={730} h={480} side={1} f={f} amp={0.4} color="#D9CDEB" />
-        <Frames x={1320} y={820} warm={h} />
+        <Curtain x={700} y={750} h={460} side={-1} f={f} amp={0.4} color="#D9CDEB" />
+        <Frames x={1240} y={760} warm={h} />
         {/* the shadow, cast by the lamp onto the wall */}
         <g transform={`translate(${shX} ${GROUND}) scale(${shScale}) translate(${-sx} ${-GROUND})`} opacity={0.3 + 0.1 * grow} filter="url(#b4)">
           <g transform={`translate(${sx} ${GROUND}) scale(${SCALE}) translate(${-sx} ${-GROUND})`}><Body r={srig} fill="#7E6E9A" back="#7E6E9A" /></g>
@@ -76,7 +76,7 @@ const World: React.FC<{ f: number }> = ({ f }) => {
         {/* the growing stack of written pages */}
         {Array.from({ length: closed ? 0 : pages }, (_, k) => <rect key={k} x={DESK + 30 + (k % 2) * 3} y={TABLE_Y - 6 - k * 4} width={80} height={5} rx={1} fill={k % 2 ? "#FFFDF8" : "#F6EEE2"} stroke="#E7D7C3" strokeWidth={0.6} />)}
         <rect x={DESK - 110} y={TABLE_Y - 4} width={90} height={6} rx={2} fill="#FFFDF8" opacity={closed ? 0 : 1} />
-        <Chair x={CHAIR} back={-1} c="#C9B6DA" />
+        <Chair x={lerp(CHAIR, CHAIR - 110, smoother(seg01(f, T.stand - 8, T.stand + 18)))} back={-1} c="#C9B6DA" />
         <Plant x={1180} s={1.2} perk={h} f={f} bloom={seasons.sun} />
         <Soul c={c} f={f} light={0.3 + 0.7 * h} />
         {closed && <g transform={`translate(${lerp(hp.x + 10, ch.x + 20, hug)},${lerp(hp.y - 10, ch.y + 8, hug)}) scale(${lerp(0.9, 0.8, hug)})`}><Book glow={0.4 + 0.6 * h} /></g>}

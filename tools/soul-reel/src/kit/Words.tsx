@@ -12,12 +12,15 @@ export const Word: React.FC<{ f: number; at: number; children: React.ReactNode; 
   const p = interpolate(f, [at, at + 18], [0, 1], { ...cl, easing: out });
   return <span style={{ display: "inline-block", opacity: p, translate: `0px ${(1 - p) * 20}px`, filter: `blur(${(1 - p) * 9}px)`, marginRight: last ? 0 : "0.26em", ...style }}>{children}</span>;
 };
-export const Block: React.FC<{ f: number; from: number; to: number; top?: number; children: React.ReactNode }> = ({ f, from, to, top = 360, children }) => {
+export const Block: React.FC<{ f: number; from: number; to: number; top?: number; night?: number; children: React.ReactNode }> = ({ f, from, to, top = 360, night = 0, children }) => {
   if (f < from || f > to + 22) return null;
   const o = 1 - smoother(seg01(f, to, to + 20));
   return (
-    <div style={{ position: "absolute", top, left: 40, right: 40, textAlign: "center", fontFamily: "Cormorant", fontWeight: 400, fontSize: 86, lineHeight: 1.18, color: INK,
-      opacity: o, translate: `0px ${-(1 - o) * 26}px`, filter: `blur(${(1 - o) * 8}px)`, textShadow: "0 0 30px rgba(255,250,240,0.85)" }}>{children}</div>
+    <div style={{ position: "absolute", top, left: 40, right: 40, textAlign: "center", fontFamily: "Cormorant", fontWeight: 400, fontSize: 86, lineHeight: 1.18,
+      color: night > 0 ? `rgb(${Math.round(76 + (255 - 76) * night)},${Math.round(57 + (246 - 57) * night)},${Math.round(56 + (232 - 56) * night)})` : INK,
+      opacity: o, translate: `0px ${-(1 - o) * 26}px`, filter: `blur(${(1 - o) * 8}px)`,
+      // night scenes: cream words with a soft dark glow so they stay readable on a dark sky
+      textShadow: night > 0 ? `0 0 26px rgba(40,30,60,${0.75 * night}), 0 0 8px rgba(40,30,60,${0.5 * night})` : "0 0 30px rgba(255,250,240,0.85)" }}>{children}</div>
   );
 };
 // the gold key word, written in left to right (Caveat Bold ~132px)
