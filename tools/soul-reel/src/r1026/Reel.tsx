@@ -98,7 +98,8 @@ const Room: React.FC<{ f: number }> = ({ f }) => {
       {/* desk things: a mug, pencils */}
       <rect x={DESK + 70} y={TABLE_Y - 40} width={34} height={40} rx={6} fill="#C9D9EE" />
       {[0, 1, 2].map((k) => <rect key={k} x={DESK + 110 + k * 7} y={TABLE_Y - 58} width={5} height={58} rx={2} fill={["#F6D46B", "#F4A3B8", "#9FC48E"][k]} transform={`rotate(${(k - 1) * 6} ${DESK + 112} ${TABLE_Y})`} />)}
-      <Chair x={CHAIR} back={-1} c="#9FC0D8" />
+      {/* it pushes its chair back as it stands */}
+      <Chair x={lerp(CHAIR, CHAIR - 110, smoother(seg01(f, T.stand - 8, T.stand + 18)))} back={-1} c="#9FC0D8" />
       <Plant x={1320} s={1.3} perk={h} f={f} bloom={sstep(seg01(f, T.hug, T.hug + 40))} />
       <Soul c={c} f={f} light={back ? 0.6 + 0.4 * smoother(seg01(f, T.hug, T.hug + 22)) + 0.1 * Math.sin(t * 3) : undefined} />
       {paper}

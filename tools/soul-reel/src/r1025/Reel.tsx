@@ -68,7 +68,7 @@ const World: React.FC<{ f: number }> = ({ f }) => {
   // at the end it is raised up and forward along the arm (never over the face or head)
   const rig = c.rigAt(f), elbow = scaledPt(rig.arms[1].el, c.xAt(f));
   const fl = Math.hypot(hand.x - elbow.x, hand.y - elbow.y) || 1;
-  const atMouth = { x: head.x + 74, y: head.y + 34 };
+  const atMouth = { x: head.x + 100, y: head.y + 40 };
   const alongArm = { x: hand.x + ((hand.x - elbow.x) / fl) * 66, y: hand.y + ((hand.y - elbow.y) / fl) * 66 };
   const up = smoother(seg01(f, T.spin + 10, T.cheer + 10));
   const H = { x: lerp(atMouth.x, alongArm.x, up), y: lerp(atMouth.y, alongArm.y, up) };

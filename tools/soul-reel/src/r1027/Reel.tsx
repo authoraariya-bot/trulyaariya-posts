@@ -41,7 +41,7 @@ const focus = (f: number) => 840;
 const toScreen = (x: number, y: number) => ({ x: (x - 840) * Z + 540, y: (y - 1540) * Z + 1600 });
 
 const World: React.FC<{ f: number }> = ({ f }) => {
-  const h = c.healAt(f), t = f / 30;
+  const h = c.healAt(f);
   const seasons = { rain: 1 - sstep(seg01(f, T.s1 - 10, T.s1 + 10)), snow: Math.sin(Math.PI * seg01(f, T.s1 - 10, T.s2 + 10)), petals: Math.sin(Math.PI * seg01(f, T.s2 - 10, T.s3 + 30)), sun: sstep(seg01(f, T.s3, T.s4 + 20)) };
   const pages = Math.floor(lerp(1, 16, seg01(f, 0, T.close)));
   const hp = { x: (handOf(c, f, 0).x + handOf(c, f, 1).x) / 2, y: (handOf(c, f, 0).y + handOf(c, f, 1).y) / 2 };
