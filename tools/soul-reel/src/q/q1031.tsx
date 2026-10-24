@@ -82,8 +82,15 @@ const World: React.FC<{ f: number }> = ({ f }) => {
         <rect x={-220} y={-380} width={440} height={300} rx={90} fill="url(#chair31)" />
         <rect x={-260} y={-210} width={110} height={220} rx={50} fill="#7DBB98" /><rect x={150} y={-210} width={110} height={220} rx={50} fill="#7DBB98" />
         <rect x={-170} y={-150} width={340} height={120} rx={40} fill="#9ED3B2" />
-        <path d="M-120,-330 C-60,-340 40,-300 90,-180 C110,-120 100,-60 70,-20 L-150,-20 C-170,-120 -170,-260 -120,-330 Z" fill="#C9B6FF" />
-        {Array.from({ length: 6 }, (_, k) => <path key={k} d={`M${-140 + k * 36},-300 C${-130 + k * 36},-200 ${-140 + k * 36},-100 ${-130 + k * 36},-24`} stroke="#B49DF2" strokeWidth={6} fill="none" opacity={0.6} />)}
+        {/* a cushion against the back and a neatly folded knit throw on the seat */}
+        <rect x={-120} y={-330} width={200} height={150} rx={50} fill="#FFD0DC" transform="rotate(-8 -20 -255)" />
+        <path d="M-60,-300 Q-20,-270 20,-300" stroke="#F4AFC2" strokeWidth={5} fill="none" opacity={0.7} />
+        <g transform="translate(-10 -150) rotate(-3)">
+          <rect x={-150} y={-34} width={300} height={70} rx={18} fill="#C9B6FF" />
+          <rect x={-150} y={-34} width={300} height={22} rx={10} fill="#D9CBFF" />
+          {Array.from({ length: 9 }, (_, k) => <path key={k} d={`M${-130 + k * 32},-30 L${-130 + k * 32},34`} stroke="#B49DF2" strokeWidth={4} opacity={0.6} />)}
+          <path d="M120,-30 C150,0 160,60 140,110 L110,110 C120,60 112,20 96,-30 Z" fill="#BBA4F8" />
+        </g>
         <rect x={-210} y={-20} width={20} height={30} fill="#8A5E48" /><rect x={190} y={-20} width={20} height={30} fill="#8A5E48" />
       </g>
       <g transform="translate(1000 1500)"><rect x={-60} y={-150} width={120} height={150} rx={10} fill="#E7B58F" />

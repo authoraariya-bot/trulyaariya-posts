@@ -1342,7 +1342,7 @@
         "time_ist": "12:00",
         "type": "Quote reel · Savage · 6 · Don't shrink yourself",
         "caption": "If they need glasses to see your worth, that's an eyesight problem. Not a you problem. 👓\n\n#ASelfRepairedSoul #trulyaariya #selfworth #knowyourworth #confidence",
-        "status": "scheduled",
+        "status": "rendering",
         "format": "reel",
         "video": "month/reels/q/2026-10-26-reel.mp4",
         "cover": "month/reels/q/2026-10-26-cover.jpg",
@@ -1370,13 +1370,14 @@
         "time_ist": "12:00",
         "type": "Quote reel · Savage · 8 · Left on seen",
         "caption": "Same \"seen\". Better sleep. Growth is boring and I love it. 😴\n\n#ASelfRepairedSoul #trulyaariya #overthinking #relatable #glowup",
-        "status": "scheduled",
+        "status": "hold",
         "format": "reel",
         "video": "month/reels/q/2026-10-28-reel.mp4",
         "cover": "month/reels/q/2026-10-28-cover.jpg",
         "story": {
             "video": "month/reels/q/2026-10-28-reel.mp4"
-        }
+        },
+        "hold_reason": "Removed by Aariya on 24 Oct (left on seen: confusing)"
     },
     {
         "id": "q05",
