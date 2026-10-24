@@ -1,34 +1,30 @@
-"""25 Oct score: near-silence → soft humming notes from the chest → a louder, slightly off-key sung line,
-a low note for the tear → bouncy skip steps, bird chirps → payoff chime → resolving chord on the end card."""
+"""25 Oct score (soothing): soft rain and a slow felt-piano bed in F → cloth folding, quiet steps → the recorder's
+click and gentle tape hiss → 'the song': a tender felt-piano melody, a little detuned in the off-key moment →
+a low note for the tear → music-box bells as each fairy light comes on → soft payoff chime → end card."""
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from soul_score import Score, N, at, footfalls
 
-END, WIPE, CARD = 570, 470, 488
-T = dict(lift=60, hum=78, stand=120, loud=160, offkey=190, tear=228, laugh=268, walk=300, birds=330, open=404)
-S = Score(END / 30)
-S.pad([N(45), N(52)], 0, 5.6, 0.03, 1.5)                                   # alone, near silence
-for s, m in [(0.2, 71), (1.7, 66), (3.1, 68)]: S.piano(N(m), s, 0.08, 2.8)
-hum = [67, 69, 71, 69, 74, 71]
-for i in range(6): S.piano(N(hum[i]), at(T['hum'] + i * 14), 0.06, 1.8)    # humming: the first notes rise
-S.noise(at(T['stand']), 0.5, 0.03, 0.05)                                    # stands up
-S.pad([N(50), N(57), N(62), N(66)], at(T['loud']), END / 30, 0.024, 3)     # warmth returns
-sing = [74, 76, 78, 81, 79, 78, 76, 74, 76, 78, 83, 81]
-for i in range(12):                                                          # singing out loud, a bit off-key in the middle
-    fr = T['loud'] + i * 8
-    off = 38 if T['offkey'] <= fr < T['tear'] else 0
-    S.piano(N(sing[i]), at(fr), 0.09, 1.4, cents=off * (1 if i % 2 else -1))
-S.piano(N(55), at(T['tear'] + 8), 0.07, 3.0)                                 # the tear
-S.piano(N(62), at(T['tear'] + 8), 0.04, 3.0)
-for i, m in enumerate([79, 83, 86]): S.piano(N(m), at(T['laugh'] + i * 6), 0.07, 1.2)   # a little laugh
-S.wind(T['laugh'] + 10, 0.08); S.wind(T['birds'] + 10, 0.09)
-for k in range(5): S.chirp(at(T['birds'] + 10 + k * 13), 0.025)              # notes become birds
-mel = [74, 78, 81, 86, 83, 88]
-for i, fr in enumerate(footfalls([(T['walk'], T['open'], 520, 900, (T['walk'] + 22, T['open'] - 6))], END)):
-    if T['walk'] <= fr <= T['open']: S.step(fr, mel[i % len(mel)], 0.10)
-S.piano(N(81), at(T['birds'] + 28), 0.10, 2.4); S.piano(N(86), at(T['birds'] + 34), 0.08, 2.4)   # payoff word
-S.chime(T['open'] + 6, 0.08)
-S.wind(WIPE - 6, 0.10)
-S.end_card(CARD)
+END, WIPE, CARD = 630, 530, 548
+T = dict(stand=96, walk=110, arrive=200, reach=204, play=222, brush=250, sing=272, offkey=300, tear=330, laugh=360, lights=390, spin=404, cheer=446)
+S = Score(END / 30, seed=11)
+S.noise(0, at(T['lights'] + 30), 0.018, 0.02, 0.6)                              # soft rain on the window
+S.bed([[53, 57, 60], [50, 53, 57], [46, 50, 53], [48, 52, 55]], 0.2, END / 30 - 1.0, bar=3.4, amp=0.028)
+for k in range(5): S.noise(at(8 + k * 18), 0.18, 0.012, 0.15, 2)                  # folding cloth
+for fr in footfalls([(T['walk'], T['arrive'], 330, 1040, None)], END):
+    if T['walk'] <= fr <= T['arrive']: S.soft_step(fr, 0.03)
+S.noise(at(T['play']), 0.05, 0.05, 0.4, 1); S.noise(at(T['play'] + 2), at(T['lights']) - at(T['play']), 0.006, 0.3, 0.4)  # click + tape hiss
+song = [72, 74, 76, 77, 76, 74, 72, 69, 72, 74, 77, 76, 74, 72]
+for i, m in enumerate(song):                                                       # the song from the tape
+    fr = T['play'] + 10 + i * 13
+    off = 34 if T['offkey'] <= fr < T['tear'] else 0
+    S.felt(N(m), at(fr), 0.06 if fr < T['sing'] else 0.075, 3.0, cents=off * (1 if i % 2 else -1))
+S.felt(N(53), at(T['tear'] + 8), 0.06, 5.0)                                         # the tear
+for i, m in enumerate([77, 81, 84]): S.felt(N(m), at(T['laugh']) + i * 0.12, 0.04, 2.0)   # a soft laugh
+for k in range(10): S.bell(T['lights'] + k * 4, [84, 86, 88, 89, 91, 93, 96, 98, 100, 101][k], 0.025)   # fairy lights
+S.felt(N(81), at(T['spin'] + 14), 0.06, 4.0); S.felt(N(84), at(T['spin'] + 22), 0.05, 4.0)  # payoff word
+S.arp(T['cheer'] + 4, [84, 88, 91, 96], 0.14, 0.035, 3.0)
+S.wind(WIPE - 6, 0.05)
+S.end_card(CARD, root=65)
 S.write(os.path.join(os.path.dirname(__file__), "..", "..", "public", "r1025.wav"))
 print("ok")

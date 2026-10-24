@@ -42,6 +42,39 @@ class Score:
             if L <= 0: continue
             tt = np.arange(L) / sr; f0 = 2600 + 900 * tt / 0.07
             self.out[i:i + L] += amp * np.sin(2 * np.pi * np.cumsum(f0) / sr) * np.sin(np.pi * tt / 0.07)
+    # ---- soothing voices
+    def felt(self, fq, s, amp, dec=4.5, cents=0):
+        """soft felt piano: slower attack, darker tone, long sustain"""
+        fq = fq * 2 ** (cents / 1200)
+        i = int(s * sr); L = min(self.n - i, int(sr * 7))
+        if L <= 0: return
+        tt = np.arange(L) / sr; env = (1 - np.exp(-tt * 28)) * np.exp(-tt / dec)
+        v = sum(np.sin(2 * np.pi * fq * h * tt) * (0.38 ** (h - 1)) for h in range(1, 5))
+        self.out[i:i + L] += amp * env * _lp(v, 0.25)
+    def strings(self, fs, a, b, amp, att=2.0, rel=2.0):
+        """warm string pad: slightly detuned saw-ish partials, low-passed, slow swell"""
+        t = self.t; env = np.clip((t - a) / att, 0, 1) * np.clip((b - t) / rel, 0, 1)
+        for fq in fs:
+            v = sum(np.sin(2 * np.pi * fq * d * h * t + h) / h for h in range(1, 6) for d in (0.997, 1.003))
+            self.out[:] += amp * env * _lp(v, 0.06) * 0.5
+    def bed(self, chords, start, end, bar=3.2, amp=0.035, root_oct=-12):
+        """slow chord progression under the whole reel: felt-piano chords + string pad, one chord per bar"""
+        k = 0; s = start
+        while s < end - 0.5:
+            ch = chords[k % len(chords)]
+            for i, m in enumerate(ch): self.felt(N(m), s + i * 0.06, amp * (0.9 if i else 1.1), 5.0)
+            self.felt(N(ch[0] + root_oct), s, amp * 0.9, 6.0)
+            self.strings([N(m) for m in ch[:3]], s, min(end, s + bar + 0.8), amp * 0.35, 1.2, 1.2)
+            s += bar; k += 1
+    def soft_step(self, fr, amp=0.035):
+        """a quiet footstep: a muffled thump, no pitch"""
+        self.noise(at(fr), 0.09, amp, 0.05, 2)
+    def bell(self, fr, m, amp=0.05):
+        """music-box bell for tiny moments"""
+        i = int(at(fr) * sr); L = min(self.n - i, int(sr * 3))
+        if L <= 0: return
+        tt = np.arange(L) / sr; fq = N(m)
+        self.out[i:i + L] += amp * np.exp(-tt / 1.2) * (np.sin(2 * np.pi * fq * tt) + 0.3 * np.sin(2 * np.pi * fq * 3.01 * tt) * np.exp(-tt * 3))
     def wind(self, fr, amp=0.10): self.noise(at(fr), 2.2, amp, 0.012, 1.5)
     def step(self, fr, m, amp=0.10): self.piano(N(m), at(fr), amp, 1.6); self.piano(N(m - 12), at(fr), amp * 0.4, 1.6); self.noise(at(fr), 0.08, 0.03, 0.2, 2)
     def arp(self, fr, ms, gap=0.09, amp=0.07, dec=2.2):
