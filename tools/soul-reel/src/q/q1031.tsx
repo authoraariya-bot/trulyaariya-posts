@@ -1,162 +1,107 @@
-// 31 Oct · Healing · "POV: you finally chose yourself and felt guilty about it. That guilt isn't a sign you did wrong.
+// 31 Oct · "POV: you finally chose yourself and felt guilty about it. That guilt isn't a sign you did wrong.
 // It's a sign you're growing."
-// A cosy room on a rainy autumn evening, maples tossing outside. Two invitations slide in; a gold stamp lands on
-// "Night in with me" and the other blows away. A grey guilt cloud gathers over the armchair, drifts to a little pot
-// and rains into it; a sprout pushes up and blooms while the rain outside clears to golden light.
+// "plans tonight?" pops up; the Soul answers "not tonight. choosing me." and wraps itself in a cosy blanket cocoon.
+// A small grey guilt cloud appears; the Soul looks worried and the cocoon trembles. The cocoon cracks with light,
+// splits, and the Soul emerges with soft butterfly wings, fluttering up, happy.
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { QFrame, Words, W, KeyW, Motes, seg, sm, lerp, rnd, back, mix } from "./kit";
+import { LFrame, Caption, Hl, LSoul, Spark, INK, LW, seg, sm, lerp, back, rnd } from "./line";
 import { EndCard } from "../kit/Words";
-import { LightLeak } from "../kit/fx";
 
-export const END = 420; const WIPE = 330, CARD = 348;
-const T = { cards: 10, stamp: 58, away: 74, cloud: 96, drift: 140, rain: 160, sprout: 186, bloom: 236, line2: 168, line3: 236, key: 262 };
-const ACCENT = "#E0567F";
-const POT = { x: 330, y: 1590 };
+export const END = 450; const WIPE = 360, CARD = 378;
+const T = { notif: 10, reply: 42, wrap0: 92, wrap1: 124, guilt: 136, crack: 214, burst: 252, wings: 258, rise: 280, happy: 268 };
+const S = { x: 540, y: 1470, s: 1.75 };
+const LILAC = "#9B7BE0";
 
-const Card: React.FC<{ x: number; y: number; r: number; s: number; o: number; label: string; c: string; stamp?: number }> = ({ x, y, r, s, o, label, c, stamp = 0 }) => (
-  <g transform={`translate(${x} ${y}) rotate(${r}) scale(${s})`} opacity={o}>
-    <rect x={-170} y={-110} width={340} height={220} rx={16} fill="#5A3A3A" opacity={0.18} transform="translate(8 12)" filter="url(#qb6)" />
-    <rect x={-170} y={-110} width={340} height={220} rx={16} fill={c} />
-    <rect x={-150} y={-90} width={300} height={180} rx={10} fill="none" stroke="#FFFFFF" strokeWidth={3} opacity={0.7} />
-    <text y={-30} textAnchor="middle" fontFamily="Jost" fontSize={20} letterSpacing={5} fill="#7A5468">YOU'RE INVITED</text>
-    <text y={30} textAnchor="middle" fontFamily="Cormorant" fontStyle="italic" fontSize={46} fill="#3B2340">{label}</text>
-    {stamp > 0 && (
-      <g transform={`translate(110 70) rotate(-14) scale(${lerp(1.8, 1, back(stamp, 2))})`} opacity={Math.min(1, stamp * 3)}>
-        <circle r={46} fill="#E2B04A" /><circle r={38} fill="none" stroke="#FFF1C2" strokeWidth={3} />
-        <text y={10} textAnchor="middle" fontFamily="Jost" fontWeight={700} fontSize={28} fill="#FFF8E6">YES</text>
-      </g>
-    )}
-  </g>
-);
-
-const World: React.FC<{ f: number }> = ({ f }) => {
+const Scene: React.FC<{ f: number }> = ({ f }) => {
   const t = f / 30;
-  const clear = sm(seg(f, T.sprout, T.bloom + 30));
-  const storm = 1 - clear;
-  // the guilt cloud: gathers over the chair, drifts to the pot, rains, then lightens and dissolves into sparkles
-  const cg = sm(seg(f, T.cloud, T.cloud + 30)), cd = sm(seg(f, T.drift, T.rain));
-  const cx = lerp(760, POT.x + 10, cd), cy = lerp(1080, 1180, cd) + 8 * Math.sin(t * 2);
-  const cfade = 1 - sm(seg(f, T.bloom - 10, T.bloom + 24));
-  const grow = sm(seg(f, T.sprout, T.sprout + 50)), bloom = back(seg(f, T.bloom, T.bloom + 22), 1.8);
+  const wrap = sm(seg(f, T.wrap0, T.wrap1));
+  const guilt = sm(seg(f, T.guilt, T.guilt + 20)) * (1 - sm(seg(f, T.crack + 10, T.burst)));
+  const crack = sm(seg(f, T.crack, T.burst));
+  const burst = seg(f, T.burst, T.burst + 34);
+  const wings = back(seg(f, T.wings, T.wings + 22), 1.6);
+  const rise = sm(seg(f, T.rise, T.rise + 50));
+  const y = S.y - 70 * rise + 8 * Math.sin(f / 8) * rise;
+  const tremble = guilt * 2.4 * Math.sin(f * 1.9) + crack * 3 * Math.sin(f * 2.6);
+  const s = S.s;
+  const neckY = y - 134 * s, bodyMid = y - 80 * s;
+  const flap = Math.sin(f / 4.5);
   return (
     <g>
-      <defs>
-        <linearGradient id="wall31" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={mix("#E7A98F", "#F6B49B", clear)} /><stop offset="1" stopColor={mix("#F2C2A6", "#FFD3B6", clear)} /></linearGradient>
-        <linearGradient id="sky31" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={mix("#7F8FB2", "#FFC98A", clear)} /><stop offset="1" stopColor={mix("#B7B9CC", "#FFE3B0", clear)} /></linearGradient>
-        <linearGradient id="chair31" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#8FC7A6" /><stop offset="1" stopColor="#6EAE8C" /></linearGradient>
-        <clipPath id="win31"><rect x={90} y={520} width={520} height={700} rx={260} /></clipPath>
-        <radialGradient id="lamp31"><stop offset="0" stopColor="#FFE6B0" stopOpacity={0.8} /><stop offset="1" stopColor="#FFE6B0" stopOpacity={0} /></radialGradient>
-      </defs>
-      <rect width={1080} height={1920} fill="url(#wall31)" />
-      {/* arched window: autumn maples tossing in wind and rain */}
-      <g clipPath="url(#win31)">
-        <rect x={90} y={520} width={520} height={700} fill="url(#sky31)" />
-        <circle cx={480} cy={720} r={60} fill="#FFF3D0" opacity={clear} />
-        <path d="M90,1080 C200,1040 320,1070 420,1050 C500,1035 560,1060 610,1050 L610,1220 L90,1220 Z" fill={mix("#8E8AA8", "#E7A7B6", clear)} />
-        {[[180, 1100, 1.1, "#E9744F"], [400, 1120, 1.3, "#F29A4A"], [560, 1090, 0.9, "#E25F5F"]].map(([x, y, s, c], i) => {
-          const sw = (5 + 9 * storm) * Math.sin(t * (1.4 + storm * 1.6) + i);
-          return <g key={i} transform={`translate(${x} ${y}) rotate(${sw}) scale(${s})`}>
-            <path d="M0,0 L0,-120" stroke="#6E4A3A" strokeWidth={14} />
-            {Array.from({ length: 7 }, (_, k) => <circle key={k} cx={-70 + 140 * rnd(k + i * 9) + 6 * Math.sin(t * 3 + k) * storm} cy={-150 - 90 * rnd(k + 3 + i)} r={46 + 20 * rnd(k + i)} fill={c as string} opacity={0.92} />)}
-            {Array.from({ length: 4 }, (_, k) => <circle key={`h${k}`} cx={-40 + 80 * rnd(k + 20)} cy={-190 - 50 * rnd(k + 22)} r={24} fill="#FFC27A" opacity={0.6} />)}
-          </g>; })}
-        {storm > 0.02 && Array.from({ length: 60 }, (_, i) => { const x = 90 + rnd(i) * 560, y = 520 + ((rnd(i + 1) * 700 + f * (26 + 10 * rnd(i))) % 760);
-          return <line key={i} x1={x} y1={y} x2={x - 12} y2={y + 30} stroke="#E8EEFF" strokeWidth={2.5} opacity={0.6 * storm} />; })}
-        {/* leaves torn off by the wind */}
-        {Array.from({ length: 12 }, (_, i) => { const p = ((f / (40 + 20 * rnd(i))) + rnd(i + 3)) % 1;
-          return <ellipse key={i} cx={90 + p * 600} cy={700 + rnd(i + 5) * 400 + 60 * Math.sin(p * 7 + i)} rx={12} ry={7} transform={`rotate(${p * 500} ${90 + p * 600} ${700 + rnd(i + 5) * 400})`} fill={["#F29A4A", "#E9744F", "#FFC27A"][i % 3]} opacity={(0.4 + 0.6 * storm) * Math.sin(Math.PI * p)} />; })}
-      </g>
-      <rect x={90} y={520} width={520} height={700} rx={260} fill="none" stroke="#FFF4EA" strokeWidth={22} />
-      <line x1={350} x2={350} y1={520} y2={1220} stroke="#FFF4EA" strokeWidth={12} /><line x1={90} x2={610} y1={900} y2={900} stroke="#FFF4EA" strokeWidth={12} />
-      <rect x={70} y={1220} width={560} height={30} rx={8} fill="#FFF4EA" />
-      {/* floor */}
-      <rect x={0} y={1500} width={1080} height={420} fill={mix("#C98E78", "#D9A088", clear)} />
-      <ellipse cx={640} cy={1700} rx={460} ry={90} fill="#F7D7C4" opacity={0.6} />
-      {/* lamp glow */}
-      <circle cx={980} cy={1060} r={340} fill="url(#lamp31)" />
-      <rect x={972} y={1120} width={14} height={380} fill="#B98B6E" /><path d="M900,1130 L930,1010 L1030,1010 L1060,1130 Z" fill="#FFE2B0" />
-      {/* armchair + blanket + tea */}
-      <g transform="translate(740 1500)">
-        <ellipse cx={0} cy={10} rx={260} ry={24} fill="#7A4A3A" opacity={0.25} filter="url(#qb10)" />
-        <rect x={-220} y={-380} width={440} height={300} rx={90} fill="url(#chair31)" />
-        <rect x={-260} y={-210} width={110} height={220} rx={50} fill="#7DBB98" /><rect x={150} y={-210} width={110} height={220} rx={50} fill="#7DBB98" />
-        <rect x={-170} y={-150} width={340} height={120} rx={40} fill="#9ED3B2" />
-        {/* a cushion against the back and a neatly folded knit throw on the seat */}
-        <rect x={-120} y={-330} width={200} height={150} rx={50} fill="#FFD0DC" transform="rotate(-8 -20 -255)" />
-        <path d="M-60,-300 Q-20,-270 20,-300" stroke="#F4AFC2" strokeWidth={5} fill="none" opacity={0.7} />
-        <g transform="translate(-10 -150) rotate(-3)">
-          <rect x={-150} y={-34} width={300} height={70} rx={18} fill="#C9B6FF" />
-          <rect x={-150} y={-34} width={300} height={22} rx={10} fill="#D9CBFF" />
-          {Array.from({ length: 9 }, (_, k) => <path key={k} d={`M${-130 + k * 32},-30 L${-130 + k * 32},34`} stroke="#B49DF2" strokeWidth={4} opacity={0.6} />)}
-          <path d="M120,-30 C150,0 160,60 140,110 L110,110 C120,60 112,20 96,-30 Z" fill="#BBA4F8" />
+      {/* soft evening: a warm window-glow and a few drifting fireflies */}
+      <circle cx={540} cy={1000} r={420} fill="#FFE8D2" opacity={0.55} filter="url(#lb40)" />
+      {Array.from({ length: 10 }, (_, i) => <circle key={i} cx={120 + rnd(i) * 840 + 30 * Math.sin(t + i)} cy={700 + rnd(i + 3) * 600 + 20 * Math.cos(t * 0.8 + i)} r={5} fill="#FFE59A" opacity={0.35 + 0.35 * Math.sin(t * 2 + i)} />)}
+      <path d={`M0,${S.y} C300,${S.y - 8} 780,${S.y + 8} 1080,${S.y}`} stroke={INK} strokeWidth={4} fill="none" opacity={0.45} />
+      <rect x={0} y={S.y} width={1080} height={400} fill="#FFFFFF" opacity={0.2} />
+      {/* butterfly wings, behind the Soul */}
+      {wings > 0.01 && [-1, 1].map((side) => (
+        <g key={side} transform={`translate(${S.x + tremble} ${neckY + 70 * s}) scale(${side * wings * (0.75 + 0.25 * Math.abs(flap))} ${wings})`}>
+          <path d="M0,-10 C40,-150 190,-170 210,-80 C224,-20 140,20 0,10 Z" fill="#FFC2D6" stroke={INK} strokeWidth={LW} strokeLinejoin="round" />
+          <path d="M0,10 C90,30 170,60 150,130 C130,180 40,140 0,30 Z" fill="#C9B6FF" stroke={INK} strokeWidth={LW} strokeLinejoin="round" />
+          <circle cx={130} cy={-80} r={22} fill="#FFFFFF" opacity={0.8} />
+          <circle cx={100} cy={80} r={14} fill="#FFFFFF" opacity={0.7} />
         </g>
-        <rect x={-210} y={-20} width={20} height={30} fill="#8A5E48" /><rect x={190} y={-20} width={20} height={30} fill="#8A5E48" />
-      </g>
-      <g transform="translate(1000 1500)"><rect x={-60} y={-150} width={120} height={150} rx={10} fill="#E7B58F" />
-        <g transform="translate(0 -150)"><path d="M-34,-70 L34,-70 L28,0 L-28,0 Z" fill="#FFF6EE" /><path d="M34,-56 C60,-56 60,-20 30,-20" stroke="#FFF6EE" strokeWidth={9} fill="none" />
-          {[0, 1].map((k) => <path key={k} d={`M${-8 + 18 * k},-80 C${-18 + 18 * k},-110 ${2 + 18 * k},-130 ${-8 + 18 * k},-160`} stroke="#FFFFFF" strokeWidth={5} fill="none" opacity={0.5 * (0.5 + 0.5 * Math.sin(t * 2 + k))} strokeLinecap="round" />)}</g></g>
-      {/* the pot + sprout */}
-      <g transform={`translate(${POT.x} ${POT.y})`}>
-        <ellipse cx={0} cy={6} rx={130} ry={16} fill="#7A4A3A" opacity={0.3} filter="url(#qb6)" />
-        <path d="M-100,-150 L100,-150 L80,0 L-80,0 Z" fill="#F08A6C" /><rect x={-112} y={-170} width={224} height={34} rx={10} fill="#F79C80" /><ellipse cx={0} cy={-166} rx={98} ry={9} fill="#6E4A3A" />
-        <path d="M-60,-130 L-50,-20" stroke="#FFFFFF" strokeWidth={8} opacity={0.25} strokeLinecap="round" />
-        {grow > 0 && (
-          <g transform="translate(0 -166)">
-            <path d={`M0,0 C8,${-90 * grow} -10,${-180 * grow} 0,${-260 * grow}`} stroke="#5FAE6E" strokeWidth={10} fill="none" strokeLinecap="round" />
-            {[0.4, 0.62].map((k, i) => { const d = i ? -1 : 1, L = 90 * sm(seg(grow, k, 1)) ;
-              return <path key={i} d={`M0,${-260 * grow * k} C${d * L * 0.4},${-260 * grow * k - L * 0.5} ${d * L},${-260 * grow * k - L * 0.3} ${d * L},${-260 * grow * k + 4} C${d * L * 0.6},${-260 * grow * k + 8} ${d * L * 0.2},${-260 * grow * k + 4} 0,${-260 * grow * k} Z`} fill={i ? "#7CC48A" : "#6CB97C"} transform={`rotate(${3 * Math.sin(t * 1.5 + i)} 0 ${-260 * grow * k})`} />; })}
-            {f >= T.bloom && (
-              <g transform={`translate(0 ${-260 * grow}) scale(${bloom})`}>
-                {Array.from({ length: 6 }, (_, k) => <ellipse key={k} cx={0} cy={-34} rx={22} ry={36} fill={k % 2 ? "#FF9DBA" : "#FFB8CC"} transform={`rotate(${k * 60 + 3 * Math.sin(t + k)})`} />)}
-                <circle r={18} fill="#FFD46A" />
-              </g>
-            )}
-          </g>
-        )}
-      </g>
-      {/* the guilt cloud */}
-      {cg > 0 && cfade > 0.01 && (
-        <g transform={`translate(${cx} ${cy}) scale(${0.6 + 0.4 * cg})`} opacity={cg * cfade}>
-          {[[-80, 10, 70], [0, -20, 90], [80, 8, 70], [-30, 30, 60], [40, 32, 62]].map(([x, y, r], i) => <circle key={i} cx={x} cy={y} r={r} fill={mix("#8F8AA0", "#E9E2F2", sm(seg(f, T.rain + 30, T.bloom)))} />)}
-          <text y={20} textAnchor="middle" fontFamily="Caveat" fontWeight={700} fontSize={50} fill="#FFFFFF" opacity={1 - seg(f, T.rain + 30, T.rain + 50)}>guilt</text>
-        </g>
-      )}
-      {f > T.rain && f < T.bloom + 10 && Array.from({ length: 14 }, (_, i) => { const p = ((f - T.rain) / 14 + rnd(i)) % 1, x = POT.x - 70 + 140 * rnd(i + 2);
-        return <path key={i} d="M0,-10 C5,-2 6,4 0,9 C-6,4 -5,-2 0,-10 Z" transform={`translate(${x} ${lerp(cy + 60, POT.y - 170, p)}) scale(1.4)`} fill="#9ED0F0" opacity={0.9 * (1 - seg(f, T.bloom - 10, T.bloom + 10))} />; })}
-      {/* sparkles as the cloud dissolves */}
-      {f > T.bloom - 10 && Array.from({ length: 22 }, (_, i) => { const p = seg(f, T.bloom - 10 + rnd(i) * 10, T.bloom + 40); if (p <= 0 || p >= 1) return null;
-        return <circle key={i} cx={cx + (rnd(i) - 0.5) * 300 * p} cy={cy - 120 * p + (rnd(i + 1) - 0.5) * 100} r={4 + 3 * rnd(i + 2)} fill="#FFF0B0" opacity={Math.sin(Math.PI * p)} />; })}
-      {/* invitations */}
-      {(() => { const a = back(seg(f, T.cards, T.cards + 22), 1.3), away = sm(seg(f, T.away, T.away + 30)), stamp = seg(f, T.stamp, T.stamp + 10), fly = sm(seg(f, T.cloud - 10, T.cloud + 20));
-        return <g>
-          {away < 1 && <Card x={lerp(-260, 330, a) - 700 * away} y={1000 - 140 * away} r={lerp(-30, -6, a) - 40 * away} s={0.92} o={1 - away} label="Plans with them" c="#E3D6FF" />}
-          {fly < 1 && <Card x={lerp(1340, 750, a) + lerp(0, -10, away)} y={1020 + 400 * fly} r={lerp(30, 5, a) * (1 - fly)} s={0.92 * (1 - 0.7 * fly)} o={1 - fly} label="Night in with me" c="#FFD6C2" stamp={stamp} />}
+      ))}
+      <LSoul x={S.x + tremble} y={y} s={s} p={{ worry: guilt, glance: 0.4 * guilt * Math.sign(Math.sin(f / 7)), sweat: guilt * seg(f, T.guilt + 20, T.crack),
+        happy: f > T.happy ? 1 : 0, glow: 0.2 + 0.6 * crack * (1 - burst) + 0.6 * rise, blink: f > T.crack && f < T.happy, look: 0 }} />
+      {/* the blanket cocoon: wraps up from the ground to the neck, cracks with light, then splits and falls */}
+      {wrap > 0 && burst < 1 && (() => {
+        const top = lerp(y, neckY + 10, wrap);
+        const half = (dir: number) => {
+          const ang = dir * 70 * burst * burst, dx = dir * 160 * burst, dy = 400 * burst * burst;
+          return (
+            <g transform={`translate(${dx} ${dy}) rotate(${ang} ${S.x + tremble} ${y})`} opacity={1 - burst}>
+              <path d={`M${S.x + tremble},${top - 8} C${S.x + tremble + dir * 100 * s},${top - 10} ${S.x + tremble + dir * 92 * s},${y - 10} ${S.x + tremble + dir * 66 * s},${y + 4} L${S.x + tremble},${y + 8} Z`}
+                fill="#D8C8FF" stroke={INK} strokeWidth={LW} strokeLinejoin="round" />
+              {[0.25, 0.5, 0.75].map((k, i) => <path key={i} d={`M${S.x + tremble + dir * 10},${lerp(top, y, k)} q${dir * 40 * s},10 ${dir * 84 * s},0`} stroke={LILAC} strokeWidth={4} fill="none" opacity={0.7} />)}
+            </g>
+          );
+        };
+        return <g>{half(-1)}{half(1)}
+          {/* light through the crack */}
+          {crack > 0 && burst === 0 && <g>
+            <path d={`M${S.x + tremble},${top} l-10,40 l14,30 l-12,36 l10,40 l-6,${Math.max(0, y - top - 150)}`} stroke="#FFE59A" strokeWidth={6 + 6 * crack} fill="none" strokeLinejoin="round" opacity={crack} />
+            <circle cx={S.x} cy={bodyMid} r={80 + 120 * crack} fill="#FFF0B8" opacity={0.4 * crack} filter="url(#lb24)" />
+          </g>}
+        </g>;
+      })()}
+      {/* guilt cloud */}
+      {guilt > 0.01 && <g transform={`translate(${S.x + 250} ${neckY - 170 + 6 * Math.sin(f / 9)}) scale(${guilt * 1.25})`}>
+        <path d="M-80,20 C-96,-14 -56,-40 -30,-22 C-20,-58 40,-60 50,-24 C80,-34 104,0 86,22 Z" fill="#C9C4D2" stroke={INK} strokeWidth={LW - 1} strokeLinejoin="round" />
+        <text x={4} y={8} textAnchor="middle" fontFamily="Hand" fontSize={34} fill={INK}>guilt</text>
+        {[0, 1, 2].map((k) => { const p = ((f / 14) + k / 3) % 1; return <path key={k} d="M0,-6 C3,0 4,4 0,7 C-4,4 -3,0 0,-6 Z" transform={`translate(${-40 + k * 40} ${30 + 50 * p}) scale(1.6)`} fill="#A9D4F0" opacity={1 - p} />; })}
+      </g>}
+      {/* sparkles as it emerges */}
+      {[[-220, -260, 0], [230, -300, 6], [-260, -60, 12], [250, -90, 18], [0, -420, 9]].map(([dx, dy, d], i) => (
+        <Spark key={i} x={S.x + dx} y={neckY + dy} s={back(seg(f, T.wings + d, T.wings + d + 12), 2) * (0.8 + 0.2 * Math.sin(f / 6 + i))} c="#E8B04A" />
+      ))}
+      {/* "plans tonight?" notification + the Soul's reply */}
+      {f > T.notif && f < T.wrap0 && (() => { const p = back(seg(f, T.notif, T.notif + 10), 2), o = 1 - seg(f, T.wrap0 - 12, T.wrap0);
+        return <g transform={`translate(${S.x + 180} ${neckY - 420}) scale(${p})`} opacity={o}>
+          <rect x={-170} y={-48} width={340} height={96} rx={28} fill="#FFFFFF" stroke={INK} strokeWidth={LW - 1} />
+          <circle cx={-126} cy={0} r={22} fill="#FFC2D6" stroke={INK} strokeWidth={3} />
+          <text x={18} y={13} textAnchor="middle" fontFamily="Hand" fontSize={42} fill={INK}>plans tonight?</text>
         </g>; })()}
-      <Motes f={f} n={26} color="#FFE9C2" y0={700} y1={1600} speed={0.5} />
+      {f > T.reply && f < T.wrap0 + 10 && (() => { const p = back(seg(f, T.reply, T.reply + 10), 2), o = 1 - seg(f, T.wrap0, T.wrap0 + 10);
+        return <g transform={`translate(${S.x - 110} ${neckY - 200}) scale(${p})`} opacity={o}>
+          <path d="M-210,-50 Q-210,-80 -180,-80 L180,-80 Q210,-80 210,-50 L210,-4 Q210,26 180,26 L90,26 L118,56 L60,26 L-180,26 Q-210,26 -210,-4 Z" fill="#FFFFFF" stroke={INK} strokeWidth={LW - 1} strokeLinejoin="round" />
+          <text x={0} y={-14} textAnchor="middle" fontFamily="Hand" fontSize={44} fill={INK}>not tonight. choosing me.</text>
+        </g>; })()}
     </g>
   );
 };
 
-const Overlay: React.FC<{ f: number }> = ({ f }) => (
-  <AbsoluteFill>
-    <LightLeak f={f} amt={0.45 * sm(seg(f, T.sprout, T.bloom + 30))} side="left" tint="gold" />
-    <Words f={f} from={0} to={T.line2 - 8} top={190} size={72}>
-      <div><W f={f} at={2}>POV:</W><W f={f} at={7}>you</W><W f={f} at={11}>finally</W><W f={f} at={16} last>chose</W></div>
-      <div><W f={f} at={21} last><i>yourself</i></W></div>
-      <div style={{ fontSize: 60, marginTop: 8 }}><W f={f} at={T.cloud + 10}>and</W><W f={f} at={T.cloud + 14}>felt</W><W f={f} at={T.cloud + 18}>guilty</W><W f={f} at={T.cloud + 24}>about</W><W f={f} at={T.cloud + 28} last>it.</W></div>
-    </Words>
-    <Words f={f} from={T.line2 - 4} to={T.line3 - 8} top={220} size={70}>
-      <div><W f={f} at={T.line2}>That</W><W f={f} at={T.line2 + 5}>guilt</W><W f={f} at={T.line2 + 10} last>isn't</W></div>
-      <div><W f={f} at={T.line2 + 16}>a</W><W f={f} at={T.line2 + 19}>sign</W><W f={f} at={T.line2 + 24}>you</W><W f={f} at={T.line2 + 28}>did</W><W f={f} at={T.line2 + 32} last>wrong.</W></div>
-    </Words>
-    <Words f={f} from={T.line3 - 4} to={WIPE - 4} top={210} size={76}>
-      <div><W f={f} at={T.line3}>It's</W><W f={f} at={T.line3 + 5}>a</W><W f={f} at={T.line3 + 8}>sign</W><W f={f} at={T.line3 + 13} last>you're</W></div>
-      <div style={{ marginTop: -8 }}><KeyW f={f} at={T.key} color={ACCENT} size={150}>growing.</KeyW></div>
-    </Words>
-    <EndCard f={f} wipe={WIPE} card={CARD} />
-  </AbsoluteFill>
-);
-
-export const Q1031: React.FC = () => { const f = useCurrentFrame(); return <QFrame world={<World f={f} />} overlay={<Overlay f={f} />} audio="q1031.wav" />; };
+export const Q1031: React.FC = () => {
+  const f = useCurrentFrame();
+  return (
+    <LFrame f={f} bg={["#FFF3EA", "#F1E2F7"]} audio="q1031.wav"
+      overlay={<AbsoluteFill>
+        <Caption f={f} ats={[T.reply, T.guilt]} to={T.crack - 8} top={300} size={64} lines={[<>POV: you finally chose yourself</>, <>and felt guilty about it.</>]} />
+        <Caption f={f} ats={[T.crack, T.wings + 8]} to={WIPE - 6} top={300} size={64} lines={[<>that guilt isn't a sign you did wrong.</>, <>it's a sign you're <Hl c={LILAC}>growing.</Hl></>]} />
+        <EndCard f={f} wipe={WIPE} card={CARD} />
+      </AbsoluteFill>}>
+      <Scene f={f} />
+    </LFrame>
+  );
+};
 export const BEATS = { ...T, END, WIPE, CARD };

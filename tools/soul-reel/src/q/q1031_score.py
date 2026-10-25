@@ -1,19 +1,18 @@
-# 31 Oct score: rain on the window and a warm felt-piano bed in E; card slides as paper swishes, a stamp thud,
-# a low minor sigh as the guilt cloud gathers; rain drops plink into the pot; a rising arpeggio as the sprout blooms.
+# 31 Oct score: a cosy felt piano; a phone ping; a soft blanket swish; a low uneasy pulse for the guilt;
+# a cracking shimmer; a bright bloom of bells and an open chord as the wings unfold.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from q_score import QScore, N, at
-END, WIPE, CARD = 420, 330, 348
-CARDS, STAMP, AWAY, CLOUD, RAIN, SPROUT, BLOOM, KEY = 10, 58, 74, 96, 160, 186, 236, 262
-S = QScore(END / 30, seed=31)
-for k in range(int(at(BLOOM) / 1.0)): S.noise(k * 1.0, 1.4, 0.022, 0.25, 1)
-S.bed([[64, 68, 71, 75], [61, 64, 68, 71], [57, 61, 64, 68], [59, 63, 66, 71]], 0.1, at(WIPE) + 0.6, bar=2.8, amp=0.03)
-S.noise(at(CARDS), 0.3, 0.04, 0.2, 2); S.noise(at(CARDS + 4), 0.3, 0.04, 0.2, 2)
-S.kick(at(STAMP), 0.3); S.snap(at(STAMP), 0.06); S.noise(at(AWAY), 0.6, 0.04, 0.05, 1.5)
-S.felt(N(52), at(CLOUD), 0.06, 3); S.felt(N(55), at(CLOUD + 6), 0.04, 3)
-for i in range(10): S.bell(RAIN + 4 + i * 2.6, [83, 86, 88][i % 3], 0.016)
-S.arp(SPROUT + 10, [64, 68, 71, 76, 80], 0.14, 0.04, 2.6)
-S.chime(BLOOM + 2, 0.045)
-for i, m in enumerate([76, 80, 83, 88]): S.bell(KEY + 6 + i * 4, m, 0.026)
+END, WIPE, CARD = 450, 360, 378
+NOTIF, REPLY, WRAP0, GUILT, CRACK, BURST, WINGS = 10, 42, 92, 136, 214, 252, 258
+S = QScore(END / 30, seed=3110)
+for k, m in enumerate([64, 67, 71, 67, 64, 67]): S.felt(N(m), at(2 + k * 14), 0.03, 2.6)
+S.bell(NOTIF, 88, 0.03); S.bell(NOTIF + 3, 91, 0.025)
+S.felt(N(71), at(REPLY), 0.035, 2); S.felt(N(76), at(REPLY + 6), 0.03, 2)
+S.noise(at(WRAP0), 0.9, 0.03, 0.06, 1.5)
+for k in range(5): S.felt(N(52), at(GUILT + k * 16), 0.04, 1.2); S.felt(N(55), at(GUILT + 8 + k * 16), 0.03, 1.2)
+S.sweep(at(CRACK), at(BURST) - at(CRACK), 400, 1600, 0.025); S.riser(at(CRACK + 10), at(BURST) - at(CRACK + 10), 0.04)
+S.kick(at(BURST), 0.2); S.chime(WINGS, 0.06); S.arp(WINGS + 8, [76, 80, 83, 88, 92], 0.1, 0.035, 2.6)
+S.bed([[64, 68, 71, 76], [61, 64, 68, 73], [57, 61, 64, 69], [59, 63, 66, 71]], at(WINGS), at(WIPE) + 0.6, bar=2.2, amp=0.032)
 S.end_card(CARD, root=64)
 S.write(os.path.join(os.path.dirname(__file__), "..", "..", "public", "q1031.wav")); print("ok")
