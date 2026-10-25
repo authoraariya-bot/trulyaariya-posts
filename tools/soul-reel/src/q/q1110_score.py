@@ -3,8 +3,8 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from q_score import QScore, N, at
-END, WIPE, CARD = 450, 360, 378
-TRIES = [104, 128, 152, 176]; G1, C1, CLOSE, RING, G2, C2 = 14, 40, 80, 92, 204, 228
+END, WIPE, CARD = 410, 320, 338
+TRIES = [100, 124, 148]; G1, C1, CLOSE, RING, G2, C2 = 10, 34, 70, 84, 176, 198
 S = QScore(END / 30, seed=1100)
 S.sweep(at(G1), at(C1) - at(G1), 2000, 5000, 0.015)
 S.snap(at(C1), 0.08); S.chime(C1, 0.06)

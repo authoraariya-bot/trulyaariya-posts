@@ -8,8 +8,8 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { LFrame, Caption, Hl, LSoul, Spark, INK, LW, seg, sm, lerp, rnd } from "./line";
 import { EndCard } from "../kit/Words";
 
-export const END = 450; const WIPE = 360, CARD = 378;
-const T = { stars: 46, glance: 70, hide0: 92, hide1: 124, peek: 168, out0: 196, out1: 222, stand: 226, wave: 240 };
+export const END = 400; const WIPE = 310, CARD = 328;
+const T = { stars: 18, glance: 38, hide0: 56, hide1: 86, peek: 124, out0: 148, out1: 172, stand: 176, wave: 190 };
 const M = { x: 660, y: 860, r: 120 };
 const G = 1470, SX = 330;
 const GOLD = "#E3A93A";
@@ -58,7 +58,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
       {[[140, G - 20], [520, G - 110], [640, G - 80]].map(([x, y], i) => <path key={i} d={`M${x},${y} q6,-22 10,-26 M${x + 10},${y} q2,-26 0,-32 M${x + 18},${y} q-2,-20 8,-24`} stroke={INK} strokeWidth={4} fill="none" strokeLinecap="round" opacity={0.6} />)}
       {/* the Soul on the hill, lit by the moon */}
       <LSoul x={SX} y={G - 112} s={1.35} facing={1} p={{ sit: 1 - stand, look: 0, glance: 0.8, worry: hide * (1 - sm(seg(f, T.out0, T.out0 + 10))), happy: light > 0.8 && (f < T.hide0 || f > T.out1) ? 1 : 0, wave: waveA,
-        glow: 0.25 + 0.6 * sm(seg(f, T.out1, T.out1 + 30)), blink: [150].some((b) => f >= b && f < b + 4) }} />
+        glow: 0.25 + 0.6 * sm(seg(f, T.out1, T.out1 + 30)), blink: [110].some((b) => f >= b && f < b + 4) }} />
       {/* moonlight wash over the hill */}
       <ellipse cx={M.x - 100} cy={G - 40} rx={520} ry={180} fill="#FFF3C4" opacity={0.18 * light} filter="url(#lb24)" />
     </g>
@@ -73,7 +73,7 @@ export const Q1104: React.FC = () => {
         <Caption f={f} ats={[2, T.hide0, T.peek - 20]} to={WIPE - 6} top={300} size={68} lines={[<>you are the <Hl c={GOLD}>moon</Hl> of your world.</>, <>don't dim yourself</>, <>to blend in with the stars.</>]} />
         <EndCard f={f} wipe={WIPE} card={CARD} />
       </AbsoluteFill>}>
-      <Scene f={f} />
+      <g transform="translate(540 1470) scale(1.2) translate(-540 -1470)"><Scene f={f} /></g>
     </LFrame>
   );
 };

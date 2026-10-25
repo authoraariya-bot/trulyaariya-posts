@@ -8,9 +8,9 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { LFrame, Caption, Hl, LSoul, Spark, INK, LW, seg, sm, lerp } from "./line";
 import { EndCard } from "../kit/Words";
 
-export const END = 450; const WIPE = 360, CARD = 378;
-const TRIES = [104, 128, 152, 176];
-const T = { g1: 14, click1: 40, close: 80, ring0: 92, turn: 198, g2: 204, click2: 228, happy: 236 };
+export const END = 410; const WIPE = 320, CARD = 338;
+const TRIES = [100, 124, 148];
+const T = { g1: 10, click1: 34, close: 70, ring0: 84, turn: 172, g2: 176, click2: 198, happy: 204 };
 const G = 1500, SX = 540, SS = 1.9;
 const L = { x: SX, y: G - 118 };
 const ROSE = "#E2507F", GOLD = "#F2B33D";
@@ -32,10 +32,10 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
   const open2 = sm(seg(f, T.click2, T.click2 + 6));
   const open = Math.max(open1, open2);
   const tryIdx = TRIES.findIndex((a) => f >= a && f < a + 24);
-  const weary = sm(seg(f, TRIES[1], TRIES[3] + 10)) * (1 - sm(seg(f, T.turn, T.turn + 16)));
+  const weary = sm(seg(f, TRIES[0] + 10, TRIES[2] + 10)) * (1 - sm(seg(f, T.turn, T.turn + 16)));
   const ringOut = sm(seg(f, T.click2 + 4, T.click2 + 40));
   const ringIn = sm(seg(f, T.ring0 - 12, T.ring0 + 6));
-  const RX = lerp(1250, 860, ringIn) + 500 * ringOut, RY = 1120 + 140 * ringOut;
+  const RX = lerp(1250, 800, ringIn) + 500 * ringOut, RY = 1120 + 140 * ringOut;
   // golden key path: in from the left, into the keyhole, turn, back out
   const goldAt = (g: number, click: number) => {
     const inP = sm(seg(f, g, click - 8)), turn = sm(seg(f, click - 6, click)), out = sm(seg(f, click + 30, click + 48));
@@ -58,7 +58,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
         </g>; })()}
       {/* the Soul */}
       <LSoul x={SX} y={G} s={SS} p={{ worry: weary, sweat: weary * seg(f, TRIES[2], T.turn), glance: f > T.ring0 && f < T.turn ? 0.7 : f >= T.turn ? -0.7 : 0, look: 0,
-        happy: (f > T.click1 + 4 && f < T.close) || f > T.happy ? 1 : 0, glow: 0.15 + 0.7 * open, blink: [94, 200].some((b) => f >= b && f < b + 4) }} />
+        happy: (f > T.click1 + 4 && f < T.close) || f > T.happy ? 1 : 0, glow: 0.15 + 0.7 * open, blink: [90, 174].some((b) => f >= b && f < b + 4) }} />
       {/* the heart padlock on its chest */}
       <g transform={`translate(${L.x + (tryIdx >= 0 && f - TRIES[tryIdx] > 8 && f - TRIES[tryIdx] < 18 ? 4 * Math.sin(f * 3) : 0)} ${L.y})`}>
         <path d={`M-34,-50 L-34,${-72 - 14 * open} C-34,${-104 - 14 * open} 34,${-104 - 14 * open} 34,${-72 - 14 * open} L34,${-50 - 20 * open}`} transform={`rotate(${-18 * open} -34 -50)`} stroke={INK} strokeWidth={14} fill="none" strokeLinecap="round" />
@@ -77,7 +77,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
       {/* the keyring and the key that's trying */}
       {f > T.ring0 - 12 && <g opacity={1 - sm(seg(f, T.click2 + 24, T.click2 + 40))}>
         <g transform={`translate(${RX} ${RY}) rotate(${6 * Math.sin(t * 5)})`}>
-          {[-60, -35, -10, 15, 40, 65].map((a, i) => <g key={i} transform={`rotate(${a + 90}) translate(56 0)`}><Key c={["#BFC6D6", "#C9B6A6", "#B6C9B9", "#D6BFC9", "#C6C0D9", "#D0CDB6"][i]} dir={1} s={0.5} /></g>)}
+          {[-60, -35, -10, 15, 40, 65].map((a, i) => <g key={i} transform={`rotate(${a + 90}) translate(56 0)`}><Key c={["#BFC6D6", "#C9B6A6", "#B6C9B9", "#D6BFC9", "#C6C0D9", "#D0CDB6"][i]} dir={1} s={0.4} /></g>)}
           <circle r={56} fill="none" stroke={INK} strokeWidth={8} />
         </g>
         {tryIdx >= 0 && (() => { const a = TRIES[tryIdx], p = seg(f, a, a + 8), back_ = seg(f, a + 18, a + 24);
@@ -97,11 +97,11 @@ export const Q1110: React.FC = () => {
   return (
     <LFrame f={f} bg={["#FFF7E8", "#FFE6EE"]} audio="q1110.wav"
       overlay={<AbsoluteFill>
-        <Caption f={f} ats={[6, TRIES[0] - 6, TRIES[2] + 4]} to={WIPE - 6} top={260} size={68}
+        <Caption f={f} ats={[4, TRIES[0] - 6, TRIES[1] + 10]} to={WIPE - 6} top={260} size={68}
           lines={[<>some understand you <Hl c={GOLD}>in a moment.</Hl></>, <>for others,</>, <>a lifetime isn't enough.</>]} />
         <EndCard f={f} wipe={WIPE} card={CARD} />
       </AbsoluteFill>}>
-      <Scene f={f} />
+      <g transform="translate(540 1500) scale(1.15) translate(-540 -1500)"><Scene f={f} /></g>
     </LFrame>
   );
 };

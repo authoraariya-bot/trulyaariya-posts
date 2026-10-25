@@ -3,8 +3,8 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from q_score import QScore, N, at
-END, WIPE, CARD = 450, 360, 378
-OPS = [16, 34, 52, 70, 88]; IGNORE, RISE0, RISE1 = 104, 120, 214
+END, WIPE, CARD = 420, 330, 348
+OPS = [10, 24, 38, 52, 66]; IGNORE, RISE0, RISE1 = 80, 94, 184
 S = QScore(END / 30, seed=1111)
 for k in range(10): S.hat(0.1 + k * 0.33, 0.015)
 S.bed([[57, 60, 64], [56, 59, 64]], 0.1, at(IGNORE), bar=2.4, amp=0.024)

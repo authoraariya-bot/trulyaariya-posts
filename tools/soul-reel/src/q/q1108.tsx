@@ -7,11 +7,11 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { LFrame, Caption, Hl, LSoul, Spark, INK, LW, seg, sm, lerp, back, rnd } from "./line";
 import { EndCard } from "../kit/Words";
 
-export const END = 450; const WIPE = 360, CARD = 378;
+export const END = 420; const WIPE = 330, CARD = 348;
 const SHOES = [12, 28, 44, 60, 78, 96];
-const T = { stop: 112, breath0: 124, breath1: 150, morph0: 140, morph1: 186, walk0: 196, walk1: 340, happy: 160 };
+const T = { stop: 112, breath0: 124, breath1: 150, morph0: 140, morph1: 186, walk0: 196, walk1: 310, happy: 160 };
 const G = 1480, S0 = 380, S1 = 650, SS = 1.6;
-const W = { x: 790, y: 800, r: 104 };
+const W = { x: 720, y: 910, r: 104 };
 const ROSE = "#E2507F";
 
 const mixc = (a: string, b: string, t: number) => { const p = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); const A = p(a), B = p(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * Math.min(1, Math.max(0, t)))).join(",")})`; };
@@ -112,7 +112,7 @@ export const Q1108: React.FC = () => {
           lines={[<>life isn't a race.</>, <>it's a road,</>, <>and you deserve to walk it</>, <span style={{ fontSize: 82 }}>at your <Hl c={ROSE}>own pace.</Hl></span>]} />
         <EndCard f={f} wipe={WIPE} card={CARD} />
       </AbsoluteFill>}>
-      <Scene f={f} />
+      <g transform="translate(540 1480) scale(1.25) translate(-540 -1480)"><Scene f={f} /></g>
     </LFrame>
   );
 };

@@ -8,18 +8,18 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { LFrame, Caption, Hl, LSoul, Spark, INK, seg, sm, lerp, back, rnd } from "./line";
 import { EndCard } from "../kit/Words";
 
-export const END = 450; const WIPE = 360, CARD = 378;
+export const END = 420; const WIPE = 330, CARD = 348;
 const OPS = [
-  { at: 16, t: "be realistic", x: 250, y: 1180 }, { at: 34, t: "who do you think you are?", x: 700, y: 1060 },
-  { at: 52, t: "that won't work", x: 790, y: 1300 }, { at: 70, t: "so slow", x: 230, y: 1380 }, { at: 88, t: "give up already", x: 300, y: 980 },
+  { at: 10, t: "be realistic", x: 250, y: 1180 }, { at: 24, t: "who do you think you are?", x: 700, y: 1060 },
+  { at: 38, t: "that won't work", x: 790, y: 1300 }, { at: 52, t: "so slow", x: 230, y: 1380 }, { at: 66, t: "give up already", x: 300, y: 980 },
 ];
-const T = { ignore: 104, rise0: 120, rise1: 214, fade0: 126, fade1: 160, happy: 222 };
+const T = { ignore: 80, rise0: 94, rise1: 184, fade0: 100, fade1: 134, happy: 192 };
 const G = 1560, SX = 540, SS = 1.7, PH = 14;
 const ROSE = "#E2507F";
 
 const Scene: React.FC<{ f: number }> = ({ f }) => {
   const t = f / 30;
-  const n = Math.floor(lerp(0, 3, seg(f, 30, T.ignore)) + lerp(0, 27, sm(seg(f, T.rise0, T.rise1))));
+  const n = Math.floor(lerp(0, 3, seg(f, 20, T.ignore)) + lerp(0, 27, sm(seg(f, T.rise0, T.rise1))));
   const h = n * PH;
   const worry = sm(seg(f, OPS[1].at, OPS[3].at)) * (1 - sm(seg(f, T.ignore, T.ignore + 10)));
   const writing = f > T.ignore + 6 || f < OPS[0].at;
@@ -34,12 +34,12 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
       <circle cx={SX} cy={G - h - 160} r={300} fill="#FFE9B8" opacity={0.5 * glow} filter="url(#lb40)" />
       {/* opinions */}
       {OPS.map((o, i) => { const inn = back(seg(f, o.at - 6, o.at + 4), 2); if (inn <= 0.01) return null;
-        const fd = sm(seg(f, T.fade0 + i * 4, T.fade1 + i * 3)); const w = o.t.length * 17 + 52;
+        const fd = sm(seg(f, T.fade0 + i * 4, T.fade1 + i * 3)); const w = o.t.length * 21 + 60;
         const x = Math.min(990 - w / 2, Math.max(90 + w / 2, o.x));
         return <g key={i} transform={`translate(${x} ${o.y + 160 * fd + 6 * Math.sin(t * 1.6 + i)}) scale(${inn * (1 - 0.5 * fd)})`} opacity={1 - fd}>
-          <rect x={-w / 2} y={-34} width={w} height={64} rx={28} fill={`rgb(${235 - 20 * fd},${232 - 20 * fd},${240 - 20 * fd})`} stroke={INK} strokeWidth={4} />
-          <path d={`M${(x < SX ? 1 : -1) * (w / 2 - 40)},28 l${(x < SX ? 1 : -1) * 18},22 l${(x < SX ? -1 : 1) * 2},-24`} fill="#EBE8F0" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
-          <text x={0} y={10} textAnchor="middle" fontFamily="Hand" fontSize={36} fill={INK}>{o.t}</text>
+          <rect x={-w / 2} y={-40} width={w} height={78} rx={34} fill={`rgb(${235 - 20 * fd},${232 - 20 * fd},${240 - 20 * fd})`} stroke={INK} strokeWidth={4} />
+          <path d={`M${(x < SX ? 1 : -1) * (w / 2 - 40)},36 l${(x < SX ? 1 : -1) * 18},22 l${(x < SX ? -1 : 1) * 2},-24`} fill="#EBE8F0" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+          <text x={0} y={10} textAnchor="middle" fontFamily="Hand" fontSize={44} fill={INK}>{o.t}</text>
         </g>; })}
       {/* the stack of its own pages */}
       {Array.from({ length: n }, (_, i) => { const y = G - (i + 1) * PH, dx = 8 * (rnd(i) - 0.5);

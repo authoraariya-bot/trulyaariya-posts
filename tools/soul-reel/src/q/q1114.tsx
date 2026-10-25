@@ -8,10 +8,10 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { LFrame, Caption, Hl, LSoul, Spark, INK, LW, seg, sm, lerp, back } from "./line";
 import { EndCard } from "../kit/Words";
 
-export const END = 450; const WIPE = 360, CARD = 378;
+export const END = 410; const WIPE = 320, CARD = 338;
 const C = { x0: 185, y0: 720, cw: 101, ch: 92, cols: 7, rows: 5 };
-const KEY = [44, 66, 96, 118];
-const T = { rocket0: 6, fizz: 30, shrug: 34, fast0: 146, fast1: 222, glow: 226, happy: 228 };
+const KEY = [36, 52, 72, 88];
+const T = { rocket0: 2, fizz: 22, shrug: 24, fast0: 110, fast1: 180, glow: 184, happy: 186 };
 const G = 1560, SX = 540, SS = 1.45;
 const ROSE = "#E2507F";
 const N = C.cols * C.rows;
@@ -44,7 +44,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
         const a = cellAt(i), p = back(seg(f, a, a + 8), 2.2), lit = sm(seg(f, a, a + 6));
         return <g key={i}>
           <rect x={x + 4} y={y + 4} width={C.cw - 8} height={C.ch - 8} rx={12} fill={lit > 0 ? `rgba(255,${226 - 10 * glow},${190 - 30 * glow},${0.35 + 0.5 * lit * (0.6 + 0.4 * glow)})` : "#F6F2FA"} stroke={INK} strokeWidth={2.5} strokeOpacity={0.35} />
-          {p > 0.01 && <g transform={`translate(${x + C.cw / 2} ${y + C.ch / 2}) scale(${p * (i < 4 ? 1.25 : 0.95)})`}><Icon k={i} /></g>}
+          {p > 0.01 && <g transform={`translate(${x + C.cw / 2} ${y + C.ch / 2}) scale(${p * (i < 4 ? 1.45 : 1.15)})`}><Icon k={i} /></g>}
           {i < 4 && f > a && f < a + 14 && <circle cx={x + C.cw / 2} cy={y + C.ch / 2} r={30 + 50 * seg(f, a, a + 14)} fill="none" stroke={ROSE} strokeWidth={4} opacity={1 - seg(f, a, a + 14)} />}
         </g>; })}
       {/* the "big moment" rocket that fizzles */}
@@ -60,7 +60,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
       <rect x={0} y={G} width={1080} height={420} fill="#FFFFFF" opacity={0.22} />
       {/* the Soul */}
       <LSoul x={SX} y={G} s={SS} p={{ look: f < T.fizz + 6 ? 1 : f < T.fast1 ? 0.6 : 0, glance: f < T.fizz + 6 ? -0.8 : 0, worry: shrug * 0.6, wave: f > T.shrug && f < T.shrug + 22 ? -0.35 * shrug : 0,
-        happy: f > T.happy || (f > KEY[0] + 2 && f < KEY[0] + 20) ? 1 : 0, glow: 0.1 + 0.8 * (filled / N), blink: [60, 140].some((b) => f >= b && f < b + 4) }} />
+        happy: f > T.happy || (f > KEY[0] + 2 && f < KEY[0] + 20) ? 1 : 0, glow: 0.1 + 0.8 * (filled / N), blink: [60, 100].some((b) => f >= b && f < b + 4) }} />
       {f > T.happy && [0, 1, 2, 3, 4].map((i) => { const p = ((f - T.happy) / 46 + i / 5) % 1;
         return <Spark key={i} x={[230, 850, 320, 760, 540][i]} y={C.y0 + 520 - 600 * p} s={0.55 * Math.sin(Math.PI * p)} c={["#FFD36E", "#FF8FAE", "#C9B6FF"][i % 3]} />; })}
     </g>

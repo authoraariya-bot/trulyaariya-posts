@@ -3,8 +3,8 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from q_score import QScore, N, at
-END, WIPE, CARD = 450, 360, 378
-SHOES = [18, 44, 70, 96]; STOP, B0, M0, M1, WALK = 112, 124, 140, 186, 196
+END, WIPE, CARD = 420, 330, 348
+SHOES = [12, 28, 44, 60, 78, 96]; STOP, B0, M0, M1, WALK = 112, 124, 140, 186, 196
 S = QScore(END / 30, seed=1180)
 k = 0.0
 while k < at(STOP): S.hat(k, 0.03); k += 0.125
