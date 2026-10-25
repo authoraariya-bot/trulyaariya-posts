@@ -1,19 +1,19 @@
-# 2 Nov score: dawn wind and a sparse, slightly hollow felt piano; a deep muffled whoosh down into the earth;
-# a low heartbeat glow that swells into strings as gold light runs up the roots; a bright chord as the tree blooms.
+# 2 Nov score: gentle felt piano; a light sprinkle as the leaves are watered (nothing changes: a hollow note);
+# a soft "hm?"; water seeping down; a deep warm swell as the roots turn gold; bells as the tree blooms.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from q_score import QScore, N, at
-END, WIPE, CARD = 420, 330, 348
-DIVE0, DIVE1, GLOW, FLOW0, FLOW1, RISE0, RISE1, BLOOM, KEY = 84, 126, 130, 146, 206, 208, 240, 236, 268
-S = QScore(END / 30, seed=1102)
-S.wind(0, 0.07); S.wind(40, 0.06)
-for k, m in enumerate([62, 65, 69, 64, 62]): S.felt(N(m), at(4 + k * 16), 0.04, 3)
-S.sweep(at(DIVE0), 1.3, 220, 70, 0.07); S.noise(at(DIVE0), 1.3, 0.04, 0.02, 1)
-for k in range(8): S.kick(at(GLOW + k * 17), 0.18 * (0.6 + 0.4 * (k / 8)))   # heartbeat
-S.strings([N(50), N(57), N(62), N(66)], at(FLOW0), at(WIPE) + 0.4, 0.016, 2.0, 1.5)
-S.bed([[62, 66, 69, 73], [59, 62, 66, 69], [55, 59, 62, 67], [57, 61, 64, 69]], at(FLOW0), at(WIPE) + 0.6, bar=2.4, amp=0.03)
-S.sweep(at(RISE0), 1.0, 90, 300, 0.04)
-S.chime(BLOOM + 2, 0.05); S.arp(BLOOM + 10, [74, 78, 81, 86, 90], 0.1, 0.035, 2.4)
-for i, m in enumerate([78, 81, 85, 90]): S.bell(KEY + 6 + i * 4, m, 0.026)
-S.end_card(CARD, root=62)
+END, WIPE, CARD = 450, 360, 378
+L0, L1, PUZ, BASE0, SEEP0, GOLD0, BLOOM = 16, 96, 104, 150, 162, 206, 262
+S = QScore(END / 30, seed=1120)
+for k, m in enumerate([67, 71, 74, 71, 69, 72]): S.felt(N(m), at(2 + k * 18), 0.028, 2.6)
+for k in range(10): S.noise(at(L0 + k * 8), 0.2, 0.012, 0.5, 2)
+S.felt(N(55), at(L1), 0.04, 1.4)
+S.felt(N(69), at(PUZ), 0.035, 1); S.felt(N(72), at(PUZ + 5), 0.03, 1)
+for k in range(8): S.noise(at(BASE0 + k * 7), 0.2, 0.012, 0.5, 2)
+S.sweep(at(SEEP0), 1.6, 500, 160, 0.02)
+S.strings([N(55), N(62), N(67)], at(GOLD0), at(WIPE) + 0.4, 0.016, 2, 1.5)
+S.bed([[67, 71, 74, 78], [64, 67, 71, 74], [60, 64, 67, 71], [62, 66, 69, 74]], at(GOLD0), at(WIPE) + 0.6, bar=2.4, amp=0.03)
+S.chime(BLOOM, 0.05)
+S.end_card(CARD, root=67)
 S.write(os.path.join(os.path.dirname(__file__), "..", "..", "public", "q1102.wav")); print("ok")
