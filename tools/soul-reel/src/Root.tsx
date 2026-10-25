@@ -18,6 +18,8 @@ import { Q1103, END as Q1103E } from "./q/q1103";
 import { Q1104, END as Q1104E } from "./q/q1104";
 import { Q1106, END as Q1106E } from "./q/q1106";
 import { Q1107, END as Q1107E } from "./q/q1107";
+import { Q1108, END as Q1108E } from "./q/q1108";
+import { Q1109, END as Q1109E } from "./q/q1109";
 
 // "The Paper Boat" v2 — the approved master Soul reel (face, playful skip, golden river, fresh colours).
 // Copy src/master to src/<reel-id>/ to make a new reel. The soul, face, style and end card are locked.
@@ -40,5 +42,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Q1104" component={Q1104} durationInFrames={Q1104E} fps={30} width={1080} height={1920} />
     <Composition id="Q1106" component={Q1106} durationInFrames={Q1106E} fps={30} width={1080} height={1920} />
     <Composition id="Q1107" component={Q1107} durationInFrames={Q1107E} fps={30} width={1080} height={1920} />
+    <Composition id="Q1108" component={Q1108} durationInFrames={Q1108E} fps={30} width={1080} height={1920} />
+    <Composition id="Q1109" component={Q1109} durationInFrames={Q1109E} fps={30} width={1080} height={1920} />
   </>
 );

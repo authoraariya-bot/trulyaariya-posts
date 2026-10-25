@@ -36,24 +36,24 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
   const sy = G - hover;
   // gift
   const gp = sm(seg(f, T.gift, T.gift + 26));
-  const gx = lerp(-120, SX - 250, gp), gy = lerp(1300, G - 60, gp) - 30 * Math.sin(Math.PI * gp);
+  const gx = lerp(130, SX - 250, gp), gy = lerp(1300, G - 60, gp) - 30 * Math.sin(Math.PI * gp);
   const lidUp = seg(f, T.open, T.open + 14);
   // backpack: drops from above onto the back, then slides off to the right
   const dp = seg(f, T.drop0, T.thud);
   const off = seg(f, T.shrug, T.off);
-  const bx = SX + lerp(0, 250, sm(off)), by0 = lerp(260, sy - 150 + 26 * sit * SS, dp * dp);
+  const bx = SX + lerp(0, 300, sm(off)), by0 = lerp(260, sy - 150 + 26 * sit * SS, dp * dp);
   const by = f < T.shrug ? by0 : lerp(sy - 150 + 26 * sit * SS, G - 90, off * off);
   const br = lerp(0, 74, sm(off));
   const showPack = f >= T.drop0;
   const packOnBack = f >= T.thud && f < T.shrug;
   const Pack = (front: boolean) => (
-    <g transform={`translate(${bx} ${by}) rotate(${br}) scale(1.4)`}>
+    <g transform={`translate(${bx} ${by}) rotate(${br}) scale(1.4)`} opacity={1 - sm(seg(f, T.off + 14, T.off + 40))}>
       {!front && <g><rect x={-104} y={-90} width={208} height={150} rx={30} fill="#9C97A8" stroke={INK} strokeWidth={LW} />
         <rect x={-60} y={-112} width={120} height={36} rx={14} fill="#8A8496" stroke={INK} strokeWidth={LW - 1} /></g>}
       {front && packOnBack && <g>
         {[-1, 1].map((k) => <path key={k} d={`M${k * 34},-60 C${k * 40},-20 ${k * 46},20 ${k * 44},44`} stroke="#7A7486" strokeWidth={14} fill="none" strokeLinecap="round" />)}
       </g>}
-      {front && <g transform={`translate(${packOnBack ? 112 : 0} ${packOnBack ? 0 : 10}) rotate(${packOnBack ? 8 : 0})`}>
+      {front && <g transform={`translate(112 0) rotate(8)`}>
         <line x1={0} y1={-24} x2={0} y2={-4} stroke={INK} strokeWidth={3} />
         <rect x={-62} y={-4} width={124} height={50} rx={10} fill="#FFFFFF" stroke={INK} strokeWidth={4} />
         <text x={0} y={32} textAnchor="middle" fontFamily="Hand" fontSize={34} fill={INK}>lessons</text>
@@ -69,7 +69,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
       {/* ground shadow that shrinks as the Soul rises */}
       <ellipse cx={SX} cy={G + 4} rx={90 - 0.15 * hover} ry={12} fill={INK} opacity={0.1} />
       {/* the gift */}
-      {f > T.gift && f < T.wings + 30 && <g transform={`translate(${gx} ${gy})`} opacity={1 - seg(f, T.wings + 10, T.wings + 30)}>
+      {f > T.gift && f < T.wings + 30 && <g transform={`translate(${gx} ${gy})`} opacity={Math.min(sm(seg(f, T.gift, T.gift + 10)), 1 - seg(f, T.wings + 10, T.wings + 30))}>
         <rect x={-56} y={-90} width={112} height={90} rx={10} fill={PINK} stroke={INK} strokeWidth={LW} />
         <rect x={-10} y={-90} width={20} height={90} fill="#FFFFFF" stroke={INK} strokeWidth={3} />
         <g transform={`translate(${-40 * lidUp} ${-90 - 120 * lidUp + 120 * lidUp * lidUp}) rotate(${-40 * lidUp})`}>
@@ -91,7 +91,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
         happy: (f > T.wings + 8 && f < T.thud) || f > T.rise0 ? 1 : 0, glow: 0.2 + 0.4 * flying1 + 0.6 * flying2, blink: [150, 160].some((b) => f >= b && f < b + 4) }} />
       {showPack && Pack(true)}
       {f > T.thud && f < T.thud + 12 && <g opacity={1 - seg(f, T.thud, T.thud + 12)}>{[-1, 1].map((k) => <path key={k} d={`M${SX + k * 120},${G - 10} l${k * 40},-20 M${SX + k * 130},${G + 6} l${k * 50},0`} stroke={INK} strokeWidth={5} strokeLinecap="round" />)}</g>}
-      {f > T.off - 2 && f < T.off + 12 && <g opacity={1 - seg(f, T.off - 2, T.off + 12)}>{[-1, 1].map((k) => <path key={k} d={`M${SX + 250 + k * 110},${G - 10} l${k * 36},-18`} stroke={INK} strokeWidth={5} strokeLinecap="round" />)}</g>}
+      {f > T.off - 2 && f < T.off + 12 && <g opacity={1 - seg(f, T.off - 2, T.off + 12)}>{[-1, 1].map((k) => <path key={k} d={`M${SX + 300 + k * 110},${G - 10} l${k * 36},-18`} stroke={INK} strokeWidth={5} strokeLinecap="round" />)}</g>}
       {/* sparkles once free */}
       {f > T.rise0 && [0, 1, 2, 3, 4].map((i) => { const p = ((f - T.rise0) / 50 + i / 5) % 1;
         return <Spark key={i} x={SX + [-200, 210, -150, 170, 0][i]} y={sy - 200 + 120 * p - 60 * (i % 2)} s={0.6 * Math.sin(Math.PI * p)} c={["#FFB3C8", "#FFD36E", "#C9B6FF"][i % 3]} />; })}
