@@ -1,145 +1,94 @@
-// 29 Oct · Healing · "Read this if 'sorry' is the first word you say. Sorry for crying. Sorry for replying late.
-// Sorry for needing help. Sorry for taking up space. Your feelings were never an inconvenience."
-// A sunlit vanity by an open window with wisteria swaying outside. Sticky notes slap onto the mirror, one per
-// "sorry", then dozens more. A warm breeze carries petals in; every note peels off, folds into a paper butterfly and
-// flutters out of the window. The clear mirror catches the light.
+// 29 Oct · "Read this if 'sorry' is the first word you say. Sorry for crying. Sorry for replying late. Sorry for needing
+// help. Sorry for taking up space. Your feelings were never an inconvenience."
+// The Soul holds a heart balloon. With each "sorry" a tag is tied onto it and the heart sinks lower while the Soul
+// droops. Then "your feelings were never an inconvenience.": the tags fall away one by one, the heart floats up high
+// and the Soul looks up, smiling, its own heart-light glowing.
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { QFrame, Words, W, KeyW, Motes, seg, sm, lerp, rnd, back, mix } from "./kit";
+import { LFrame, Caption, Hl, LSoul, INK, LW, seg, sm, back } from "./line";
 import { EndCard } from "../kit/Words";
-import { LightLeak } from "../kit/fx";
 
-export const END = 420; const WIPE = 330, CARD = 348;
-const T = { n: [34, 62, 90, 118], flood: 146, breeze: 182, peel: 190, shine: 246, line2: 240, key: 268 };
-const ACCENT = "#E2508A";
-const M = { x: 540, y: 1030, w: 560, h: 760 }; // mirror (arched)
-const BIG = ["Sorry for crying.", "Sorry for replying late.", "Sorry for needing help.", "Sorry for taking up space."];
-const COLS = ["#FFE57A", "#FFB3CC", "#B9E8FF", "#C9F2C7", "#E1CCFF", "#FFC9A8"];
-// every note: big ones first, then a flood of small "sorry" notes
-const NOTES = [
-  ...BIG.map((txt, i) => ({ at: T.n[i], x: M.x + [-110, 120, -90, 100][i], y: M.y + [-210, -60, 90, 230][i], s: 1, r: [-6, 5, -3, 7][i], txt, c: COLS[i] })),
-  ...Array.from({ length: 16 }, (_, i) => ({ at: T.flood + i * 2.2, x: M.x - 230 + rnd(i + 3) * 460, y: M.y - 330 + rnd(i + 7) * 640, s: 0.62, r: -12 + 24 * rnd(i + 1), txt: "sorry", c: COLS[(i + 2) % 6] })),
+export const END = 435; const WIPE = 345, CARD = 363;
+const TAGS = [
+  { t: "sorry for crying", at: 54, drop: 262 },
+  { t: "sorry for replying late", at: 88, drop: 246 },
+  { t: "sorry for needing help", at: 122, drop: 230 },
+  { t: "sorry for taking up space", at: 156, drop: 214 },
 ];
+const T = { cap2: 200, never: 204, inconv: 244, up: 268, happy: 276 };
+const ROSE = "#E2507F";
+const S = { x: 330, y: 1600, s: 1.45 };
+const HAND = { x: S.x + 75.6 * S.s, y: S.y - 118.5 * S.s }; // where the Soul's raised hand holds the string
 
-const archPath = (x: number, y: number, w: number, h: number) => `M${x - w / 2},${y + h / 2} L${x - w / 2},${y - h / 2 + w / 2} A${w / 2},${w / 2} 0 0 1 ${x + w / 2},${y - h / 2 + w / 2} L${x + w / 2},${y + h / 2} Z`;
-
-const Note: React.FC<{ f: number; n: typeof NOTES[number]; i: number }> = ({ f, n, i }) => {
-  if (f < n.at) return null;
-  const slap = back(seg(f, n.at, n.at + 8), 2.6);
-  const peelAt = T.peel + (NOTES.length - 1 - i) * 1.6 + rnd(i) * 6;   // the last ones stuck come off first
-  const fold = sm(seg(f, peelAt, peelAt + 12));                        // note → butterfly
-  const fly = seg(f, peelAt + 8, peelAt + 70);
-  if (fly >= 1) return null;
-  // flight: out toward the open window (right), fluttering up
-  const fx = lerp(n.x, 1180 + 80 * rnd(i), sm(fly)) + 40 * Math.sin(fly * 9 + i), fy = lerp(n.y, 520 + 300 * rnd(i + 2), sm(fly)) - 60 * Math.sin(Math.PI * fly);
-  const flap = Math.sin(f * 1.1 + i) * fold;
-  const S = n.s * lerp(1, 0.55, fold) * lerp(1.25, 1, slap);
-  return (
-    <g transform={`translate(${fx} ${fy}) rotate(${lerp(n.r, -20 + 40 * rnd(i + 5), fold)}) scale(${S})`} opacity={slap > 0 ? 1 : 0}>
-      {fold < 0.98 && (
-        <g opacity={1 - fold} transform={`scale(${1 - 0.5 * fold} 1)`}>
-          <rect x={-150} y={-120} width={300} height={240} rx={6} fill="#5A3A50" opacity={0.18} transform="translate(6 10)" filter="url(#qb4)" />
-          <path d={`M-150,-120 L150,-120 L150,${120 - 26 * seg(f, peelAt - 10, peelAt)} L${150 - 30 * seg(f, peelAt - 10, peelAt)},120 L-150,120 Z`} fill={n.c} />
-          <rect x={-150} y={-120} width={300} height={34} fill="#FFFFFF" opacity={0.25} />
-          {n.txt.length > 6 ? (
-            <foreignObject x={-140} y={-96} width={280} height={210}><div style={{ fontFamily: "Caveat", fontWeight: 700, fontSize: 46, lineHeight: 1.05, color: "#4A2E44", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", height: 200 }}>{n.txt}</div></foreignObject>
-          ) : <text y={22} textAnchor="middle" fontFamily="Caveat" fontWeight={700} fontSize={70} fill="#4A2E44">{n.txt}</text>}
-        </g>
-      )}
-      {fold > 0.02 && (
-        <g opacity={fold}>
-          {[-1, 1].map((d) => (
-            <g key={d} transform={`scale(${d * (0.35 + 0.65 * Math.abs(Math.cos(flap * 1.6)))} 1)`}>
-              <path d="M0,-6 L120,-110 L150,-20 L0,4 Z" fill={n.c} /><path d="M0,4 L120,30 L80,110 L0,10 Z" fill={n.c} />
-              <path d="M0,-6 L120,-110 L150,-20 Z" fill="#FFFFFF" opacity={0.25} />
-            </g>
-          ))}
-          <rect x={-6} y={-40} width={12} height={90} rx={6} fill="#6A4A60" opacity={0.5} />
-        </g>
-      )}
-    </g>
-  );
+const balloonY = (f: number) => {
+  let y = 760;
+  TAGS.forEach((g) => { y += 75 * back(seg(f, g.at, g.at + 14), 1.3); });
+  TAGS.forEach((g) => { y -= 60 * sm(seg(f, g.drop, g.drop + 14)); });
+  y -= 120 * sm(seg(f, T.up, T.up + 40));
+  return y + 8 * Math.sin(f / 14);
 };
 
-const World: React.FC<{ f: number }> = ({ f }) => {
-  const t = f / 30, breeze = sm(seg(f, T.breeze - 10, T.breeze + 30));
-  const shine = seg(f, T.shine, T.shine + 30);
-  const warm = sm(seg(f, T.breeze, T.shine + 30));
+const Scene: React.FC<{ f: number }> = ({ f }) => {
+  const t = f / 30, by = balloonY(f), bx = 720 + 10 * Math.sin(f / 20);
+  const weight = TAGS.reduce((a, g) => a + seg(f, g.at, g.at + 14) - seg(f, g.drop, g.drop + 14), 0) / 4;
+  const free = sm(seg(f, T.up, T.up + 30));
   return (
     <g>
-      <defs>
-        <linearGradient id="wall29" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={mix("#F4D3E6", "#FFD9E6", warm)} /><stop offset="1" stopColor={mix("#E6C6EE", "#FFE3D2", warm)} /></linearGradient>
-        <linearGradient id="sky29" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#9FD8FF" /><stop offset="1" stopColor="#FFE6C9" /></linearGradient>
-        <linearGradient id="gold29" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#E7BE6A" /><stop offset="0.5" stopColor="#FFE6A6" /><stop offset="1" stopColor="#C9973F" /></linearGradient>
-        <linearGradient id="glass29" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#DCEEFF" /><stop offset="0.6" stopColor="#F6E9FF" /><stop offset="1" stopColor="#FFE3EC" /></linearGradient>
-        <clipPath id="mir29"><path d={archPath(M.x, M.y, M.w - 36, M.h - 36)} /></clipPath>
-        <clipPath id="win29"><rect x={900} y={420} width={300} height={820} /></clipPath>
-      </defs>
-      <rect width={1080} height={1920} fill="url(#wall29)" />
-      {/* open window on the right: sky + wisteria */}
-      <g clipPath="url(#win29)">
-        <rect x={900} y={420} width={300} height={820} fill="url(#sky29)" />
-        {[0, 1, 2].map((i) => <ellipse key={i} cx={((960 + i * 140 + t * 12) % 420) + 860} cy={520 + 70 * i} rx={90} ry={22} fill="#FFFFFF" opacity={0.7} filter="url(#qb6)" />)}
-        {Array.from({ length: 9 }, (_, i) => { const x = 910 + i * 26, sw = (10 + 20 * breeze) * Math.sin(t * 1.4 + i * 0.7);
-          return <g key={i} transform={`translate(${x} 420) rotate(${sw * 0.4})`}>
-            <path d={`M0,0 Q${sw * 0.5},120 ${sw},${260 + 80 * rnd(i)}`} stroke="#7FA86F" strokeWidth={3} fill="none" />
-            {Array.from({ length: 14 }, (_, k) => <circle key={k} cx={sw * (k / 14) + 8 * Math.sin(k)} cy={40 + k * 17 * (1 + 0.3 * rnd(i))} r={12 - k * 0.5} fill={["#C9A6FF", "#B48CF0", "#E2CCFF"][k % 3]} />)}
-          </g>; })}
+      {/* soft sky: a few drifting clouds and a warm glow that grows as the heart rises */}
+      <circle cx={760} cy={700} r={260} fill="#FFE6C2" opacity={0.35 + 0.45 * free} filter="url(#lb40)" />
+      {[0, 1, 2].map((i) => <g key={i} transform={`translate(${((i * 420 + t * 14) % 1400) - 200} ${560 + 120 * i})`} opacity={0.75}>
+        <path d="M-90,20 C-100,-10 -60,-30 -36,-14 C-26,-44 30,-46 40,-16 C70,-26 96,0 84,20 Z" fill="#FFFFFF" stroke={INK} strokeWidth={4} opacity={0.6} /></g>)}
+      {/* ground */}
+      <path d={`M0,${S.y} C300,${S.y - 8} 780,${S.y + 8} 1080,${S.y}`} stroke={INK} strokeWidth={4} fill="none" opacity={0.45} />
+      <rect x={0} y={S.y} width={1080} height={400} fill="#FFFFFF" opacity={0.22} />
+      {[[120, 0], [930, 6], [560, 4]].map(([x, d], i) => <path key={i} d={`M${x},${S.y + d} q6,-26 10,-30 M${x + 10},${S.y + d} q2,-30 0,-36 M${x + 18},${S.y + d} q-2,-22 8,-28`} stroke={INK} strokeWidth={4} fill="none" strokeLinecap="round" opacity={0.5} />)}
+      {/* string from the hand to the balloon */}
+      <path d={`M${HAND.x},${HAND.y} Q${(HAND.x + bx) / 2 + 20 * Math.sin(f / 18)},${(HAND.y + by + 120) / 2 + 40} ${bx},${by + 112}`} stroke={INK} strokeWidth={3.5} fill="none" />
+      {/* the tags: a neat chain hanging under the heart, one below the other */}
+      {TAGS.map((g, i) => {
+        if (f < g.at) return null;
+        const tie = back(seg(f, g.at, g.at + 12), 1.8);
+        const d = seg(f, g.drop, g.drop + 40);
+        const cy = by + 150 + i * 74;
+        const sw = 3 * Math.sin(f / 16 + i * 0.7) * (1 + i * 0.4);
+        const fallY = 900 * d * d, rot = sw + 90 * d * (i % 2 ? 1 : -1), fx = 60 * d * (i % 2 ? 1 : -1);
+        const o = 1 - sm(seg(f, g.drop + 22, g.drop + 40));
+        return (
+          <g key={i} opacity={o}>
+            {d === 0 && <line x1={bx} y1={i ? cy - 74 + 30 : by + 112} x2={bx} y2={cy - 30} stroke={INK} strokeWidth={3} />}
+            <g transform={`translate(${bx + fx} ${cy + fallY}) rotate(${rot}) scale(${tie})`}>
+              <path d="M-160,-30 L150,-30 L172,0 L150,30 L-160,30 Z" fill={["#FFFFFF", "#FFF3D6", "#E9F4FF", "#FFE8EE"][i]} stroke={INK} strokeWidth={LW - 2} strokeLinejoin="round" />
+              <circle cx={152} cy={0} r={7} fill="none" stroke={INK} strokeWidth={3} />
+              <text x={-6} y={11} textAnchor="middle" fontFamily="Hand" fontSize={34} fill={INK}>{g.t}</text>
+            </g>
+          </g>
+        );
+      })}
+      {/* the heart balloon */}
+      <g transform={`translate(${bx} ${by}) rotate(${4 * Math.sin(f / 22) + 8 * weight})`}>
+        <circle r={150} fill="#FFC7D4" opacity={0.25 + 0.45 * free} filter="url(#lb24)" />
+        <path d="M0,-40 C30,-120 150,-110 130,-20 C116,40 40,84 0,110 C-40,84 -116,40 -130,-20 C-150,-110 -30,-120 0,-40 Z" fill="#FF8FAB" stroke={INK} strokeWidth={LW} strokeLinejoin="round" />
+        <path d="M-80,-60 C-70,-84 -40,-88 -30,-70" stroke="#FFFFFF" strokeWidth={9} fill="none" strokeLinecap="round" opacity={0.8} />
+        <path d="M-8,110 L8,110 L0,124 Z" fill="#FF8FAB" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
       </g>
-      <rect x={900} y={420} width={300} height={820} fill="none" stroke="#FFF7F0" strokeWidth={20} />
-      {/* sheer curtain billowing in the breeze */}
-      <path d={`M880,400 C${860 - 60 * breeze + 14 * Math.sin(t * 2)},700 ${840 - 120 * breeze + 20 * Math.sin(t * 1.6)},1000 ${860 - 160 * breeze},1260 L930,1260 C${910 - 40 * breeze},1000 ${930 - 20 * breeze},700 920,400 Z`} fill="#FFFFFF" opacity={0.5} />
-      {/* sunbeam across the wall */}
-      <path d="M900,430 L280,1480 L640,1480 L1080,560 Z" fill="#FFF3D6" opacity={0.25 + 0.2 * warm} filter="url(#qb24)" />
-      {/* mirror */}
-      <path d={archPath(M.x, M.y, M.w + 20, M.h + 20)} fill="#B88A4E" opacity={0.25} transform="translate(10 16)" filter="url(#qb10)" />
-      <path d={archPath(M.x, M.y, M.w, M.h)} fill="url(#gold29)" />
-      <g clipPath="url(#mir29)">
-        <rect x={M.x - M.w / 2} y={M.y - M.h / 2} width={M.w} height={M.h} fill="url(#glass29)" />
-        {/* reflection: the window and wisteria, soft */}
-        <rect x={M.x - 250} y={M.y - 260} width={170} height={480} fill="#BFE3FF" opacity={0.5} filter="url(#qb6)" />
-        {Array.from({ length: 5 }, (_, i) => <ellipse key={i} cx={M.x - 230 + i * 30 + 6 * Math.sin(t + i)} cy={M.y - 180 + 40 * (i % 2)} rx={14} ry={70} fill="#D2B6FF" opacity={0.5} filter="url(#qb4)" />)}
-        <path d={`M${M.x - 400 + 900 * shine},${M.y - 500} L${M.x - 300 + 900 * shine},${M.y - 500} L${M.x - 500 + 900 * shine},${M.y + 500} L${M.x - 600 + 900 * shine},${M.y + 500} Z`} fill="#FFFFFF" opacity={0.7 * Math.sin(Math.PI * shine)} />
-        <path d={`M${M.x - 200},${M.y - 300} L${M.x - 150},${M.y - 300} L${M.x - 250},${M.y} Z`} fill="#FFFFFF" opacity={0.35} />
-      </g>
-      {/* vanity */}
-      <rect x={-20} y={1440} width={1120} height={50} rx={12} fill="#FFF3EC" />
-      <rect x={-20} y={1488} width={1120} height={440} fill="#F1C9C9" />
-      <rect x={120} y={1540} width={360} height={150} rx={14} fill="#F7D9D6" /><rect x={600} y={1540} width={360} height={150} rx={14} fill="#F7D9D6" />
-      <circle cx={300} cy={1615} r={10} fill="#E7BE6A" /><circle cx={780} cy={1615} r={10} fill="#E7BE6A" />
-      {/* things on the vanity: perfume, tulips, tea */}
-      <g transform="translate(200 1440)"><rect x={-40} y={-120} width={80} height={120} rx={22} fill="#FFB3CC" opacity={0.85} /><rect x={-14} y={-150} width={28} height={34} rx={6} fill="#E7BE6A" /><rect x={-30} y={-108} width={14} height={80} rx={7} fill="#FFFFFF" opacity={0.4} /></g>
-      <g transform="translate(860 1440)">
-        {[-1, 0, 1].map((k) => { const sw = 3 * Math.sin(t * 1.3 + k) + 6 * breeze * Math.sin(t * 3 + k);
-          return <g key={k} transform={`rotate(${k * 12 + sw})`}><path d="M0,-90 L0,-250" stroke="#6FB07A" strokeWidth={6} /><path d="M-24,-250 C-26,-300 -10,-310 0,-290 C10,-310 26,-300 24,-250 C20,-232 -20,-232 -24,-250 Z" fill={["#FF8FB1", "#FFB86B", "#FF6F9A"][k + 1]} /></g>; })}
-        <path d="M-56,0 L-46,-110 L46,-110 L56,0 Z" fill="#C6E9F7" opacity={0.85} />
-      </g>
-      <g transform="translate(560 1440)"><path d="M-60,-80 L60,-80 L50,0 L-50,0 Z" fill="#FFFFFF" /><path d="M60,-64 C92,-64 92,-24 56,-24" stroke="#FFFFFF" strokeWidth={10} fill="none" /><ellipse cx={0} cy={-80} rx={60} ry={10} fill="#C98E6A" />
-        {[0, 1].map((k) => <path key={k} d={`M${-14 + 26 * k},-96 C${-24 + 26 * k},-130 ${-4 + 26 * k},-150 ${-14 + 26 * k},-186`} stroke="#FFFFFF" strokeWidth={5} fill="none" opacity={0.5 * (0.5 + 0.5 * Math.sin(t * 2 + k))} strokeLinecap="round" />)}</g>
-      {NOTES.map((n, i) => <Note key={i} f={f} n={n} i={i} />)}
-      {/* petals blowing in through the window */}
-      {breeze > 0.01 && Array.from({ length: 40 }, (_, i) => { const p = ((f - T.breeze) / (50 + 30 * rnd(i)) + rnd(i + 2)) % 1, x = 1100 - p * 1300, y = 500 + rnd(i + 4) * 900 + 80 * Math.sin(p * 8 + i);
-        return <path key={i} d="M0,-8 C5,-5 5,5 0,8 C-5,5 -5,-5 0,-8 Z" transform={`translate(${x} ${y}) rotate(${p * 600 + i * 30}) scale(${1.4 + rnd(i)})`} fill={["#D8BFFF", "#F6CFE6", "#FFFFFF"][i % 3]} opacity={breeze * Math.sin(Math.PI * p)} />; })}
-      <Motes f={f} n={36} color="#FFF6DA" y0={500} y1={1450} gust={breeze} />
+      {/* the Soul */}
+      <LSoul x={S.x} y={S.y} s={S.s} p={{ wave: -0.8, worry: Math.min(1, weight * 1.4) * (1 - free), look: Math.min(1, weight * 1.2) * (1 - free) * 0.8,
+        happy: f > T.happy ? 1 : 0, glance: 0.6 * free, glow: 0.2 + 0.7 * free, blink: [40, 300].some((b) => f >= b && f < b + 4) }} />
     </g>
   );
 };
 
-const Overlay: React.FC<{ f: number }> = ({ f }) => (
-  <AbsoluteFill>
-    <LightLeak f={f} amt={0.45 * sm(seg(f, T.breeze, T.shine + 20))} side="right" tint="warm" />
-    <Words f={f} from={0} to={T.flood + 20} top={190} size={72}>
-      <div><W f={f} at={2}>Read</W><W f={f} at={6}>this</W><W f={f} at={10}>if</W><W f={f} at={14} last><i>“sorry”</i></W></div>
-      <div><W f={f} at={20}>is</W><W f={f} at={23}>the</W><W f={f} at={26}>first</W><W f={f} at={29}>word</W><W f={f} at={32}>you</W><W f={f} at={35} last>say.</W></div>
-    </Words>
-    <Words f={f} from={T.line2 - 4} to={WIPE - 4} top={190} size={76}>
-      <div><W f={f} at={T.line2}>Your</W><W f={f} at={T.line2 + 5}>feelings</W><W f={f} at={T.line2 + 10}>were</W><W f={f} at={T.line2 + 14} last>never</W></div>
-      <div><W f={f} at={T.line2 + 20} last>an</W></div>
-      <div style={{ marginTop: -14 }}><KeyW f={f} at={T.key} color={ACCENT} size={128}>inconvenience.</KeyW></div>
-    </Words>
-    <EndCard f={f} wipe={WIPE} card={CARD} />
-  </AbsoluteFill>
-);
-
-export const Q1029: React.FC = () => { const f = useCurrentFrame(); return <QFrame world={<World f={f} />} overlay={<Overlay f={f} />} audio="q1029.wav" />; };
+export const Q1029: React.FC = () => {
+  const f = useCurrentFrame();
+  return (
+    <LFrame f={f} bg={["#FFF0F4", "#F3DDF0"]} audio="q1029.wav"
+      overlay={<AbsoluteFill>
+        <Caption f={f} ats={[2, 8]} to={T.cap2 - 10} top={300} size={70} lines={[<>read this if “sorry”</>, <>is the first word you say.</>]} />
+        <Caption f={f} ats={[T.never, T.inconv]} to={WIPE - 6} top={300} size={70} lines={[<>your feelings were never</>, <>an <Hl c={ROSE}>inconvenience.</Hl></>]} />
+        <EndCard f={f} wipe={WIPE} card={CARD} />
+      </AbsoluteFill>}>
+      <Scene f={f} />
+    </LFrame>
+  );
+};
 export const BEATS = { ...T, END, WIPE, CARD };
