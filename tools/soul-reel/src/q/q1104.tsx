@@ -22,14 +22,14 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
   const light = 1 - hide; // how lit the world is
   const peek = Math.sin(Math.PI * seg(f, T.peek, T.out0 + 4));
   const glance = sm(seg(f, T.glance, T.glance + 10)) * (1 - sm(seg(f, T.hide1, T.hide1 + 10)));
-  const cloudX = lerp(1200, M.x + 10, sm(seg(f, T.hide0 - 6, T.hide1))) + lerp(0, 520, sm(seg(f, T.out0, T.out1 + 10)));
+  const cloudX = lerp(1420, M.x + 10, sm(seg(f, T.hide0 - 6, T.hide1))) + lerp(0, 900, sm(seg(f, T.out0, T.out1 + 10)));
   const moonX = M.x + lerp(0, 30, hide) - 30 * peek * 0.4;
   const stand = sm(seg(f, T.stand, T.stand + 20));
   const waveA = f > T.wave ? -0.8 + 0.18 * Math.sin((f - T.wave) / 4) : 0;
   return (
     <g>
       {/* night that dims and brightens */}
-      <rect width={1080} height={1920} fill={mixc("#20214F", "#3E3A7C", light)} opacity={0.55 + 0.25 * hide} />
+      <rect width={1080} height={1920} fill={mixc("#20214F", "#3E3A7C", light)} opacity={0.55 + 0.15 * hide} />
       {/* stars: tiny, twinkling (they are lovely too) */}
       {Array.from({ length: 22 }, (_, i) => { const x = 80 + rnd(i) * 920, y = 620 + rnd(i + 1) * 560; if (Math.hypot(x - M.x, y - M.y) < 170) return null;
         const on = sm(seg(f, T.stars + i * 2, T.stars + i * 2 + 10)), tw = 0.6 + 0.4 * Math.sin(t * 3 + i * 1.7);
