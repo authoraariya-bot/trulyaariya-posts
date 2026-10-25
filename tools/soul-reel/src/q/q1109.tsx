@@ -14,7 +14,7 @@ const HITS = [{ at: 30, t: "it was just a joke", y: 970, p: 1 }, { at: 70, t: "y
 const T = { reclaim: 156, back0: 166, gone: 214, keep: 214, happy: 222 };
 const G = 1500, SX = 350, SS = 1.7;
 const H = { x: SX, y: G - 122, s: 0.78 };
-const C = { x: 770, y: 1120 };
+const C = { x: 745, y: 1120 };
 const ROSE = "#E2507F", HEART = "#FF8FAE";
 const HP = "M0,-60 C-20,-120 -130,-120 -130,-30 C-130,40 -50,90 0,130 C50,90 130,40 130,-30 C130,-120 20,-120 0,-60 Z";
 // pieces: 0 TL, 1 TR, 2 BL, 3 BR, each with a knob on one edge
@@ -30,6 +30,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
   const sad = Math.min(1, nLost / 2);
   const gone = sm(seg(f, T.gone - 10, T.gone + 24));
   const whole = sm(seg(f, T.back0 + 38, T.back0 + 50));
+  const mv = sm(seg(f, T.happy + 6, T.happy + 46)), hx = lerp(H.x, 540, mv), walking = f > T.happy + 6 && f < T.happy + 46 ? 1 : 0;
   const look = sm(seg(f, T.reclaim, T.reclaim + 8)) * (1 - sm(seg(f, T.happy, T.happy + 8)));
   return (
     <g transform="translate(540 1500) scale(1.2) translate(-540 -1500)">
@@ -49,13 +50,13 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
         </g>; })}
       {/* the zap from each line to the heart */}
       {HITS.map((h, i) => { const z = seg(f, h.at + 2, h.at + 10); if (z <= 0 || z >= 1) return null;
-        const x0 = C.x - 200, y0 = h.y + 20, x1 = H.x + 60, y1 = H.y;
+        const x0 = C.x - 200, y0 = h.y + 20, x1 = hx + 60, y1 = H.y;
         return <path key={i} d={`M${x0},${y0} L${lerp(x0, x1, z)},${lerp(y0, y1, z)}`} stroke={ROSE} strokeWidth={6} strokeDasharray="10 12" strokeLinecap="round" fill="none" />; })}
       {/* the Soul */}
-      <LSoul x={SX + 4 * Math.sin(f * 1.5) * (sad > 0.6 && f < T.reclaim ? 1 : 0)} y={G} s={SS} p={{ worry: sad, sweat: 0, glance: f < T.reclaim ? 0.7 : 0.4, look: look, happy: f > T.happy ? 1 : 0,
+      <LSoul x={hx + 4 * Math.sin(f * 1.5) * (sad > 0.6 && f < T.reclaim ? 1 : 0)} y={G} s={SS} p={{ walk: walking, phase: (hx - H.x) / 26, worry: sad, sweat: 0, glance: f < T.reclaim ? 0.7 : 0.4, look: look, happy: f > T.happy ? 1 : 0,
         glow: 0.15 + 0.7 * whole, blink: [96, 150].some((b) => f >= b && f < b + 4) }} />
       {/* the heart, held in front */}
-      <g transform={`translate(${H.x} ${H.y}) scale(${H.s * (1 + 0.04 * whole * Math.sin(t * 3))})`}>
+      <g transform={`translate(${hx} ${H.y - (walking ? 4 * Math.abs(Math.sin((hx - H.x) / 26)) : 0)}) scale(${H.s * (1 + 0.04 * whole * Math.sin(t * 3))})`}>
         <circle r={150} fill="#FFD9E2" opacity={0.6 * whole} filter="url(#lb24)" />
         <path d={HP} fill="none" stroke={INK} strokeWidth={4} strokeDasharray="10 12" opacity={0.5} />
         <defs>{PIECES.map((p, i) => <clipPath key={i} id={`pz1109-${i}`}><rect x={p.cx < 0 ? -140 : 0} y={p.cy < 0 ? -140 : 0} width={140} height={150} /></clipPath>)}</defs>
@@ -76,7 +77,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
         })}
       </g>
       {f > T.happy && [0, 1, 2, 3].map((i) => { const p = ((f - T.happy) / 50 + i / 4) % 1;
-        return <Spark key={i} x={H.x + [-170, 180, -120, 140][i]} y={H.y - 140 - 120 * p} s={0.55 * Math.sin(Math.PI * p)} c={["#FF8FAE", "#FFD36E"][i % 2]} />; })}
+        return <Spark key={i} x={hx + [-170, 180, -120, 140][i]} y={H.y - 140 - 120 * p} s={0.55 * Math.sin(Math.PI * p)} c={["#FF8FAE", "#FFD36E"][i % 2]} />; })}
     </g>
   );
 };
