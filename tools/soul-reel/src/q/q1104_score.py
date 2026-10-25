@@ -1,28 +1,18 @@
-# 4 Nov score: a night lake: crickets, a dreamy lo-fi loop; the slider drag pitches the music down and muffles it;
-# the snap is a bright riser + drop; aurora shimmer bells; a confident groove to the end card.
+# 4 Nov score: a dreamy night lullaby (felt piano + soft crickets); stars twinkle in as bells; the music dulls and
+# drops when the moon hides; a curious peek note; then the moon comes out: a warm open swell and bright bells.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from q_score import QScore, N, at
-END, WIPE, CARD = 420, 330, 348
-SLIDER, D0, D1, SNAP, AUR, KEY = 60, 96, 160, 172, 182, 222
-S = QScore(END / 30, seed=1104)
-for k in range(int(at(END) / 0.35)): S.sweep(k * 0.35, 0.05, 4200, 4400, 0.006)   # crickets
-chords = [[57, 60, 64, 67], [53, 57, 60, 64], [55, 59, 62, 65], [52, 55, 59, 64]]
-s = 0.05; k = 0
-while s < at(SNAP):
-    drop = max(0, min(1, (s - at(D0)) / (at(D1) - at(D0))))
-    for i, m in enumerate(chords[k % 4]): S.felt(N(m) * (1 - 0.12 * drop), s + i * 0.03, 0.03 * (1 - 0.5 * drop), 3)
-    s += 2.2; k += 1
-S.beat(at(4), at(D0), 88, 0.5)
-S.noise(at(SLIDER), 0.15, 0.03, 0.4, 2)
-S.sweep(at(D0), at(D1) - at(D0), 600, 180, 0.03)
-S.riser(at(D1), at(SNAP) - at(D1), 0.07); S.kick(at(SNAP), 0.6); S.chime(SNAP + 1, 0.06)
-for i in range(8): S.bell(AUR + i * 7, [81, 84, 88, 91][i % 4], 0.018)
-s = at(SNAP); k = 0
-while s < at(WIPE):
-    for i, m in enumerate(chords[k % 4]): S.felt(N(m + 12 * 0), s + i * 0.025, 0.034, 3)
-    S.bass(chords[k % 4][0] - 24, s, 2.0, 0.09); s += 2.1; k += 1
-S.beat(at(SNAP), at(WIPE), 92, 0.9)
-for i, m in enumerate([76, 79, 83, 88]): S.bell(KEY + 6 + i * 4, m, 0.026)
-S.end_card(CARD, root=57)
+END, WIPE, CARD = 450, 360, 378
+STARS, HIDE0, HIDE1, PEEK, OUT0, OUT1 = 46, 92, 124, 168, 196, 222
+S = QScore(END / 30, seed=1140)
+for k in range(int(at(END) / 0.4)): S.sweep(k * 0.4, 0.05, 4200, 4400, 0.004)
+S.bed([[69, 73, 76, 80], [66, 69, 73, 76]], 0.1, at(HIDE0) + 0.8, bar=2.4, amp=0.03)
+for i in range(8): S.bell(STARS + i * 6, [88, 91, 93, 96][i % 4], 0.016)
+S.sweep(at(HIDE0), 1.2, 400, 180, 0.03)
+for k in range(3): S.felt(N(57 - k), at(HIDE1 + k * 14), 0.04, 2)
+S.felt(N(81), at(PEEK + 6), 0.035, 1.2); S.felt(N(85), at(PEEK + 12), 0.03, 1.2)
+S.riser(at(OUT0 - 10), at(OUT1) - at(OUT0 - 10), 0.04); S.chime(OUT1, 0.06)
+S.bed([[69, 73, 76, 81], [66, 69, 73, 78], [62, 66, 69, 74], [64, 68, 71, 76]], at(OUT1), at(WIPE) + 0.6, bar=2.2, amp=0.034)
+S.end_card(CARD, root=69)
 S.write(os.path.join(os.path.dirname(__file__), "..", "..", "public", "q1104.wav")); print("ok")
