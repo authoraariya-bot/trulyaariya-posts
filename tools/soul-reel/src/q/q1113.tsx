@@ -46,7 +46,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
       <path d={`M820,${G - 50} C810,1200 820,1000 810,900`} stroke="#C9A27E" strokeWidth={22} fill="none" strokeLinecap="round" />
       <path d={`M816,${P.y + 6} C760,${P.y - 6} 640,${P.y + 4} ${P.x - 90},${P.y + 8}`} stroke={INK} strokeWidth={24} fill="none" strokeLinecap="round" />
       <path d={`M816,${P.y + 6} C760,${P.y - 6} 640,${P.y + 4} ${P.x - 90},${P.y + 8}`} stroke="#C9A27E" strokeWidth={13} fill="none" strokeLinecap="round" />
-      {[[800, 760, 140], [660, 800, 110], [900, 860, 90], [540, 830, 84]].map(([x, y, r], i) => <circle key={i} cx={x + 4 * Math.sin(t * 0.9 + i)} cy={y} r={r} fill={i % 2 ? "#BFE5B4" : "#A9DCA6"} stroke={INK} strokeWidth={LW} />)}
+      {[[800, 760, 140], [660, 800, 110], [900, 860, 90], [470, 840, 90]].map(([x, y, r], i) => <circle key={i} cx={x + 4 * Math.sin(t * 0.9 + i)} cy={y} r={r} fill={i % 2 ? "#BFE5B4" : "#A9DCA6"} stroke={INK} strokeWidth={LW} />)}
       {/* the swing (and the Soul on it) */}
       <g transform={`rotate(${th} ${P.x} ${P.y})`}>
         {[-70, 70].map((dx) => <line key={dx} x1={P.x + dx} y1={P.y + 6} x2={P.x + dx} y2={seatY} stroke={INK} strokeWidth={5} />)}
@@ -62,7 +62,7 @@ const Scene: React.FC<{ f: number }> = ({ f }) => {
         look: f > 20 && f < T.gone ? 0.6 : 0, glance: f < T.gone ? -0.5 : 0.7, worry: f > 100 && f < T.gone ? 0.4 : 0, happy: f > T.gone + 10 ? 1 : 0, glow: 0.2 + 0.2 * fill, blink: [120].some((b) => f >= b && f < b + 4) }} />}
       {/* joy: notes + confetti off the swing */}
       {on && Array.from({ length: 8 }, (_, i) => { const p = ((f - T.swing0) / 40 + i / 8) % 1; const bx = P.x + Math.sin((th * Math.PI) / 180) * P.L;
-        return i % 2 ? <text key={i} x={bx - 150 + 300 * rnd(i)} y={seatY - 120 - 260 * p} fontFamily="Hand" fontSize={50} fill={INK} opacity={Math.sin(Math.PI * p)}>♪</text>
+        return i % 2 ? <text key={i} x={bx - 150 + 300 * rnd(i)} y={seatY - 360 - 200 * p} fontFamily="Hand" fontSize={50} fill={INK} opacity={Math.sin(Math.PI * p)}>♪</text>
           : <rect key={i} x={bx - 200 + 400 * rnd(i + 3)} y={seatY - 300 * p} width={14} height={8} rx={2} fill={["#FFB3C8", "#C9B6FF", "#FFD36E", "#8FD8C4"][i % 4]} opacity={Math.sin(Math.PI * p)} transform={`rotate(${f * 4 + i * 30} ${bx} ${seatY})`} />; })}
       {f > T.gone && f < T.gone + 30 && <Spark x={P.x} y={seatY - 60} s={0.6 * Math.sin(Math.PI * seg(f, T.gone, T.gone + 30))} c={ROSE} />}
     </g>
