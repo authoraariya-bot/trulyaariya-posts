@@ -10,6 +10,8 @@ import { JarReel } from "./jar/Reel";
 import { END as JAR_END } from "./jar/beats";
 import { RoadReel } from "./road/Reel";
 import { ChalkReel } from "./chalk/Reel";
+import { MusicReel } from "./music/Reel";
+import { END as MUSIC_END } from "./music/beats";
 import { END as CHALK_END } from "./chalk/beats";
 import { END as ROAD_END } from "./road/beats";
 import { END as SEA2_END } from "./sea2/beats";
@@ -49,6 +51,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Sea02" component={SeaReel} durationInFrames={SEA_END} fps={30} width={1080} height={1920} />
     <Composition id="Wings03" component={WingsReel} durationInFrames={WINGS_END} fps={30} width={1080} height={1920} />
     <Composition id="Sea02b" component={Sea2Reel} durationInFrames={SEA2_END} fps={30} width={1080} height={1920} />
+    <Composition id="Music07" component={MusicReel} durationInFrames={MUSIC_END} fps={30} width={1080} height={1920} />
     <Composition id="Chalk06" component={ChalkReel} durationInFrames={CHALK_END} fps={30} width={1080} height={1920} />
     <Composition id="Road05" component={RoadReel} durationInFrames={ROAD_END} fps={30} width={1080} height={1920} />
     <Composition id="Jar04" component={JarReel} durationInFrames={JAR_END} fps={30} width={1080} height={1920} />

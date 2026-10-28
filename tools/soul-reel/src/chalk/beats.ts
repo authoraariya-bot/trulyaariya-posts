@@ -8,7 +8,7 @@ export const T = {
   sun0: 10, sun1: 40, flo0: 44, flo1: 70, smi0: 74, smi1: 100,
   s1in0: 84, s1in1: 136, notice: 112, back0: 126, back1: 156,
   x1a: 144, x1b: 158, x2a: 160, x2b: 174, should0: 178, should1: 204, s1out0: 212, s1out1: 262,
-  s2in0: 178, s2in1: 228, ne0: 234, ne1: 266, s2out0: 274, s2out1: 324,
+  s2in0: 178, s2in1: 228, ne0: 234, nem: 263, ne1: 292, s2out0: 300, s2out1: 350,
   board: 212, breath0: 276, breath1: 300,
   go0: 298, go1: 324, grab: 330,
   w1a: 340, w1b: 362, m1a: 362, m1b: 378, w2a: 380, w2b: 402, m2a: 402, m2b: 418, w3a: 420, w3b: 442, drop: 446,
@@ -18,8 +18,8 @@ export const T = {
   wipe: 608, card: 626,
 };
 // soul x: draws at 340, steps back to 190, walks to 345, 475, 605 while wiping
-export const XD = 340, XB = 190, XW = [345, 475, 605];
-export const S1X = 560, S2X = 790, S3X = 850;
+export const XD = 340, XB = 190, XW = [345, 475, 640];
+export const S1X = 560, S2X = 760, S3X = 860;
 export const BOARD = { x0: 110, x1: 970, y0: 960, y1: 1404 };
 const G = GROUND;
 
@@ -104,8 +104,9 @@ export const CROSS: Doodle[] = [
   { strokes: [zig(390, 1170, 480, 1320, 10, 4)], a: T.x1a, b: T.x1b, color: CH, w: 7 },
   { strokes: [zig(480, 1176, 392, 1322, 10, 4)], a: T.x2a, b: T.x2b, color: CH, w: 7 },
 ];
-export const SHOULD = { x: 395, y: 1372, w: 150, a: T.should0, b: T.should1 };
-export const NOTENOUGH = { x: 556, y: 1214, w: 250, a: T.ne0, b: T.ne1 };
+export const SHOULD = { x: 372, y: 1360, w: 250, a: T.should0, b: T.should1 };
+export const NOTENOUGH = { x: 500, y: 1196, w: 380, a: T.ne0, b: T.nem };
+export const NOTWORTH = { x: 500, y: 1262, w: 400, a: T.nem + 2, b: T.ne1 };
 // the soul's own picture, redrawn big: a heart by its hand, then the whole board blooms
 export const HEART: Doodle = {
   strokes: [[...Array.from({ length: 41 }, (_, i) => { const t = (i / 40) * Math.PI * 2; return [690 + 1.6 * 16 * Math.pow(Math.sin(t), 3), 1268 - 1.6 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t))] as Pt; })]],
@@ -123,7 +124,7 @@ export const MAGIC: Doodle[] = [
 export const WIPES = [[T.w1a, T.w1b], [T.w2a, T.w2b], [T.w3a, T.w3b]] as const;
 export const wipeHand = (k: number, f: number) => {
   const u = seg01(f, WIPES[k][0], WIPES[k][1]), th = u * Math.PI * 3;
-  return { x: XW[k] + (k === 2 ? 108 : 92) + 38 * Math.cos(th), y: 1236 + 80 * Math.sin(u * Math.PI * 2 - Math.PI / 2) * 0.9 + 14 * Math.sin(th * 2) };
+  return { x: XW[k] + (k === 2 ? 120 : 92) + 38 * Math.cos(th), y: 1230 + 70 * Math.sin(u * Math.PI * 2 - Math.PI / 2) + 14 * Math.sin(th * 2) };
 };
 export const DUSTER_REST = { x: 432, y: 1396 };
 
@@ -211,7 +212,8 @@ export const shadow2 = (f: number): Shadow | null => {
   const s = inOut(f, T.s2in0, T.s2in1, T.s2out0, T.s2out1, S2X); if (!s) return null;
   let p = s.p;
   const into = smoother(seg01(f, T.s2in1 - 4, T.ne0)) * (1 - smoother(seg01(f, T.ne1, T.s2out0)));
-  if (into > 0) p = reach(p, s.x, { x: NOTENOUGH.x + NOTENOUGH.w * smoother(seg01(f, NOTENOUGH.a, NOTENOUGH.b)), y: NOTENOUGH.y - 14 + 10 * Math.sin(f * 1.3) }, -1, into);
+  const w = f < T.nem + 1 ? NOTENOUGH : NOTWORTH;
+  if (into > 0) p = reach(p, s.x, { x: w.x + w.w * smoother(seg01(f, w.a, w.b)), y: w.y - 14 + 10 * Math.sin(f * 1.3) }, -1, into);
   return { ...s, p, o: 1 };
 };
 export const shadow3 = (f: number): Shadow | null => {

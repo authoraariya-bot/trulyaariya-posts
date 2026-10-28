@@ -3,7 +3,7 @@ import React from "react";
 import { interpolateColors } from "remotion";
 import { Body } from "../master/World";
 import { clamp01, GROUND, SCALE, seg01, smoother, solve, sstep } from "../master/pose";
-import { BOARD, CROSS, Doodle, DOODLES, DUSTER_REST, HEART, healAt, holdingDuster, lightAt, MAGIC, moodAt, NOTENOUGH, progress, shadow1, shadow2, shadow3, SHOULD, soulPose, soulX, T, wipeHand, WIPES, XW } from "./beats";
+import { BOARD, CROSS, Doodle, DOODLES, DUSTER_REST, HEART, healAt, holdingDuster, lightAt, MAGIC, moodAt, NOTENOUGH, NOTWORTH, progress, shadow1, shadow2, shadow3, SHOULD, soulPose, soulX, T, wipeHand, WIPES, XW } from "./beats";
 
 const W = 1080, H = 1920;
 const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -185,7 +185,7 @@ export const ChalkWorld: React.FC<{ f: number }> = ({ f }) => {
         </g>;
         // everything the duster has passed over is erased
         const rub: React.ReactNode[] = [];
-        WIPES.forEach(([a, b], k) => { for (let fr = a; fr <= Math.min(f, b); fr += 1) { const p = wipeHand(k, fr); rub.push(<circle key={`ru${k}_${fr}`} cx={p.x + 6} cy={p.y + 4} r={82} fill="black" />); } });
+        WIPES.forEach(([a, b], k) => { for (let fr = a; fr <= Math.min(f, b); fr += 1) { const p = wipeHand(k, fr); rub.push(<circle key={`ru${k}_${fr}`} cx={p.x + 6} cy={p.y + 4} r={92} fill="black" />); } });
         return <g>
           <ellipse cx={(B.x0 + B.x1) / 2} cy={GROUND + 2} rx={bw * 0.5} ry={14} fill="#6F8461" opacity={0.18} filter="url(#mb8)" />
           {[B.x0 + 90, B.x1 - 90].map((lx, i) => <path key={`lg${i}`} d={`M${lx - 9},${B.y1} L${lx - 14 + (i ? 10 : -10)},${GROUND + 2} L${lx + 6 + (i ? 10 : -10)},${GROUND + 2} L${lx + 9},${B.y1} Z`} fill={col(h, "#AE9580", "#B98A63")} />)}
@@ -197,8 +197,9 @@ export const ChalkWorld: React.FC<{ f: number }> = ({ f }) => {
           <g mask="url(#rubout)">
             {DOODLES.map((d, i) => chalk(d, `d${i}_`))}
             {CROSS.map((d, i) => chalk(d, `x${i}_`))}
-            {word(SHOULD, "should", "cpShould", 66)}
-            {word(NOTENOUGH, "not enough", "cpNE", 62)}
+            {word(SHOULD, "get married", "cpShould", 60)}
+            {word(NOTENOUGH, "you are not enough", "cpNE", 54)}
+            {word(NOTWORTH, "you are not worth it", "cpNW", 54)}
           </g>
           {/* smudges left by the duster */}
           {WIPES.map(([a, b], k) => f > a && <ellipse key={`sg${k}`} cx={XW[k] + 98} cy={1240} rx={90} ry={110} fill="#FFFFFF" opacity={0.05 * smoother(seg01(f, a, b))} filter="url(#mb16)" />)}

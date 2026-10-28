@@ -1693,5 +1693,19 @@
         "story": {
             "video": "month/reels/quotes/reel-05-at-your-own-pace.mp4"
         }
+    },
+    {
+        "id": "v06",
+        "date": "2026-11-02",
+        "time_ist": "12:00",
+        "type": "Quote reel · v2 meadow · 6 · Hold the chalk",
+        "caption": "Everyone has something to write on your board. Wipe it clean. Keep your chalk. Draw your own life. 🤍\n\n#ASelfRepairedSoul #trulyaariya #selfworth #boundaries #selflove",
+        "status": "scheduled",
+        "format": "reel",
+        "video": "month/reels/quotes/reel-06-hold-the-chalk.mp4",
+        "cover": "month/reels/quotes/reel-06-hold-the-chalk-cover.jpg",
+        "story": {
+            "video": "month/reels/quotes/reel-06-hold-the-chalk.mp4"
+        }
     }
 ]
