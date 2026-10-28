@@ -85,7 +85,7 @@ export const sideEar = (r: ReturnType<typeof solve>, worn: boolean) => {
   const player = add(r.arms[1].hand, { x: 3, y: 10 });
   const jack = add(player, { x: 0, y: -17 });
   if (!worn) { const split = add(jack, { x: 6, y: 24 }); return { player, jack, split, bud1: add(split, { x: 9, y: 18 }), bud2: add(split, { x: -3, y: 22 }), hide2: false }; }
-  const ear = add(r.head, rot({ x: -10, y: 6 }, r.headAng));
+  const ear = add(r.head, rot({ x: -21, y: 12 }, r.headAng)); // towards the back of the head, well away from the eye
   return { player, jack, split: add(r.neck, { x: 18, y: 50 }), bud1: ear, bud2: add(r.neck, { x: -20, y: 8 }), hide2: true };
 };
 
@@ -93,7 +93,7 @@ export const sideEar = (r: ReturnType<typeof solve>, worn: boolean) => {
 export const frontRig = (f: number, x: number, G = 1540) => {
   const breath = Math.sin((f / 30) * Math.PI * 2 / 3.8);
   const hip = { x, y: G - 121 }, neck = { x, y: hip.y - 92 + 1.2 * breath }, head = { x, y: neck.y - 33 };
-  const earR = { x: x - 33, y: head.y + 6 }, earL = { x: x + 33, y: head.y + 6 }; // R = its right (our left)
+  const earR = { x: x - 35, y: head.y + 15 }, earL = { x: x + 35, y: head.y + 15 }; // on the outer edge, below the eye line // R = its right (our left)
   const g0 = smoother(seg01(f, T.grab0, T.grab1)), l = smoother(seg01(f, T.lift0, T.lift1)), dn = smoother(seg01(f, T.click, T.settle1));
   const push = Math.sin(Math.PI * seg01(f, T.tuck - 4, T.tuck + 6));
   const restR = { x: x - 44, y: hip.y + 4 }, restL = { x: x + 44, y: hip.y + 4 };

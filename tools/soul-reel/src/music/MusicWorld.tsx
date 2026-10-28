@@ -216,7 +216,7 @@ export const MusicWorld: React.FC<{ f: number }> = ({ f }) => {
         const v = view(f), P2 = (p: { x: number; y: number }) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
         const sag = (a: { x: number; y: number }, b: { x: number; y: number }, s: number) => `M${P2(a)} Q${((a.x + b.x) / 2).toFixed(1)},${(Math.max(a.y, b.y) + s).toFixed(1)} ${P2(b)}`;
         const up = (a: { x: number; y: number }, b: { x: number; y: number }) => `M${P2(a)} C${a.x.toFixed(1)},${(a.y - 26).toFixed(1)} ${b.x.toFixed(1)},${(b.y + 34).toFixed(1)} ${P2(b)}`;
-        const bud = (p: { x: number; y: number }, k: string) => <g key={k} transform={`translate(${p.x} ${p.y})`}><circle r={7} fill="#B9A3F2" /><circle cx={-2} cy={-2} r={2.6} fill="#F1EAFF" /></g>;
+        const bud = (p: { x: number; y: number }, k: string) => <g key={k} transform={`translate(${p.x} ${p.y})`}><circle r={6} fill="#B9A3F2" /><circle cx={-1.6} cy={-1.6} r={2.2} fill="#F1EAFF" /></g>;
         const player = (p: { x: number; y: number }) => <g transform={`translate(${p.x} ${p.y}) rotate(-6)`}>
           <rect x={-11} y={-17} width={22} height={34} rx={6} fill="#9B86DE" />
           <rect x={-8} y={-14} width={16} height={18} rx={3} fill="#F4EEFF" />
