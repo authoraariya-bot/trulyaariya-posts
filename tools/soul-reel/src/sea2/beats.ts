@@ -41,7 +41,7 @@ const S = POSES.stand;
 const LOOK = P(2, 4, [0, 0], [0, 0], [4, 6], [12, 14]);
 const SIT = P(20, 28, [124, 128], [30, 26], [12, 22], [40, 50]);
 const SIT_HAPPY = P(14, 6, [118, 124], [24, 20], [14, 22], [30, 40]);
-const LIE = P(-60, 44, [90, 86], [92, 88], [150, 170], [-110, -120]); // reclining on the sand, legs stretched out and crossed, hands behind its head
+const LIE = P(-40, 30, [88, 92], [90, 88], [-20, -16], [-14, -10]); // sitting back on the sand, legs stretched out, propped on both hands behind
 
 export const soulX = (f: number) => (f < T.step0 ? X0 : f < T.walk0 ? walkX(f, T.step0, T.step1, X0, X1) : walkX(f, T.walk0, T.walk1, X1, X2));
 export const camX = (f: number) => Math.max(0, Math.min(1080, soulX(f) - X1));

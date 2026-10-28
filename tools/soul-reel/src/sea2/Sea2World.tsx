@@ -147,14 +147,6 @@ export const Sea2World: React.FC<{ f: number }> = ({ f }) => {
       <g transform={`translate(${wx(sx)} ${GR}) scale(${SCALE}) translate(${-sx} ${-GR})`}>
         <ellipse cx={f > T.lie0 ? rig.hip.x + 40 : (rig.legs[0].foot.x + rig.legs[1].foot.x) / 2} cy={GR + 6} rx={f > T.lie0 ? 110 : 62} ry={10} fill="#9C8F7A" opacity={0.2} filter="url(#s2b4)" />
         <g filter="url(#s2b16)" opacity={0.3 + 0.6 * light}><Body r={rig} fill="#F8C9AE" back="#F8C9AE" /></g>
-        {/* lying back: arms folded behind the head, drawn with a soft edge so the elbows read */}
-        {f > T.lie0 + 8 && [0, 1].map((i) => { const sh = rig.arms[i].sh, hc = rig.head; const o = Math.min(1, (f - T.lie0 - 8) / 14);
-          const el = i ? { x: hc.x + 44, y: hc.y - 40 } : { x: hc.x - 50, y: hc.y - 22 }, hd = { x: hc.x - 24, y: hc.y + 4 };
-          const d = `M${sh.x},${sh.y} L${el.x},${el.y} L${hd.x},${hd.y}`;
-          return <g key={`la${i}`} opacity={o} strokeLinecap="round" strokeLinejoin="round" fill="none">
-            <path d={d} stroke="#E6D4C0" strokeWidth={23} />
-            <path d={d} stroke={i ? "#FFFBF4" : "#F6ECE0"} strokeWidth={18} />
-          </g>; })}
         <Body r={rig} fill="#FFFBF4" back="#F2E7DA" face={{ f, mood }} />
         <g transform={`translate(${rig.neck.x + (rig.hip.x - rig.neck.x) * 0.32 + 7} ${rig.neck.y + (rig.hip.y - rig.neck.y) * 0.32})`}>
           <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${2 + 2.4 * light + 0.25 * Math.sin(t * 3)})`} fill="#FFC98F" opacity={0.2 + 0.55 * light} filter="url(#s2b4)" />
@@ -163,7 +155,7 @@ export const Sea2World: React.FC<{ f: number }> = ({ f }) => {
       </g>
       {/* a happy little "z" once it's resting */}
       {f > T.wiggle + 30 && [0, 1, 2].map((i) => { const p = ((f - T.wiggle - 30) / 60 + i / 3) % 1;
-        return <text key={i} x={wx(sx) - 120 + 30 * p} y={GR - 140 - 120 * p} fontFamily="Caveat" fontSize={40 + 10 * i} fill="#9A8A7E" opacity={Math.sin(Math.PI * p) * 0.6}>z</text>; })}
+        return <text key={i} x={wx(sx) - 40 + 30 * p} y={GR - 330 - 110 * p} fontFamily="Caveat" fontSize={40 + 10 * i} fill="#9A8A7E" opacity={Math.sin(Math.PI * p) * 0.6}>z</text>; })}
       {/* dunes with sea grass and flowers (drift with the camera) */}
       <g transform={`translate(${-cam} 0)`}>
         {[[-40, 1], [1000, -1], [1300, 1], [2120, -1]].map(([x0, d], k) => (
