@@ -1707,5 +1707,19 @@
         "story": {
             "video": "month/reels/quotes/reel-06-hold-the-chalk.mp4"
         }
+    },
+    {
+        "id": "v07",
+        "date": "2026-11-03",
+        "time_ist": "12:00",
+        "type": "Quote reel · v2 meadow · 7 · Enjoy your music",
+        "caption": "Some people will always have something to say. You don't have to stay and listen. Put your music on and keep walking. 🎧\n\n#ASelfRepairedSoul #trulyaariya #protectyourpeace #selfworth #selflove",
+        "status": "scheduled",
+        "format": "reel",
+        "video": "month/reels/quotes/reel-07-enjoy-your-music.mp4",
+        "cover": "month/reels/quotes/reel-07-enjoy-your-music-cover.jpg",
+        "story": {
+            "video": "month/reels/quotes/reel-07-enjoy-your-music.mp4"
+        }
     }
 ]
