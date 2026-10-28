@@ -6,7 +6,7 @@ export const END = 640;
 export const STRIDE = 248;
 export const T = {
   in0: 24, in1: 70, rant0: 76, rant1: 330, sink0: 110, sink1: 200,
-  look0: 246, look1: 260, grab0: 262, grab1: 274, lift0: 274, lift1: 300, click: 300, settle1: 316,
+  look0: 240, look1: 254, grab0: 256, grab1: 266, lift0: 258, lift1: 300, click: 300, settle1: 316,
   turn0: 312, turn1: 326, walk0: 326, walk1: 500, groove: 500,
   fade0: 330, fade1: 420,
   wipe: 548, card: 566,
@@ -46,20 +46,32 @@ export const soulX = (f: number) => {
 export const soulDir = (f: number) => Math.cos(Math.PI * smoother(seg01(f, T.turn0, T.turn1))); // 1 faces the grey soul → −1 walks away
 
 const S = POSES.stand;
-const CALM = P(2, 4, [0, 0], [0, 0], [4, 6], [12, 14]);
-const SINK = P(8, 24, [0, 1], [0, 0], [3, 4], [8, 10]);
-const LOOK = P(-2, -6, [0, 0], [0, 0], [4, 6], [12, 14]);
+const CALM = P(2, 4, [0, 0], [0, 0], [4, 16], [12, 34]); // headphones dangling from its front hand
+const SINK = P(8, 24, [0, 1], [0, 0], [3, 12], [8, 26]);
+const LOOK = P(-2, -6, [0, 0], [0, 0], [4, 16], [12, 34]);
 const GROOVE = P(-3, -10, [0, 0], [0, 0], [10, 14], [22, 30]);
 
-// headphones: 0 = resting round the neck, 1 = on the head
+// headphones: 0 = held in the front hand, 1 = on the head. All in the soul's local rig space.
 export const phonesAt = (f: number) => smoother(seg01(f, T.lift0, T.lift1));
-// cup centre in the soul's local rig space (neck → over the ear)
-export const cupLocal = (r: ReturnType<typeof solve>, u: number) => {
-  const ha = (r.headAng * Math.PI) / 180;
-  const ear = { x: r.head.x + (-12) * Math.cos(ha) - 4 * Math.sin(ha), y: r.head.y + (-12) * Math.sin(ha) + 4 * Math.cos(ha) };
-  const neck = { x: r.neck.x + 14, y: r.neck.y + 4 };
-  const mid = { x: lerp(neck.x, ear.x, u) + 26 * Math.sin(Math.PI * u), y: lerp(neck.y, ear.y, u) - 14 * Math.sin(Math.PI * u) };
-  return { ...mid, rot: lerp(-20, r.headAng, u) };
+type V = { x: number; y: number };
+const rot = (v: V, deg: number): V => { const a = (deg * Math.PI) / 180; return { x: v.x * Math.cos(a) - v.y * Math.sin(a), y: v.x * Math.sin(a) + v.y * Math.cos(a) }; };
+const add = (a: V, b: V): V => ({ x: a.x + b.x, y: a.y + b.y });
+const lp = (a: V, b: V, t: number): V => ({ x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t) });
+// A = top of the band, c1 = near cup, c2 = far cup (hidden once on the head)
+export const phonesGeom = (r: ReturnType<typeof solve>, u: number) => {
+  const ha = r.headAng;
+  const top = add(r.head, rot({ x: 0, y: -37 }, ha)), ear = add(r.head, rot({ x: -11, y: 5 }, ha));
+  const above = add(top, { x: 4, y: -40 });
+  const hand = r.arms[1].hand;
+  const u1 = smoother(seg01(u, 0, 0.72)), u2 = smoother(seg01(u, 0.72, 1));
+  // lifted up in a gentle arc, held open above the head, then lowered onto the ears
+  const A = u < 0.72 ? add(lp(hand, above, u1), { x: 26 * Math.sin(Math.PI * u1), y: 0 }) : lp(above, top, u2);
+  const hang1 = { x: 7, y: 27 }, hang2 = { x: -9, y: 31 };
+  const open1 = { x: 4, y: 46 }, open2 = { x: -30, y: 44 };
+  const on1 = { x: ear.x - top.x, y: ear.y - top.y };
+  const o1 = u < 0.72 ? lp(hang1, open1, u1) : lp(open1, on1, u2);
+  const o2 = u < 0.72 ? lp(hang2, open2, u1) : lp(open2, add(on1, { x: 22, y: -2 }), u2);
+  return { A, c1: add(A, o1), c2: add(A, o2), farOpacity: 1 - u2, rot: lerp(-8, ha, u2) };
 };
 const reachLocal = (pose: Pose, x: number, tl: { x: number; y: number }, arm: 0 | 1, amt: number): Pose => {
   if (amt <= 0) return pose;
@@ -73,25 +85,32 @@ const reachLocal = (pose: Pose, x: number, tl: { x: number; y: number }, arm: 0 
   return { ...pose, ua, fa };
 };
 
-export const soulPose = (f: number): Pose => {
+export const soulBase = (f: number): Pose => {
   const breath = Math.sin((f / 30) * Math.PI * 2 / 3.8);
   const x = soulX(f);
   let p: Pose = mix(S, CALM, smoother(seg01(f, 0, 20)));
   if (f >= T.sink0) p = mix(CALM, SINK, smoother(seg01(f, T.sink0, T.sink1)));
   if (f >= T.look0) p = mix(SINK, LOOK, smoother(seg01(f, T.look0, T.look1)));
-  // both hands take the headphones from the neck up onto the head
-  if (f >= T.grab0 && f < T.settle1 + 6) {
-    const r = solve(p, x), cup = cupLocal(r, phonesAt(f));
-    const amt = smoother(seg01(f, T.grab0, T.grab1)) * (1 - smoother(seg01(f, T.click + 2, T.settle1 + 6)));
-    p = reachLocal(p, x, { x: cup.x - 2, y: cup.y + 6 }, 1, amt);
-    p = reachLocal(p, x, { x: cup.x - 18, y: cup.y + 2 }, 0, amt);
-  }
   if (f >= T.turn0) p = mix(LOOK, GROOVE, smoother(seg01(f, T.turn0, T.walk0 + 20)));
   if (f >= T.walk0) p = walking((Math.abs(x - AX0) / STRIDE) * Math.PI * 2, GROOVE, walkAmt(f, T.walk0, T.walk1), 1);
   // grooving to the music once it stops
   if (f >= T.groove) { const g = smoother(seg01(f, T.groove, T.groove + 14)), b = Math.sin(((f - T.groove) / 22) * Math.PI * 2); p = { ...p, head: p.head + 7 * g * b, lean: p.lean + 3 * g * b, ua: [p.ua[0] + 10 * g * b, p.ua[1] - 10 * g * b] }; }
   return { ...p, lean: p.lean + 1.4 * breath, head: p.head + 1.2 * breath };
 };
+export const phonesGeomAt = (f: number) => phonesGeom(solve(soulBase(f), soulX(f), undefined, soulHop(f)), phonesAt(f));
+// both hands carry the headphones up and settle them on the head, like a person would
+export const soulPose = (f: number): Pose => {
+  let p = soulBase(f);
+  if (f >= T.grab0 && f < T.settle1 + 8) {
+    const x = soulX(f), g = phonesGeomAt(f);
+    const amt = smoother(seg01(f, T.grab0, T.grab1)) * (1 - smoother(seg01(f, T.click + 4, T.settle1 + 8)));
+    const s1 = smoother(seg01(f, T.grab0, T.lift0 + 10));
+    p = reachLocal(p, x, lerp2(g.A, { x: g.c1.x + 2, y: g.c1.y - 4 }, s1), 1, f < T.grab1 ? 1 : amt);
+    p = reachLocal(p, x, { x: g.c2.x - 2, y: g.c2.y - 2 }, 0, amt);
+  }
+  return p;
+};
+const lerp2 = (a: V, b: V, t: number): V => ({ x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t) });
 export const soulHop = (f: number) => (f > T.walk0 && f < T.walk1 ? 9 * walkAmt(f, T.walk0, T.walk1) * Math.abs(Math.sin((Math.abs(soulX(f) - AX0) / STRIDE) * Math.PI * 2)) : 0);
 export const moodAt = (f: number) => 0.45 - 0.28 * smoother(seg01(f, T.sink0, T.sink1)) + 0.15 * smoother(seg01(f, T.look0, T.lift1)) + 0.65 * smoother(seg01(f, T.click, T.walk0 + 40));
 export const healAt = (f: number) => 0.42 - 0.12 * smoother(seg01(f, T.sink0, T.sink1)) + 0.7 * smoother(seg01(f, T.click, T.walk1 - 40));

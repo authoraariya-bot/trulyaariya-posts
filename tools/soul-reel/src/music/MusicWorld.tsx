@@ -3,7 +3,7 @@ import React from "react";
 import { interpolateColors } from "remotion";
 import { Body } from "../master/World";
 import { clamp01, GROUND, lerp, SCALE, seg01, smoother, solve, sstep } from "../master/pose";
-import { AX0, BUBBLES, BX, camX, cupLocal, healAt, lightAt, moodAt, phonesAt, ranterOpacity, ranterPose, ranterX, soulDir, soulHop, soulPose, soulX, T } from "./beats";
+import { AX0, BUBBLES, BX, camX, healAt, lightAt, moodAt, phonesGeomAt, ranterOpacity, ranterPose, ranterX, soulDir, soulHop, soulPose, soulX, T } from "./beats";
 
 const W = 1080, H = 1920;
 const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -213,9 +213,14 @@ export const MusicWorld: React.FC<{ f: number }> = ({ f }) => {
       })}
       {/* the soul, with its headphones */}
       {(() => {
-        const dir = soulDir(f), u = phonesAt(f), cup = cupLocal(ra, u);
-        const L = (a: number, b: number) => lerp(a, b, u).toFixed(1);
-        const band = `M0,${L(-12, -15)} C${L(-6, 0)},${L(-34, -34)} ${L(-28, 6)},${L(-36, -44)} ${L(-32, 16)},${L(-14, -44)}`;
+        const dir = soulDir(f), g = phonesGeomAt(f);
+        const top = Math.min(g.A.y, g.c1.y, g.c2.y) - 14;
+        const band = `M${g.c1.x.toFixed(1)},${(g.c1.y - 12).toFixed(1)} C${(g.c1.x - 2).toFixed(1)},${top.toFixed(1)} ${(g.c2.x + 2).toFixed(1)},${top.toFixed(1)} ${g.c2.x.toFixed(1)},${(g.c2.y - 12).toFixed(1)}`;
+        const cupEl = (c: { x: number; y: number }, far: boolean, o: number) => <g transform={`translate(${c.x} ${c.y}) rotate(${g.rot})`} opacity={o}>
+          <ellipse cx={0} cy={0} rx={12} ry={15} fill={far ? "#A994E6" : "#C7B3FF"} />
+          {!far && <ellipse cx={2} cy={0} rx={7} ry={10} fill="#EADFFF" />}
+          {!far && <circle cx={-5} cy={-6} r={2.4} fill="#E8C27A" />}
+        </g>;
         return <g transform={`translate(${xa} ${GROUND}) scale(${SCALE * dir} ${SCALE}) translate(${-xa} ${-GROUND})`}>
           <ellipse cx={(ra.legs[0].foot.x + ra.legs[1].foot.x) / 2} cy={GROUND + 6} rx={62} ry={9} fill="#6F8461" opacity={0.2} filter="url(#mb4)" />
           <g filter="url(#mb16)" opacity={0.3 + 0.6 * light}><Body r={ra} fill="#F8C9AE" back="#F8C9AE" /></g>
@@ -224,13 +229,13 @@ export const MusicWorld: React.FC<{ f: number }> = ({ f }) => {
             <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${2 + 2.4 * light + 0.25 * Math.sin(t * 3)})`} fill="#FFC98F" opacity={0.2 + 0.55 * light} filter="url(#mb4)" />
             <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${0.5 + 0.5 * light})`} fill="#FFD7A6" opacity={0.45 + 0.55 * light} />
           </g>
-          <g transform={`translate(${cup.x} ${cup.y}) rotate(${cup.rot})`}>
-            {u < 0.6 && <ellipse cx={-32} cy={-4} rx={10} ry={13} fill="#A994E6" opacity={1 - u / 0.6} />}
-            <path d={band} stroke="#B9A3F2" strokeWidth={7} fill="none" strokeLinecap="round" />
-            <ellipse cx={0} cy={0} rx={12} ry={15} fill="#C7B3FF" />
-            <ellipse cx={2} cy={0} rx={7} ry={10} fill="#EADFFF" />
-            <circle cx={-5} cy={-6} r={2.4} fill="#E8C27A" />
-          </g>
+          {/* while it lifts the headphones, its arms get a soft edge so the hands read against the head */}
+          {f > T.grab0 - 4 && f < T.settle1 + 12 && (() => { const k = Math.min(1, (f - T.grab0 + 4) / 8, (T.settle1 + 12 - f) / 8);
+            return [0, 1].map((i) => { const a = ra.arms[i]; const d = `M${a.sh.x},${a.sh.y} L${a.el.x},${a.el.y} L${a.hand.x},${a.hand.y}`;
+              return <g key={`arm${i}`} opacity={k} strokeLinecap="round" strokeLinejoin="round" fill="none"><path d={d} stroke="#E6D3C2" strokeWidth={22} /><path d={d} stroke={i ? "#FFFBF4" : "#F2E7DA"} strokeWidth={17} /></g>; }); })()}
+          {cupEl(g.c2, true, g.farOpacity)}
+          <path d={band} stroke="#B9A3F2" strokeWidth={7} fill="none" strokeLinecap="round" />
+          {cupEl(g.c1, false, 1)}
         </g>;
       })()}
       {/* music notes floating up from the headphones */}
