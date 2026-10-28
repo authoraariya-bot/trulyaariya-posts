@@ -145,11 +145,11 @@ export const Sea2World: React.FC<{ f: number }> = ({ f }) => {
       </g>
       {/* the soul */}
       <g transform={`translate(${wx(sx)} ${GR}) scale(${SCALE}) translate(${-sx} ${-GR})`}>
-        <ellipse cx={f > T.lie0 ? (rig.hip.x + rig.neck.x) / 2 + 10 : (rig.legs[0].foot.x + rig.legs[1].foot.x) / 2} cy={GR + 6} rx={f > T.lie0 ? 110 : 62} ry={10} fill="#9C8F7A" opacity={0.2} filter="url(#s2b4)" />
+        <ellipse cx={f > T.lie0 ? rig.hip.x + 40 : (rig.legs[0].foot.x + rig.legs[1].foot.x) / 2} cy={GR + 6} rx={f > T.lie0 ? 110 : 62} ry={10} fill="#9C8F7A" opacity={0.2} filter="url(#s2b4)" />
         <g filter="url(#s2b16)" opacity={0.3 + 0.6 * light}><Body r={rig} fill="#F8C9AE" back="#F8C9AE" /></g>
         {/* lying back: arms folded behind the head, drawn with a soft edge so the elbows read */}
         {f > T.lie0 + 8 && [0, 1].map((i) => { const sh = rig.arms[i].sh, hc = rig.head; const o = Math.min(1, (f - T.lie0 - 8) / 14);
-          const el = i ? { x: hc.x + 34, y: hc.y - 50 } : { x: hc.x - 50, y: hc.y - 26 }, hd = { x: hc.x - 22, y: hc.y - 2 };
+          const el = i ? { x: hc.x + 44, y: hc.y - 40 } : { x: hc.x - 50, y: hc.y - 22 }, hd = { x: hc.x - 24, y: hc.y + 4 };
           const d = `M${sh.x},${sh.y} L${el.x},${el.y} L${hd.x},${hd.y}`;
           return <g key={`la${i}`} opacity={o} strokeLinecap="round" strokeLinejoin="round" fill="none">
             <path d={d} stroke="#E6D4C0" strokeWidth={23} />
