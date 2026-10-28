@@ -5,6 +5,8 @@ import { MoonReel } from "./moon/Reel";
 import { END as MOON_END } from "./moon/beats";
 import { SeaReel } from "./sea/Reel";
 import { WingsReel } from "./wings/Reel";
+import { Sea2Reel } from "./sea2/Reel";
+import { END as SEA2_END } from "./sea2/beats";
 import { END as WINGS_END } from "./wings/beats";
 import { END as SEA_END } from "./sea/beats";
 import { END } from "./master/pose";
@@ -40,6 +42,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Moon01" component={MoonReel} durationInFrames={MOON_END} fps={30} width={1080} height={1920} />
     <Composition id="Sea02" component={SeaReel} durationInFrames={SEA_END} fps={30} width={1080} height={1920} />
     <Composition id="Wings03" component={WingsReel} durationInFrames={WINGS_END} fps={30} width={1080} height={1920} />
+    <Composition id="Sea02b" component={Sea2Reel} durationInFrames={SEA2_END} fps={30} width={1080} height={1920} />
     <Composition id="PaperBoat" component={Reel3} durationInFrames={END} fps={30} width={1080} height={1920} />
     <Composition id="Soul1025" component={Soul1025} durationInFrames={E1025} fps={30} width={1080} height={1920} />
     <Composition id="Soul1026" component={Soul1026} durationInFrames={E1026} fps={30} width={1080} height={1920} />

@@ -21,11 +21,11 @@ for k in range(6): S.noise(at(4 + k * 70), 1.8, 0.025, 0.02, 1.4)   # autumn bre
 for k in range(4): S.noise(at(10 + k * 9), 0.18, 0.02, 0.4, 2)        # wings stretching: soft flutters
 S.chime(14, 0.04)
 for i, (a, b, g, o0, o1) in enumerate(TK):
-    x0, stop = 1260, 470 + 214
+    x0, stop = (1260, 470 + 214) if i < 2 else (-180, 470 - 214)
     for fr in steps(a, b, x0, stop): S.soft_step(fr, 0.042)
     S.noise(at(g), 0.35, 0.05, 0.25, 2)                                  # the feather "whff" as a wing is pulled
     S.felt(N([67, 65, 64, 62][i]), at(g + 2), 0.04, 3)                   # a little falling note each time
-    for fr in steps(o0, o1, stop, 1260): S.soft_step(fr, 0.03)
+    for fr in steps(o0, o1, stop, x0): S.soft_step(fr, 0.03)
 for fr in steps(T['t5in0'], T['t5in1'], 1260, 470 + 250): S.soft_step(fr, 0.042)
 S.piano(N(69), at(T['stop0']), 0.07, 3.0); S.piano(N(57), at(T['stop0']), 0.04, 3.0)   # "no": one firm, soft note
 for fr in steps(T['walk0'], T['walk1'], 470, 150): S.soft_step(fr, 0.045); S.noise(at(fr) + 0.02, 0.12, 0.014, 0.3, 2)  # footsteps on leaves

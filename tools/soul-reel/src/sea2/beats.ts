@@ -41,7 +41,7 @@ const S = POSES.stand;
 const LOOK = P(2, 4, [0, 0], [0, 0], [4, 6], [12, 14]);
 const SIT = P(20, 28, [124, 128], [30, 26], [12, 22], [40, 50]);
 const SIT_HAPPY = P(14, 6, [118, 124], [24, 20], [14, 22], [30, 40]);
-const LIE = P(-88, -2, [86, 44], [90, 104], [-150, -144], [-62, -56]); // on its back, hands behind its head, one knee up
+const LIE = P(-86, 30, [90, 138], [90, 72], [176, 150], [-112, -122]); // on its back, head propped on its hands (elbows up), one knee up
 
 export const soulX = (f: number) => (f < T.step0 ? X0 : f < T.walk0 ? walkX(f, T.step0, T.step1, X0, X1) : walkX(f, T.walk0, T.walk1, X1, X2));
 export const camX = (f: number) => Math.max(0, Math.min(1080, soulX(f) - X1));
@@ -59,7 +59,7 @@ export const soulPose = (f: number): Pose => {
   if (f >= T.look1) p = { ...LOOK, head: LOOK.head - 8 * Math.sin(Math.PI * seg01(f, T.look1, T.smile + 10)) };
   if (f >= T.sit3a) p = mix(LOOK, SIT_HAPPY, smoother(seg01(f, T.sit3a, T.sit3b)));
   if (f >= T.lie0) p = mix(SIT_HAPPY, LIE, smoother(seg01(f, T.lie0, T.lie1)));
-  if (f >= T.wiggle) p = { ...p, sh: [p.sh[0], p.sh[1] + 12 * Math.sin((f - T.wiggle) / 5)] };
+  if (f >= T.wiggle) p = { ...p, sh: [p.sh[0], p.sh[1] + 14 * Math.sin((f - T.wiggle) / 5)] };
   const startle = (a: number) => (f >= a && f < a + 14 ? Math.sin(Math.PI * seg01(f, a, a + 14)) : 0);
   const st = startle(T.splash1) + startle(T.splash2);
   return { ...p, lean: p.lean + (f < T.lie0 ? 1.4 * breath : 0.6 * breath) - 6 * st, head: p.head + 1.2 * breath + 10 * st };
