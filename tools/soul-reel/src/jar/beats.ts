@@ -9,8 +9,8 @@ export const T = {
   air0: 330, grow0: 344, grow1: 430, bloom0: 410, bloom1: 470, back0: 360, back1: 392, breath0: 430, breath1: 470,
   wipe: 518, card: 536,
 };
-export const X0 = 120, X1 = 452, X2 = 360; // walks in, then steps back to admire
-export const JAR = { x: 620, w: 170, h: 220 };
+export const X0 = 120, X1 = 412, X2 = 330; // walks in, then steps back to admire
+export const JAR = { x: 610, w: 200, h: 256 };
 
 const walkAmt = (f: number, a: number, b: number) => sstep(seg01(f, a, a + 14)) * (1 - sstep(seg01(f, b - 14, b)));
 export const walkX = (f: number, a: number, b: number, x0: number, x1: number) => lerp(x0, x1, smoother(seg01(f, a, b)));

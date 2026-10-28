@@ -59,8 +59,8 @@ export const JarWorld: React.FC<{ f: number }> = ({ f }) => {
   const lidHeld = f >= T.pop && f < T.set1;
   const setP = smoother(seg01(f, T.set0 + 4, T.set1));
   const lid = f < T.pop ? { x: JAR.x, y: jt - 6, r: f >= T.twist0 ? 5 * Math.sin((f - T.twist0) / 2.2) : 0 }
-    : lidHeld ? { x: lerp(handA.x + 40, JAR.x - 230, setP), y: lerp(handA.y - 10, G + 6, setP), r: lerp(-14, -4, setP) }
-    : { x: JAR.x - 230, y: G + 6, r: -4 };
+    : lidHeld ? { x: lerp(handA.x + 40, 170, setP), y: lerp(handA.y - 10, G + 8, setP), r: lerp(-14, -4, setP) }
+    : { x: 170, y: G + 8, r: -4 };
   return (
     <g>
       <defs>
