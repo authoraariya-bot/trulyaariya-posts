@@ -39,7 +39,7 @@ const Fibres: React.FC = () => (
 );
 
 export const MoonOverlay: React.FC<{ f: number }> = ({ f }) => {
-  const write = interpolate(f, [196, 226], [0, 1], { ...cl, easing: Easing.bezier(0.4, 0, 0.3, 1) });
+  const write = interpolate(f, [402, 432], [0, 1], { ...cl, easing: Easing.bezier(0.4, 0, 0.3, 1) });
   const glowWord = 0.5 + 0.5 * Math.sin(f / 9);
   const card = smoother(seg01(f, T.wipe + 6, T.card + 6));
   const thread = interpolate(f, [T.card, T.card + 30], [0, 1], { ...cl, easing: Easing.bezier(0.45, 0, 0.25, 1) });
@@ -48,17 +48,17 @@ export const MoonOverlay: React.FC<{ f: number }> = ({ f }) => {
   const wm = smoother(seg01(f, 10, 40)) * (1 - smoother(seg01(f, T.wipe - 12, T.wipe + 4)));
   return (
     <AbsoluteFill>
-      <Block f={f} from={170} to={262}>
-        <div><Word f={f} at={176}>You</Word><Word f={f} at={182}>are</Word><Word f={f} at={188} last>the</Word></div>
+      <Block f={f} from={378} to={470}>
+        <div><Word f={f} at={382}>You</Word><Word f={f} at={388}>are</Word><Word f={f} at={394} last>the</Word></div>
         <div style={{ position: "relative", display: "inline-block", marginTop: -8, marginBottom: -10 }}>
           <span style={{ fontFamily: "Caveat", fontWeight: 700, fontSize: 138, color: GOLD, display: "inline-block", clipPath: `inset(-25% ${(1 - write) * 100}% -25% 0)`, textShadow: `0 0 ${18 + 10 * glowWord}px rgba(255,236,190,0.9)` }}>moon</span>
         </div>
-        <div><Word f={f} at={232}>of</Word><Word f={f} at={238}>your</Word><Word f={f} at={244} last>world.</Word></div>
+        <div><Word f={f} at={438}>of</Word><Word f={f} at={444}>your</Word><Word f={f} at={450} last>world.</Word></div>
       </Block>
 
-      <Block f={f} from={266} to={T.wipe - 4}>
-        <div><Word f={f} at={270}>Don’t</Word><Word f={f} at={278}>dim</Word><Word f={f} at={288} last><span style={{ fontStyle: "italic" }}>yourself</span></Word></div>
-        <div><Word f={f} at={300}>to</Word><Word f={f} at={305}>blend</Word><Word f={f} at={310}>in</Word><Word f={f} at={315}>with</Word><Word f={f} at={320}>the</Word><Word f={f} at={326} last>stars.</Word></div>
+      <Block f={f} from={476} to={T.wipe - 4}>
+        <div><Word f={f} at={480}>Don’t</Word><Word f={f} at={488}>dim</Word><Word f={f} at={498} last><span style={{ fontStyle: "italic" }}>yourself</span></Word></div>
+        <div><Word f={f} at={510}>to</Word><Word f={f} at={515}>blend</Word><Word f={f} at={520}>in</Word><Word f={f} at={525}>with</Word><Word f={f} at={530}>the</Word><Word f={f} at={536} last>stars.</Word></div>
       </Block>
 
       <div style={{ position: "absolute", top: 1800, left: 0, right: 0, textAlign: "center", fontFamily: "Jost", fontWeight: 300, fontSize: 30, letterSpacing: 2, color: INK, opacity: 0.35 * wm }}>@trulyaariya</div>

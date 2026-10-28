@@ -3,7 +3,7 @@ import React from "react";
 import { interpolateColors } from "remotion";
 import { Body } from "../master/World";
 import { clamp01, GROUND, lerp, SCALE, seg01, smoother, solve, sstep } from "../master/pose";
-import { aLight, aMood, aPose, ax, bPose, bx, healAt, MOON_SKY, moonGrow, starCrowd, starsUp, T } from "./beats";
+import { aLight, aMood, aPose, ax, bPose, bx, healAt, MOON_SKY, moonGrow, starsUp, T } from "./beats";
 
 const W = 1080, H = 1920;
 const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -77,14 +77,14 @@ export const MoonWorld: React.FC<{ f: number }> = ({ f }) => {
   const appear = smoother(seg01(f, T.glowOn, T.glowOn + 18));
   const pass = smoother(seg01(f, T.reach1 - 4, T.take + 2));
   const grow = moonGrow(f);
-  let moon = { x: lerp(handB.x, handA.x, pass), y: lerp(handB.y, handA.y, pass) - 44, r: 40 * (0.6 + 0.4 * appear) * (1 + 0.15 * Math.sin(Math.PI * seg01(f, T.glowOn, T.glowOn + 22))) };
+  let moon = { x: lerp(handB.x, handA.x, pass), y: lerp(handB.y, handA.y, pass) - 50, r: 46 * (0.6 + 0.4 * appear) * (1 + 0.15 * Math.sin(Math.PI * seg01(f, T.glowOn, T.glowOn + 22))) };
   if (f >= T.rise0) {
     const lift = grow;
-    moon = { x: lerp(handA.x, MOON_SKY.x, lift) + 18 * Math.sin(Math.PI * lift), y: lerp(handA.y - 44, MOON_SKY.y, lift) - 30 * Math.sin(Math.PI * lift), r: lerp(40, MOON_SKY.r, lift) };
+    moon = { x: lerp(handA.x, MOON_SKY.x, lift) + 18 * Math.sin(Math.PI * lift), y: lerp(handA.y - 50, MOON_SKY.y, lift) - 30 * Math.sin(Math.PI * lift), r: lerp(46, MOON_SKY.r, lift) };
   }
   // the stars in the friend's raised hand: few → a crowd → they float up into the sky
   const handS = toWorld(rb.arms[0].hand, xb, true);
-  const nStars = Math.round(5 + 15 * starCrowd(f));
+  const nStars = 11;
   const up = starsUp(f);
 
   return (
@@ -246,17 +246,20 @@ export const MoonWorld: React.FC<{ f: number }> = ({ f }) => {
         </g>
       </g>
 
-      {f >= T.glowOn && <circle cx={handS.x} cy={handS.y - 30} r={100} fill="#FFF2D2" opacity={0.45 * smoother(seg01(f, T.glowOn, T.glowOn + 20)) * (1 - up)} filter="url(#mb16)" />}
+      {f >= T.glowOn && <circle cx={handS.x - 6} cy={handS.y - 14} r={70} fill="#FFE7A8" opacity={0.6 * smoother(seg01(f, T.glowOn, T.glowOn + 20)) * (1 - up)} filter="url(#mb16)" />}
       {/* the stars in the friend's raised hand: twinkle, crowd, then drift up into the sky */}
       {f >= T.glowOn && Array.from({ length: nStars }, (_, i) => {
-        const a = rnd(i + 70) * Math.PI * 2, d = 22 + 95 * Math.sqrt(rnd(i + 80)) * (i < 5 ? 0.5 : 1);
-        const born = i < 5 ? T.glowOn + i * 3 : T.crowd + (i - 5) * 3;
+        // a tight, bright handful of stars resting just above the lower palm
+        const a = (i / 11) * Math.PI * 2 + rnd(i + 70), d = i === 0 ? 0 : 16 + 30 * rnd(i + 80);
+        const born = T.glowOn + i * 2;
         const b = smoother(seg01(f, born, born + 10));
-        const hx = handS.x + Math.cos(a + t * 0.6) * d, hy = handS.y - 30 + Math.sin(a + t * 0.6) * d * 0.6;
-        const sxp = 90 + rnd(i + 90) * 900, syp = 640 + rnd(i + 95) * 420;
-        const x = lerp(hx, sxp, up), y = lerp(hy, syp, up) - 60 * Math.sin(Math.PI * up);
+        const hx = handS.x - 6 + Math.cos(a + t * 0.8) * d, hy = handS.y - 16 + Math.sin(a + t * 0.8) * d * 0.55;
+        // they drift up and settle around the moon (kept below the text)
+        const ang = -Math.PI * 0.95 + (i / 10) * Math.PI * 1.9, rr = 150 + 130 * rnd(i + 90);
+        const sxp = MOON_SKY.x + Math.cos(ang) * rr * 1.6, syp = Math.max(660, MOON_SKY.y + Math.sin(ang) * rr * 0.75);
+        const x = lerp(hx, sxp, up), y = lerp(hy, syp, up) - 80 * Math.sin(Math.PI * up);
         const tw = 0.6 + 0.4 * Math.sin(t * (4 + rnd(i) * 3) + i);
-        return <g key={`st${i}`} transform={`translate(${x},${y})`}><Star s={(0.62 + 0.4 * rnd(i + 3)) * b * (1 - 0.45 * up)} o={b * tw} /></g>;
+        return <g key={`st${i}`} transform={`translate(${x},${y})`}><Star s={(i === 0 ? 0.95 : 0.55 + 0.3 * rnd(i + 3)) * b * (1 - 0.4 * up)} o={b * tw} /></g>;
       })}
 
       {/* the moon: in the friend's hand → the soul's hand → the sky */}
