@@ -4,7 +4,7 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from soul_score import Score, N, at, sr, _lp
 END = 640
-T = dict(in0=24, in1=70, rant0=76, rant1=330, sink0=110, look0=246, grab0=262, lift0=274, click=300, turn0=312, walk0=326, walk1=500, groove=500, fade0=330, fade1=420, wipe=548, card=566)
+T = dict(in0=24, in1=70, rant0=76, rant1=330, sink0=110, look0=240, grab0=256, lift0=266, tuck=290, click=296, turn0=312, walk0=326, walk1=500, groove=500, fade0=330, fade1=420, wipe=548, card=566)
 AX0, AX1 = 380, -640
 def soulX(f):
     a, b, e = T['walk0'], T['walk1'], 16
@@ -47,8 +47,8 @@ S.bed([[57, 60, 64], [55, 58, 62]], 0.2, at(T['click']) + 0.3, bar=3.2, amp=0.01
 S.wind(10, 0.025)
 for k in range(3): S.chirp(0.5 + k * 1.4, 0.006)
 S.felt(N(62), at(T['look0']), 0.03, 3)
-S.noise(at(T['grab0'] + 4), 0.15, 0.015, 0.3, 2)                     # fingers find the headphones
-S.noise(at(T['lift0']), 0.6, 0.012, 0.1, 1.5)                         # lifting them up
+S.noise(at(T['grab0'] + 4), 0.12, 0.012, 0.3, 2)                     # fingers pick up the earphone
+S.noise(at(T['lift0']), 0.4, 0.008, 0.1, 1.5); S.noise(at(T['tuck']), 0.08, 0.02, 0.4, 2)   # wire rustle, tuck
 S.bell(T['click'], 98, 0.02); S.noise(at(T['click']), 0.05, 0.03, 0.5, 2)   # click
 # ---- its music: a sweet lo-fi groove, beat every 0.64 s
 beat = 0.64; s0 = at(T['click']) + 0.15
