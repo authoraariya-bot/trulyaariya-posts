@@ -1679,5 +1679,19 @@
         "story": {
             "video": "month/reels/quotes/reel-04-let-it-breathe.mp4"
         }
+    },
+    {
+        "id": "v05",
+        "date": "2026-11-01",
+        "time_ist": "12:00",
+        "type": "Quote reel · v2 meadow · 5 · At your own pace",
+        "caption": "Weddings, promotions, new cities. Everyone seems ahead. You're not late. You're on your road. 🌿\n\n#ASelfRepairedSoul #trulyaariya #ownpace #healingjourney #selflove",
+        "status": "scheduled",
+        "format": "reel",
+        "video": "month/reels/quotes/reel-05-at-your-own-pace.mp4",
+        "cover": "month/reels/quotes/reel-05-at-your-own-pace-cover.jpg",
+        "story": {
+            "video": "month/reels/quotes/reel-05-at-your-own-pace.mp4"
+        }
     }
 ]
