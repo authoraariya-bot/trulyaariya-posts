@@ -43,48 +43,28 @@ export const soulX = (f: number) => {
   const pos = (g: number) => (g < a + e ? v * (g - a) * (g - a) / (2 * e) : g < b - e ? v * e / 2 + v * (g - a - e) : v * e / 2 + v * (b - 2 * e - a) + v * e / 2 - v * (b - g) * (b - g) / (2 * e));
   return AX0 + pos(Math.min(f, b));
 };
-export const soulDir = (f: number) => Math.cos(Math.PI * smoother(seg01(f, T.turn0, T.turn1))); // 1 faces the grey soul → −1 walks away
+// how we see the soul: side (facing the grey soul) → turns to face us to put the earphones in → side, walking away
+export const F0 = 242, F1 = 254;
+export const view = (f: number) => {
+  if (f < F0) return { front: false, sx: 1, dir: 1 };
+  if (f < F1) { const u = smoother(seg01(f, F0, F1)); return u < 0.5 ? { front: false, sx: Math.cos(Math.PI * u), dir: 1 } : { front: true, sx: -Math.cos(Math.PI * u), dir: 1 }; }
+  if (f < T.turn0) return { front: true, sx: 1, dir: 1 };
+  if (f < T.turn1) { const u = smoother(seg01(f, T.turn0, T.turn1)); return u < 0.5 ? { front: true, sx: Math.cos(Math.PI * u), dir: 1 } : { front: false, sx: -Math.cos(Math.PI * u), dir: -1 }; }
+  return { front: false, sx: 1, dir: -1 };
+};
+export const soulDir = (f: number) => view(f).dir * view(f).sx;
 
 const S = POSES.stand;
-// the back hand holds a little music player in front of the chest the whole time; the front hand is free
-const HOLD_UA = 44, HOLD_FA = 96;
-const CALM = P(2, 4, [0, 0], [0, 0], [HOLD_UA, 4], [HOLD_FA, 14]);
-const SINK = P(8, 24, [0, 1], [0, 0], [HOLD_UA - 6, 3], [HOLD_FA - 10, 8]);
-const LOOK = P(-2, -6, [0, 0], [0, 0], [HOLD_UA, 4], [HOLD_FA, 14]);
-const GROOVE = P(-3, -10, [0, 0], [0, 0], [HOLD_UA, 14], [HOLD_FA, 30]);
+// side view: the player rests in the front hand, arm relaxed down by its side
+const CALM = P(2, 4, [0, 0], [0, 0], [4, 8], [12, 30]);
+const SINK = P(8, 24, [0, 1], [0, 0], [3, 6], [8, 22]);
+const LOOK = P(-2, -6, [0, 0], [0, 0], [4, 8], [12, 30]);
+const GROOVE = P(-3, -10, [0, 0], [0, 0], [10, 10], [22, 30]);
 
-// earphones: 0 = buds dangling from the player, 1 = tucked into the ear
-export const budAt = (f: number) => smoother(seg01(f, T.lift0, T.lift1));
 type V = { x: number; y: number };
 const rot = (v: V, deg: number): V => { const a = (deg * Math.PI) / 180; return { x: v.x * Math.cos(a) - v.y * Math.sin(a), y: v.x * Math.sin(a) + v.y * Math.cos(a) }; };
 const add = (a: V, b: V): V => ({ x: a.x + b.x, y: a.y + b.y });
 const lp = (a: V, b: V, t: number): V => ({ x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t) });
-// everything in the soul's local rig space
-export const earGeom = (r: ReturnType<typeof solve>, f: number) => {
-  const u = budAt(f);
-  const hand = r.arms[0].hand;                         // back hand holds the player
-  const player = add(hand, { x: 4, y: -10 });
-  const jack = add(player, { x: 0, y: -17 });
-  const ear = add(r.head, rot({ x: -10, y: 6 }, r.headAng));
-  const rest1 = add(jack, { x: 14, y: 46 }), rest2 = add(jack, { x: 2, y: 52 });
-  // the near bud travels up in a small arc to the ear; a little push when it is tucked in
-  const push = Math.sin(Math.PI * seg01(f, T.tuck - 4, T.tuck + 6));
-  const bud1 = u < 1 ? add(lp(rest1, ear, u), { x: 22 * Math.sin(Math.PI * u), y: 0 }) : add(ear, { x: -1.5 * push, y: 0 });
-  const split = lp(add(jack, { x: 8, y: 30 }), add(r.neck, { x: 22, y: 42 }), u);
-  const bud2 = lp(rest2, add(r.neck, { x: -22, y: 6 }), smoother(seg01(f, T.lift1 - 4, T.settle1)));
-  return { player, jack, ear, bud1, bud2, split, u, farTucked: smoother(seg01(f, T.lift1 - 4, T.settle1)) };
-};
-const reachLocal = (pose: Pose, x: number, tl: V, arm: 0 | 1, amt: number): Pose => {
-  if (amt <= 0) return pose;
-  const r = solve(pose, x), sh = r.arms[arm].sh, L1 = 42, L2 = 40;
-  const dx = tl.x - sh.x, dy = tl.y - sh.y, d = Math.max(8, Math.min(L1 + L2 - 0.5, Math.hypot(dx, dy)));
-  const phi = (Math.atan2(dx, dy) * 180) / Math.PI;
-  const a1 = (Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d)))) * 180) / Math.PI;
-  const a2 = (Math.acos(Math.max(-1, Math.min(1, (L2 * L2 + d * d - L1 * L1) / (2 * L2 * d)))) * 180) / Math.PI;
-  const ua = [...pose.ua] as [number, number], fa = [...pose.fa] as [number, number];
-  ua[arm] = lerp(pose.ua[arm], phi - a1, amt); fa[arm] = lerp(pose.fa[arm], phi + a2, amt);
-  return { ...pose, ua, fa };
-};
 
 export const soulBase = (f: number): Pose => {
   const breath = Math.sin((f / 30) * Math.PI * 2 / 3.8);
@@ -94,22 +74,52 @@ export const soulBase = (f: number): Pose => {
   if (f >= T.look0) p = mix(SINK, LOOK, smoother(seg01(f, T.look0, T.look1)));
   if (f >= T.turn0) p = mix(LOOK, GROOVE, smoother(seg01(f, T.turn0, T.walk0 + 20)));
   if (f >= T.walk0) p = walking((Math.abs(x - AX0) / STRIDE) * Math.PI * 2, GROOVE, walkAmt(f, T.walk0, T.walk1), 1);
-  // grooving to the music once it stops
-  if (f >= T.groove) { const g = smoother(seg01(f, T.groove, T.groove + 14)), b = Math.sin(((f - T.groove) / 22) * Math.PI * 2); p = { ...p, head: p.head + 7 * g * b, lean: p.lean + 3 * g * b, ua: [p.ua[0], p.ua[1] - 10 * g * b] }; }
-  // the back hand keeps holding the player, even while walking
-  p = { ...p, ua: [HOLD_UA - (f >= T.sink0 ? 6 * smoother(seg01(f, T.sink0, T.sink1)) * (1 - smoother(seg01(f, T.look0, T.look1))) : 0), p.ua[1]], fa: [HOLD_FA + 3 * Math.sin(f / 9), p.fa[1]] };
+  if (f >= T.groove) { const g = smoother(seg01(f, T.groove, T.groove + 14)), b = Math.sin(((f - T.groove) / 22) * Math.PI * 2); p = { ...p, head: p.head + 7 * g * b, lean: p.lean + 3 * g * b, ua: [p.ua[0] - 10 * g * b, p.ua[1]] }; }
+  // the front hand keeps the player low by its side (a gentle sway while walking)
+  p = { ...p, ua: [p.ua[0], 8 + 4 * Math.sin(f / 10)], fa: [p.fa[0], 30 + 3 * Math.sin(f / 10)] };
   return { ...p, lean: p.lean + 1.4 * breath, head: p.head + 1.2 * breath };
 };
-export const earGeomAt = (f: number) => earGeom(solve(soulBase(f), soulX(f), undefined, soulHop(f)), f);
-// the front hand picks the bud from where it dangles and tucks it into the ear
-export const soulPose = (f: number): Pose => {
-  let p = soulBase(f);
-  if (f >= T.grab0 && f < T.settle1 + 8) {
-    const x = soulX(f), g = earGeomAt(f);
-    const amt = smoother(seg01(f, T.grab0, T.grab1)) * (1 - smoother(seg01(f, T.click, T.settle1 + 8)));
-    p = reachLocal(p, x, { x: g.bud1.x + 2, y: g.bud1.y + 15 }, 1, amt); // fingers just under the bud, so the arm stays low and clear of the face
-  }
-  return p;
+export const soulPose = soulBase;
+// side-view earphones: dangling from the player before, the near bud in the ear after
+export const sideEar = (r: ReturnType<typeof solve>, worn: boolean) => {
+  const player = add(r.arms[1].hand, { x: 3, y: 10 });
+  const jack = add(player, { x: 0, y: -17 });
+  if (!worn) { const split = add(jack, { x: 6, y: 24 }); return { player, jack, split, bud1: add(split, { x: 9, y: 18 }), bud2: add(split, { x: -3, y: 22 }), hide2: false }; }
+  const ear = add(r.head, rot({ x: -10, y: 6 }, r.headAng));
+  return { player, jack, split: add(r.neck, { x: 18, y: 50 }), bud1: ear, bud2: add(r.neck, { x: -20, y: 8 }), hide2: true };
+};
+
+// front view rig (local space, same scale as the side rig): both hands put a bud in each ear
+export const frontRig = (f: number, x: number, G = 1540) => {
+  const breath = Math.sin((f / 30) * Math.PI * 2 / 3.8);
+  const hip = { x, y: G - 121 }, neck = { x, y: hip.y - 92 + 1.2 * breath }, head = { x, y: neck.y - 33 };
+  const earR = { x: x - 33, y: head.y + 6 }, earL = { x: x + 33, y: head.y + 6 }; // R = its right (our left)
+  const g0 = smoother(seg01(f, T.grab0, T.grab1)), l = smoother(seg01(f, T.lift0, T.lift1)), dn = smoother(seg01(f, T.click, T.settle1));
+  const push = Math.sin(Math.PI * seg01(f, T.tuck - 4, T.tuck + 6));
+  const restR = { x: x - 44, y: hip.y + 4 }, restL = { x: x + 44, y: hip.y + 4 };
+  const gatherR = { x: x + 8, y: hip.y - 10 }, gatherL = { x: x + 26, y: hip.y - 4 };
+  const atR = { x: earR.x - 6 + 3 * push, y: earR.y + 14 }, atL = { x: earL.x + 6 - 3 * push, y: earL.y + 14 };
+  let hR = lp(lp(restR, gatherR, g0), atR, l), hL = lp(lp(restL, gatherL, g0), atL, l);
+  hR = { x: hR.x - 14 * Math.sin(Math.PI * l), y: hR.y }; hL = { x: hL.x + 14 * Math.sin(Math.PI * l), y: hL.y }; // hands travel out and up, not across the face
+  hR = lp(hR, restR, dn); hL = lp(hL, restL, dn);
+  const shR = { x: x - 27, y: neck.y + 13 }, shL = { x: x + 27, y: neck.y + 13 };
+  const arm = (sh: V, hand: V, out: number) => {
+    const L1 = 42, L2 = 40, dx = hand.x - sh.x, dy = hand.y - sh.y, d = Math.max(10, Math.min(L1 + L2 - 0.5, Math.hypot(dx, dy)));
+    const a = Math.atan2(dy, dx), k = Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d))));
+    // elbow bends outward, away from the body
+    const c1 = { x: sh.x + L1 * Math.cos(a + k), y: sh.y + L1 * Math.sin(a + k) }, c2 = { x: sh.x + L1 * Math.cos(a - k), y: sh.y + L1 * Math.sin(a - k) };
+    const el = (c1.x - x) * out > (c2.x - x) * out ? c1 : c2; // the elbow that sits further out from the body
+    const hd = { x: sh.x + d * Math.cos(a), y: sh.y + d * Math.sin(a) };
+    return { sh, el, hand: hd };
+  };
+  const aR = arm(shR, hR, -1), aL = arm(shL, hL, 1);
+  // earphones: the player stays in its left hand; the buds go from the hands to the ears
+  const player = add(aL.hand, { x: 4, y: 12 }), jack = add(player, { x: 0, y: -17 });
+  const worn = smoother(seg01(f, T.lift1 - 2, T.tuck + 2));
+  const budR = lp(f < T.grab1 - 4 ? add(jack, { x: -10, y: 40 }) : add(aR.hand, { x: 5, y: -12 }), earR, worn);
+  const budL = lp(f < T.grab1 - 4 ? add(jack, { x: 6, y: 44 }) : add(aL.hand, { x: -5, y: -12 }), earL, worn);
+  const split = lp(add(jack, { x: -2, y: 28 }), { x: x + 4, y: neck.y + 52 }, l);
+  return { hip, neck, head, aR, aL, player, jack, split, budR, budL, earR, earL };
 };
 export const soulHop = (f: number) => (f > T.walk0 && f < T.walk1 ? 9 * walkAmt(f, T.walk0, T.walk1) * Math.abs(Math.sin((Math.abs(soulX(f) - AX0) / STRIDE) * Math.PI * 2)) : 0);
 export const moodAt = (f: number) => 0.45 - 0.28 * smoother(seg01(f, T.sink0, T.sink1)) + 0.15 * smoother(seg01(f, T.look0, T.lift1)) + 0.65 * smoother(seg01(f, T.click, T.walk0 + 40));

@@ -3,7 +3,7 @@ import React from "react";
 import { interpolateColors } from "remotion";
 import { Body } from "../master/World";
 import { clamp01, GROUND, lerp, SCALE, seg01, smoother, solve, sstep } from "../master/pose";
-import { AX0, BUBBLES, BX, camX, healAt, lightAt, moodAt, earGeomAt, ranterOpacity, ranterPose, ranterX, soulDir, soulHop, soulPose, soulX, T } from "./beats";
+import { AX0, BUBBLES, BX, camX, healAt, lightAt, moodAt, frontRig, ranterOpacity, ranterPose, ranterX, soulDir, soulHop, soulPose, soulX, sideEar, T, view } from "./beats";
 
 const W = 1080, H = 1920;
 const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -211,42 +211,76 @@ export const MusicWorld: React.FC<{ f: number }> = ({ f }) => {
           {popped > 0 && popped < 1 && <circle cx={x} cy={y} r={30 + 50 * popped} fill="none" stroke="#FFFFFF" strokeWidth={4} opacity={1 - popped} />}
         </g>;
       })}
-      {/* the soul, with its headphones */}
+      {/* the soul, with its wired earphones */}
       {(() => {
-        const dir = soulDir(f), g = earGeomAt(f);
-        const P2 = (v: { x: number; y: number }) => `${v.x.toFixed(1)},${v.y.toFixed(1)}`;
-        const sag = (a: { x: number; y: number }, b: { x: number; y: number }, s: number) => `M${P2(a)} Q${((a.x + b.x) / 2 + 6).toFixed(1)},${(Math.max(a.y, b.y) + s).toFixed(1)} ${P2(b)}`;
-        const bud = (v: { x: number; y: number }, k: string) => <g key={k} transform={`translate(${v.x} ${v.y})`}><circle r={7} fill="#B9A3F2" /><circle cx={-2} cy={-2} r={2.6} fill="#F1EAFF" /></g>;
-        return <g transform={`translate(${xa} ${GROUND}) scale(${SCALE * dir} ${SCALE}) translate(${-xa} ${-GROUND})`}>
+        const v = view(f), P2 = (p: { x: number; y: number }) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+        const sag = (a: { x: number; y: number }, b: { x: number; y: number }, s: number) => `M${P2(a)} Q${((a.x + b.x) / 2).toFixed(1)},${(Math.max(a.y, b.y) + s).toFixed(1)} ${P2(b)}`;
+        const up = (a: { x: number; y: number }, b: { x: number; y: number }) => `M${P2(a)} C${a.x.toFixed(1)},${(a.y - 26).toFixed(1)} ${b.x.toFixed(1)},${(b.y + 34).toFixed(1)} ${P2(b)}`;
+        const bud = (p: { x: number; y: number }, k: string) => <g key={k} transform={`translate(${p.x} ${p.y})`}><circle r={7} fill="#B9A3F2" /><circle cx={-2} cy={-2} r={2.6} fill="#F1EAFF" /></g>;
+        const player = (p: { x: number; y: number }) => <g transform={`translate(${p.x} ${p.y}) rotate(-6)`}>
+          <rect x={-11} y={-17} width={22} height={34} rx={6} fill="#9B86DE" />
+          <rect x={-8} y={-14} width={16} height={18} rx={3} fill="#F4EEFF" />
+          <circle cx={0} cy={10} r={4} fill="#F4EEFF" />
+          {f > T.click && <path d="M-3,-9 L-3,-1 M-3,-9 L3,-11 L3,-3" stroke="#B9A3F2" strokeWidth={1.6} fill="none" />}
+        </g>;
+        const glow = (cx: number, cy: number) => <g transform={`translate(${cx} ${cy})`}>
+          <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${2 + 2.4 * light + 0.25 * Math.sin(t * 3)})`} fill="#FFC98F" opacity={0.2 + 0.55 * light} filter="url(#mb4)" />
+          <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${0.5 + 0.5 * light})`} fill="#FFD7A6" opacity={0.45 + 0.55 * light} />
+        </g>;
+        if (v.front) {
+          const r = frontRig(f, xa), { hip, neck, head } = r;
+          const torso = `M${hip.x - 24},${hip.y} C${hip.x - 32},${hip.y - 44} ${neck.x - 30},${neck.y + 34} ${neck.x - 20},${neck.y} Q${neck.x},${neck.y - 14} ${neck.x + 20},${neck.y} C${neck.x + 30},${neck.y + 34} ${hip.x + 32},${hip.y - 44} ${hip.x + 24},${hip.y} Q${hip.x},${hip.y + 20} ${hip.x - 24},${hip.y} Z`;
+          const blink = [262, 330].reduce((a, b) => { const d = f - b; return d >= 0 && d < 6 ? Math.min(a, Math.abs(d - 2.5) / 3) : a; }, 1);
+          const joy = sstep((mood - 0.55) / 0.4), sad = 1 - sstep(mood / 0.45), c = lerp(-5, 7, mood);
+          const armP = (a: typeof r.aR) => `M${P2(a.sh)} L${P2(a.el)} L${P2(a.hand)}`;
+          const body = (fill: string) => <g strokeLinecap="round" strokeLinejoin="round" fill="none">
+            {[-1, 1].map((sd) => <path key={`lg${sd}`} d={`M${hip.x + 12 * sd},${hip.y + 6} L${hip.x + 14 * sd},${GROUND - 8}`} stroke={fill} strokeWidth={27} />)}
+            {[-1, 1].map((sd) => <ellipse key={`ft${sd}`} cx={hip.x + 18 * sd} cy={GROUND - 4} rx={15} ry={9} fill={fill} />)}
+            <path d={torso} fill={fill} />
+            <ellipse cx={head.x} cy={head.y} rx={33} ry={36} fill={fill} />
+          </g>;
+          return <g transform={`translate(${xa} ${GROUND}) scale(${SCALE * v.sx} ${SCALE}) translate(${-xa} ${-GROUND})`}>
+            <ellipse cx={xa} cy={GROUND + 6} rx={58} ry={9} fill="#6F8461" opacity={0.2} filter="url(#mb4)" />
+            <g filter="url(#mb16)" opacity={0.3 + 0.6 * light}>{body("#F8C9AE")}</g>
+            {body("#FFFBF4")}
+            {glow(neck.x, neck.y + 30)}
+            {/* face, looking at us */}
+            <g transform={`translate(${head.x} ${head.y})`}>
+              {[-1, 1].map((sd) => <ellipse key={`bl${sd}`} cx={19 * sd} cy={9} rx={6} ry={3.6} fill="#F4A8A0" opacity={0.45 * mood} />)}
+              {[-1, 1].map((sd) => <g key={`ey${sd}`}>
+                <ellipse cx={10 * sd} cy={-1 + 2.5 * sad} rx={3.4} ry={Math.max(0.5, 4.5 * (1 - 0.4 * sad) * blink)} fill="#5F4C48" opacity={1 - joy} />
+                <path d={`M${10 * sd - 5},1 Q${10 * sd},-5 ${10 * sd + 5},1`} stroke="#5F4C48" strokeWidth={2.3} fill="none" strokeLinecap="round" opacity={joy} />
+              </g>)}
+              <path d={`M-6,15 Q0,${15 + c} 6,15`} stroke="#B97A6E" strokeWidth={2.4} fill={joy > 0.5 ? "#D99487" : "none"} fillOpacity={0.5 * joy} strokeLinecap="round" />
+            </g>
+            {/* wires go over the chest, up each side of the neck to the ears */}
+            <g fill="none" stroke="#8F7BD6" strokeWidth={2.6} strokeLinecap="round">
+              <path d={sag(r.jack, r.split, 8)} />
+              <path d={up(r.split, r.budR)} /><path d={up(r.split, r.budL)} />
+            </g>
+            {bud(r.budR, "bR")}{bud(r.budL, "bL")}
+            {/* arms, with a soft edge so hands never melt into the body */}
+            {[r.aR, r.aL].map((a, i) => <g key={`fa${i}`} strokeLinecap="round" strokeLinejoin="round" fill="none"><path d={armP(a)} stroke="#E6D3C2" strokeWidth={23} /><path d={armP(a)} stroke="#FFFBF4" strokeWidth={18} /></g>)}
+            {player(r.player)}
+          </g>;
+        }
+        const e = sideEar(ra, f > T.lift1);
+        return <g transform={`translate(${xa} ${GROUND}) scale(${SCALE * v.dir * v.sx} ${SCALE}) translate(${-xa} ${-GROUND})`}>
           <ellipse cx={(ra.legs[0].foot.x + ra.legs[1].foot.x) / 2} cy={GROUND + 6} rx={62} ry={9} fill="#6F8461" opacity={0.2} filter="url(#mb4)" />
           <g filter="url(#mb16)" opacity={0.3 + 0.6 * light}><Body r={ra} fill="#F8C9AE" back="#F8C9AE" /></g>
           <Body r={ra} fill="#FFFBF4" back="#F2E7DA" face={{ f, mood }} />
-          <g transform={`translate(${ra.neck.x + (ra.hip.x - ra.neck.x) * 0.32 + 7} ${ra.neck.y + (ra.hip.y - ra.neck.y) * 0.32})`}>
-            <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${2 + 2.4 * light + 0.25 * Math.sin(t * 3)})`} fill="#FFC98F" opacity={0.2 + 0.55 * light} filter="url(#mb4)" />
-            <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${0.5 + 0.5 * light})`} fill="#FFD7A6" opacity={0.45 + 0.55 * light} />
-          </g>
-          {/* while it tucks the earphone in, the front arm gets a soft edge so the hand reads against the head */}
-          {f > T.grab0 - 4 && f < T.settle1 + 12 && (() => { const k = Math.min(1, (f - T.grab0 + 4) / 8, (T.settle1 + 12 - f) / 8);
-            const a = ra.arms[1]; const d = `M${a.sh.x},${a.sh.y} L${a.el.x},${a.el.y} L${a.hand.x},${a.hand.y}`;
-            return <g opacity={k} strokeLinecap="round" strokeLinejoin="round" fill="none"><path d={d} stroke="#E6D3C2" strokeWidth={22} /><path d={d} stroke="#FFFBF4" strokeWidth={17} /></g>; })()}
-          {/* wires: player → split → each bud (the far one goes round the back of the neck) */}
+          {glow(ra.neck.x + (ra.hip.x - ra.neck.x) * 0.32 + 7, ra.neck.y + (ra.hip.y - ra.neck.y) * 0.32)}
           <g fill="none" stroke="#8F7BD6" strokeWidth={2.6} strokeLinecap="round">
-            <path d={sag(g.jack, g.split, 10)} />
-            <path d={g.u > 0.02 ? `M${P2(g.split)} C${(g.split.x + 4).toFixed(1)},${(g.split.y - 30).toFixed(1)} ${(g.bud1.x + 10).toFixed(1)},${(g.bud1.y + 30).toFixed(1)} ${P2(g.bud1)}` : sag(g.split, g.bud1, 6)} />
-            <path d={sag(g.split, g.bud2, 8 * (1 - g.farTucked))} opacity={1 - 0.6 * g.farTucked} />
+            <path d={e.hide2 ? `M${P2(e.jack)} Q${(e.jack.x + 10).toFixed(1)},${(e.jack.y - 20).toFixed(1)} ${P2(e.split)}` : sag(e.jack, e.split, 6)} />
+            <path d={e.hide2 ? up(e.split, e.bud1) : sag(e.split, e.bud1, 4)} />
+            <path d={e.hide2 ? up(e.split, e.bud2) : sag(e.split, e.bud2, 4)} />
           </g>
-          {g.farTucked < 0.98 && <g opacity={1 - g.farTucked}>{bud(g.bud2, "b2")}</g>}
-          {bud(g.bud1, "b1")}
-          {/* the little player in the back hand */}
-          <g transform={`translate(${g.player.x} ${g.player.y}) rotate(-8)`}>
-            <rect x={-11} y={-17} width={22} height={34} rx={6} fill="#9B86DE" />
-            <rect x={-8} y={-14} width={16} height={18} rx={3} fill="#F4EEFF" />
-            <circle cx={0} cy={10} r={4} fill="#F4EEFF" />
-            {f > T.click && <path d="M-3,-9 L-3,-1 M-3,-9 L3,-11 L3,-3" stroke="#B9A3F2" strokeWidth={1.6} fill="none" />}
-          </g>
+          {!e.hide2 && bud(e.bud2, "s2")}
+          {bud(e.bud1, "s1")}
+          {player(e.player)}
         </g>;
       })()}
-      {/* music notes floating up from the headphones */}
+      {/* music notes floating up from the earphones */}
       {f > T.click && Array.from({ length: 22 }, (_, i) => {
         const st = T.click + 4 + i * 11; if (f < st) return null; const p = (f - st) / 60; if (p > 1) return null;
         const dir = soulDir(st), hx = soulX(st) + (ra.head.x - xa) * SCALE * dir, hy = GROUND + (ra.head.y - GROUND) * SCALE;
