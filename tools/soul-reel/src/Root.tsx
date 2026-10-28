@@ -1,6 +1,8 @@
 import React from "react";
 import { Composition } from "remotion";
 import { Reel3 } from "./master/Reel2";
+import { MoonReel } from "./moon/Reel";
+import { END as MOON_END } from "./moon/beats";
 import { END } from "./master/pose";
 import { Soul1025, END as E1025 } from "./r1025/Reel";
 import { Soul1026, END as E1026 } from "./r1026/Reel";
@@ -31,6 +33,7 @@ import { SoulSheet } from "./v2/sheet";
 // Copy src/master to src/<reel-id>/ to make a new reel. The soul, face, style and end card are locked.
 export const RemotionRoot: React.FC = () => (
   <>
+    <Composition id="Moon01" component={MoonReel} durationInFrames={MOON_END} fps={30} width={1080} height={1920} />
     <Composition id="PaperBoat" component={Reel3} durationInFrames={END} fps={30} width={1080} height={1920} />
     <Composition id="Soul1025" component={Soul1025} durationInFrames={E1025} fps={30} width={1080} height={1920} />
     <Composition id="Soul1026" component={Soul1026} durationInFrames={E1026} fps={30} width={1080} height={1920} />
