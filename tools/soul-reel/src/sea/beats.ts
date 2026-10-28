@@ -23,7 +23,7 @@ const mix = (p: Pose, q: Pose, t: number): Pose => ({
 });
 const P = (lean: number, head: number, th: [number, number], sh: [number, number], ua: [number, number], fa: [number, number]): Pose => ({ lean, head, th, sh, ua, fa });
 
-const SIT_DRAW = P(24, 30, [118, 104], [26, 18], [10, 34], [30, 58]);   // sitting, knees up, front hand down at the sand
+const SIT_DRAW = P(18, 30, [124, 128], [30, 26], [12, 40], [40, 76]);   // sitting, knees up, front hand down at the sand
 const SIT_HUG = POSES.sitHug;                                           // knees pulled in
 const KNEEL = P(30, 10, [70, 74], [-100, -96], [10, 20], [30, 40]);
 const S = POSES.stand;

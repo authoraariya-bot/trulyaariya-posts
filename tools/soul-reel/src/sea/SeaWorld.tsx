@@ -106,6 +106,14 @@ export const SeaWorld: React.FC<{ f: number }> = ({ f }) => {
           {Array.from({ length: 30 }, (_, i) => { const x = rnd(i) * W; return <circle key={i} cx={x} cy={edge(x) - 6 - 8 * rnd(i + 2)} r={2 + 3 * rnd(i + 4)} fill="#FFFFFF" opacity={0.6} />; })}
         </g>;
       })()}
+      {[[160, 1690, 0], [700, 1730, 1], [380, 1820, 2], [930, 1700, 1], [590, 1860, 0], [260, 1760, 2]].map(([x, y, k], i) => (
+        <g key={`sh${i}`} transform={`translate(${x},${y}) rotate(${i * 40})`}>
+          {k === 0 && <g><path d="M-14,6 C-14,-10 14,-10 14,6 Z" fill={col(h, "#F1E7DD", "#FCE3DA")} /><path d="M-8,5 L-4,-5 M0,6 L0,-7 M8,5 L4,-5" stroke={col(h, "#D9CBBE", "#EDBFAF")} strokeWidth={1.6} /></g>}
+          {k === 1 && <ellipse rx={9} ry={6} fill={col(h, "#D9D2C6", "#E6D8C7")} />}
+          {k === 2 && <path d="M0,-12 L3,-3 L12,-3 L5,3 L8,12 L0,6 L-8,12 L-5,3 L-12,-3 L-3,-3 Z" fill={col(h, "#E8D3BF", "#F6B98E")} transform="scale(0.9)" />}
+        </g>
+      ))}
+      {Array.from({ length: 7 }, (_, i) => <path key={`rp${i}`} d={`M${60 + i * 140},${1660 + (i % 3) * 70} q30,-8 60,0 q30,8 60,0`} stroke={col(h, "#D2C6B3", "#E8CDA7")} strokeWidth={2.4} fill="none" opacity={0.6} />)}
       {/* circles drawn in the sand */}
       {[0, 1, 2].map((i) => {
         const p = smoother(seg01(f, 10 + i * 34, 40 + i * 34));
@@ -129,16 +137,16 @@ export const SeaWorld: React.FC<{ f: number }> = ({ f }) => {
         return <ellipse cx={SX + 10} cy={GR + 4} rx={110 * reach} ry={10 * reach} fill="#FFFFFF" opacity={0.7 * reach} />;
       })()}
       {/* dunes with sea grass and little flowers in the corners */}
-      <path d={`M-40,1920 L-40,1690 C80,1640 220,1660 330,1760 C380,1810 400,1880 420,1920 Z`} fill={dune} />
-      <path d={`M1120,1920 L1120,1700 C1000,1660 880,1690 790,1780 C750,1830 740,1890 730,1920 Z`} fill={dune} />
+      <path d={`M-40,1920 L-40,1790 C60,1762 170,1772 250,1830 C290,1860 310,1895 320,1920 Z`} fill={dune} />
+      <path d={`M1120,1920 L1120,1780 C1030,1756 930,1770 860,1830 C825,1860 812,1895 805,1920 Z`} fill={dune} />
       {Array.from({ length: 70 }, (_, i) => {
-        const left = i < 36, x = left ? -10 + rnd(i) * 360 : 760 + rnd(i) * 340;
-        const y = left ? 1700 + rnd(i + 3) * 220 + (x > 250 ? (x - 250) * 0.6 : 0) : 1710 + rnd(i + 3) * 210 + (x < 860 ? (860 - x) * 0.5 : 0);
-        const len = 30 + rnd(i + 5) * 50, b = (8 + 10 * c) * Math.sin(t * (1 + c) + x / 70) + 6;
+        const left = i < 36, x = left ? -10 + rnd(i) * 270 : 850 + rnd(i) * 250;
+        const y = left ? 1800 + rnd(i + 3) * 120 + (x > 180 ? (x - 180) * 0.5 : 0) : 1800 + rnd(i + 3) * 120 + (x < 940 ? (940 - x) * 0.5 : 0);
+        const len = 26 + rnd(i + 5) * 40, b = (8 + 10 * c) * Math.sin(t * (1 + c) + x / 70) + 6;
         return <path key={i} d={`M${x},${y} q${b * 0.4},${-len * 0.55} ${b},${-len}`} stroke={i % 3 ? grassC : col(h, "#B3BBA6", "#A9D88E")} strokeWidth={3} fill="none" strokeLinecap="round" />;
       })}
       {Array.from({ length: 14 }, (_, i) => {
-        const left = i % 2 === 0, x = left ? 30 + rnd(i) * 250 : 800 + rnd(i) * 240, y = 1760 + rnd(i + 2) * 120;
+        const left = i % 2 === 0, x = left ? 20 + rnd(i) * 200 : 870 + rnd(i) * 190, y = 1830 + rnd(i + 2) * 70;
         const g = clamp01((h - 0.35 - rnd(i) * 0.3) / 0.2);
         return <g key={`fl${i}`} transform={`translate(${x},${y}) rotate(${4 * Math.sin(t + i)})`}>
           <path d="M0,0 q-1,-8 0,-18" stroke={grassC} strokeWidth={2.2} fill="none" />
