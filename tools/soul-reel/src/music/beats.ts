@@ -57,7 +57,7 @@ export const phonesAt = (f: number) => smoother(seg01(f, T.lift0, T.lift1));
 export const cupLocal = (r: ReturnType<typeof solve>, u: number) => {
   const ha = (r.headAng * Math.PI) / 180;
   const ear = { x: r.head.x + (-12) * Math.cos(ha) - 4 * Math.sin(ha), y: r.head.y + (-12) * Math.sin(ha) + 4 * Math.cos(ha) };
-  const neck = { x: r.neck.x + 10, y: r.neck.y + 8 };
+  const neck = { x: r.neck.x + 14, y: r.neck.y + 4 };
   const mid = { x: lerp(neck.x, ear.x, u) + 26 * Math.sin(Math.PI * u), y: lerp(neck.y, ear.y, u) - 14 * Math.sin(Math.PI * u) };
   return { ...mid, rot: lerp(-20, r.headAng, u) };
 };

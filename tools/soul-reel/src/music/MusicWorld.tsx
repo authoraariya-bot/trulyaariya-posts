@@ -198,8 +198,8 @@ export const MusicWorld: React.FC<{ f: number }> = ({ f }) => {
         const u = age / life, popAt = T.click + (i % 4) * 3;
         const popped = b.t0 < T.click ? smoother(seg01(f, popAt, popAt + 8)) : 0;
         const late = b.t0 >= T.click ? 0.45 : 1;
-        const s = late * Math.min(1, sstep(age / 8) * 1.08) * (1 - popped) * (1 - smoother(seg01(age, life, life + 10)));
-        const x = lerp(BX - 40, AX0 + 150, u) + 20 * Math.sin(i * 2.3), y = 1110 - 40 * u + 30 * Math.sin(i * 1.7 + u * 3) - (i % 3) * 40;
+        const s = 1.45 * late * Math.min(1, sstep(age / 8) * 1.08) * (1 - popped) * (1 - smoother(seg01(age, life, life + 10)));
+        const x = lerp(BX - 110, AX0 + 170, u) + 20 * Math.sin(i * 2.3), y = 1030 - 30 * u + 30 * Math.sin(i * 1.7 + u * 3) - (i % 3) * 40;
         const pts = Array.from({ length: 18 }, (_, k) => { const a = (k / 18) * Math.PI * 2, r = k % 2 ? 56 : 70; return `${(r * Math.cos(a)).toFixed(1)},${(r * Math.sin(a) * 0.72).toFixed(1)}`; }).join(" ");
         return <g key={`bb${i}`}>
           {s > 0.01 && <g transform={`translate(${x} ${y}) scale(${s}) rotate(${6 * Math.sin(f / 3 + i)})`} opacity={b.t0 >= T.click ? 0.5 : 1}>
@@ -215,7 +215,7 @@ export const MusicWorld: React.FC<{ f: number }> = ({ f }) => {
       {(() => {
         const dir = soulDir(f), u = phonesAt(f), cup = cupLocal(ra, u);
         const L = (a: number, b: number) => lerp(a, b, u).toFixed(1);
-        const band = `M0,${L(-12, -15)} C${L(-10, 0)},${L(-26, -34)} ${L(-40, 6)},${L(-24, -44)} ${L(-44, 16)},${L(-4, -44)}`;
+        const band = `M0,${L(-12, -15)} C${L(-6, 0)},${L(-34, -34)} ${L(-28, 6)},${L(-36, -44)} ${L(-32, 16)},${L(-14, -44)}`;
         return <g transform={`translate(${xa} ${GROUND}) scale(${SCALE * dir} ${SCALE}) translate(${-xa} ${-GROUND})`}>
           <ellipse cx={(ra.legs[0].foot.x + ra.legs[1].foot.x) / 2} cy={GROUND + 6} rx={62} ry={9} fill="#6F8461" opacity={0.2} filter="url(#mb4)" />
           <g filter="url(#mb16)" opacity={0.3 + 0.6 * light}><Body r={ra} fill="#F8C9AE" back="#F8C9AE" /></g>
@@ -225,6 +225,7 @@ export const MusicWorld: React.FC<{ f: number }> = ({ f }) => {
             <path d="M0,-11 C7,-4 8,4 0,10 C-8,4 -7,-4 0,-11 Z" transform={`scale(${0.5 + 0.5 * light})`} fill="#FFD7A6" opacity={0.45 + 0.55 * light} />
           </g>
           <g transform={`translate(${cup.x} ${cup.y}) rotate(${cup.rot})`}>
+            {u < 0.6 && <ellipse cx={-32} cy={-4} rx={10} ry={13} fill="#A994E6" opacity={1 - u / 0.6} />}
             <path d={band} stroke="#B9A3F2" strokeWidth={7} fill="none" strokeLinecap="round" />
             <ellipse cx={0} cy={0} rx={12} ry={15} fill="#C7B3FF" />
             <ellipse cx={2} cy={0} rx={7} ry={10} fill="#EADFFF" />
