@@ -1644,13 +1644,17 @@
         "time_ist": "12:00",
         "type": "Quote reel · v2 meadow · 2 · Be the seashore",
         "caption": "You don't have to fix every wave around you. Find your calm and stay there. 🌊\n\n#ASelfRepairedSoul #trulyaariya #innerpeace #healingjourney #selflove",
-        "status": "scheduled",
+        "status": "posted",
         "format": "reel",
         "video": "month/reels/quotes/reel-02-be-the-seashore.mp4",
         "cover": "month/reels/quotes/reel-02-be-the-seashore-cover.jpg",
         "story": {
             "video": "month/reels/quotes/reel-02-be-the-seashore.mp4"
-        }
+        },
+        "media_id": "18109226156244004",
+        "permalink": "https://www.instagram.com/reel/DfEXoMggPF1/",
+        "story_status": "posted",
+        "story_media_id": "18571576306078427"
     },
     {
         "id": "v03",
