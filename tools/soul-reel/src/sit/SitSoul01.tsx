@@ -2,8 +2,8 @@
 import React from "react";
 import { ease, lerp, LOOP, Mark, PALETTES, seg, SittingSoul, SoulState, TAU } from "./SittingSoul";
 
-const P = PALETTES.blush, SIZE = 70;
-const PAGE_TOP = 470, PAGE_BOTTOM = 1290, SOUL_X = 760;
+const P = PALETTES.blush, SIZE = 66;
+const PAGE_TOP = 430, PAGE_BOTTOM = 1320, SOUL_X = 760;
 type V = { x: number; y: number };
 // the body leans by shearing (its flat bottom never leaves the page edge); undo that shear for hand targets
 const unshear = (v: V, lean: number): V => ({ x: v.x - v.y * Math.tan((-lean * Math.PI) / 180), y: v.y });
@@ -64,6 +64,6 @@ const scene = (f: number) => {
 
 export const SitSoul01: React.FC = () => (
   <SittingSoul palette={P} size={SIZE} pageTop={PAGE_TOP} pageBottom={PAGE_BOTTOM} soulX={SOUL_X} scene={scene}
-    lines={<div>Every time you let someone mistreat you, you lose a piece of yourself. Don’t lose <Mark p={P} size={SIZE}>all</Mark> of you to keep a little of them.</div>} />
+    lines={[<>Every time you let someone mistreat you, you lose a piece of yourself.</>, <>Don’t lose <Mark p={P} size={SIZE}>all</Mark> of you to keep a little of them.</>]} />
 );
 export const SIT01_END = LOOP;

@@ -128,7 +128,7 @@ export const Soul: React.FC<{ s: SoulState; children?: React.ReactNode; front?: 
 };
 
 // ---------- page + text
-export type SitProps = { lines: React.ReactNode; palette: Palette; size: number; pageTop: number; pageBottom: number; soulX: number;
+export type SitProps = { lines: React.ReactNode[]; palette: Palette; size: number; pageTop: number; pageBottom: number; soulX: number;
   scene: (f: number) => { soul: SoulState; inHands?: React.ReactNode; onPage?: React.ReactNode; above?: React.ReactNode } };
 const PX0 = 80, PX1 = 920;
 export const SittingSoul: React.FC<SitProps> = ({ lines, palette: p, size, pageTop, pageBottom, soulX, scene }) => {
@@ -164,8 +164,8 @@ export const SittingSoul: React.FC<SitProps> = ({ lines, palette: p, size, pageT
         <div style={{ width: 46, height: 1.6, background: p.ink, opacity: 0.6 }} />
       </div>
       {/* the quote, visible from the first frame */}
-      <div style={{ position: "absolute", top: pageTop + 78, left: PX0 + 70, width: PX1 - PX0 - 140, fontFamily: "Cormorant", fontWeight: 600, fontSize: size, lineHeight: 1.32, color: "#2B2622", textAlign: "left" }}>
-        {lines}
+      <div style={{ position: "absolute", top: pageTop + 78, left: PX0 + 70, width: PX1 - PX0 - 140, fontFamily: "Cormorant", fontWeight: 600, fontSize: size, lineHeight: 1.38, color: "#2B2622", textAlign: "left" }}>
+        {lines.map((l, i) => <div key={i} style={{ marginTop: i ? size * 0.62 : 0 }}>{l}</div>)}
         <div style={{ marginTop: size * 0.75, fontFamily: "Cormorant", fontStyle: "italic", lineHeight: 1.1 }}>
           <div style={{ fontWeight: 400, fontSize: 38, color: "#4A403A" }}>truly yours,</div>
           <div style={{ fontWeight: 600, fontSize: 58, color: "#2B2622", marginTop: 4 }}>Aariya</div>
