@@ -83,9 +83,10 @@ const ik = (sh: V, hand: V, L1: number, L2: number, bendSign: number) => {
 export type SoulState = {
   lean: number; breath: number; blink: number; look: V; joy: number; legPh: number;
   hands: [V, V]; // [its right = screen left, its left = screen right]
+  stretch?: number; // 0 = normal, + = taller and thinner (squash & stretch)
 };
 export const Soul: React.FC<{ s: SoulState; children?: React.ReactNode; front?: React.ReactNode }> = ({ s, children, front }) => {
-  const sy = 1 + 0.014 * s.breath, sx = 1 - 0.008 * s.breath;
+  const st = s.stretch ?? 0, sy = (1 + 0.014 * s.breath) * (1 + st), sx = (1 - 0.008 * s.breath) * (1 - 0.45 * st);
   const legs = [-1, 1].map((sd, i) => {
     const sw = 13 * Math.sin(s.legPh + (i ? Math.PI * 0.85 : 0));
     const hip = { x: 40 * sd, y: -6 };
