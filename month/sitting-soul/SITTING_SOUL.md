@@ -28,8 +28,8 @@ and the next day's reel is already built and saved. These reels are **sent to he
 - CAPTION (Aariya, 30 Oct). Three short parts, nothing more:
   1. Hook (the line seen while scrolling): tiny, punchy, creative. Her example for "Don't shrink yourself": **"their loss 💀"**. Usually 2–6 words,
      Hinglish or simple English, witty / savage-soft, one emoji with attitude; lands the quote's point in a fresh way.
-  2. Book teaser, 1–2 short lines: a creative line tied to the quote's feeling, then exactly
-     "A Self Repaired Soul: Journey That Heals, coming soon 📖". Never boring, never long, no plot/spoilers, no dates or invented details.
+  2. Book line, simple and the same every day (Aariya, 30 Oct): "My book, A Self Repaired Soul: Journey That Heals, coming soon. Stay tuned 📖"
+     No extra teaser lines, no "quiet healing" style phrases.
   3. Sign-off around "truly yours" + @trulyaariya, different and playful every day (e.g. "signed, sealed, truly yours 🤍 @trulyaariya",
      "from my heart to your feed, truly yours ✨ @trulyaariya"). NEVER "follow @trulyaariya for more soft words".
   No em dashes. Hashtags go separately below.
