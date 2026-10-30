@@ -27,7 +27,11 @@ and the next day's reel is already built and saved. These reels are **sent to he
   Props must return to their start state before the loop. Smooth easing, anticipation, follow-through, eyes follow the action. No walking, no sliding.
 - Caption in Aariya's voice: short hook line, 2–4 short lines, one soft question, then "follow @trulyaariya for more soft words 🤍".
   Plain warm words. Never: delve, journey of self-discovery, tapestry, embrace, unlock, elevate, in today's world. No em dashes.
-- 10–15 hashtags: mix of big, medium and niche, relevant to the quote, always ending with #trulyaariya. No banned/spammy tags.
+- 10–15 hashtags that are **trending right now** (Aariya, 30 Oct): every day, run an extended web search and open hashtag-stat pages
+  (e.g. iqhashtags.com/hashtags/hashtag/<tag>, best-hashtags.com/hashtag/<tag>/, flick.social/learn/hashtags/<tag>) for the quote's themes, and pick by
+  current daily post volume: 3–4 big active tags (e.g. #selflove, #selfcare, #mentalhealth), 5–6 mid tags (e.g. #poetrycommunity, #writersofinstagram, #shayari),
+  3–4 niche Indian-writer tags (e.g. #writersofindia, #poetsofindia, #indianwriters). Always include #trulyaariya. No banned/spammy tags.
+  Say in one line which are big / mid / niche and cite the stat pages used.
 - Never: dark/black backgrounds, loud colours, a moving page, two actions, kintsugi/crack visuals, stock/AI imagery, icons after the signature, a box behind @trulyaariya, any audio.
 - No book spoilers (no illness, hospital, characters, places, plot, chapter titles, ending). Never show the book cover. Don't invent facts about Aariya.
 
