@@ -25,9 +25,9 @@ and the next day's reel is already built and saved. These reels are **sent to he
   (flat bottom never leaves the edge). Hands are given in body space (use the `unshear` helper like the examples).
 - ONE action per reel, matching the quote, never used before (see list). 0–2 s idle, 2–12 s the action, 12–15 s back to the exact start pose.
   Props must return to their start state before the loop. Smooth easing, anticipation, follow-through, eyes follow the action. No walking, no sliding.
-- CAPTION (Aariya, 30 Oct): just ONE strong Hinglish line that fits the quote, short enough to show in full on the reel while scrolling
-  (aim for 45–65 characters, never more than ~70), plus at most one emoji. No extra lines, no question, no "follow" line. Plain and warm, never AI-sounding.
-  The hashtags go separately below it.
+- CAPTION (Aariya, 30 Oct): one tiny, punchy, creative line that fully shows on the reel while scrolling. Her own example for
+  "Don't shrink yourself": **"their loss 💀"**. Usually 2–6 words, Hinglish or simple English, a bit witty / savage-soft, with one emoji that adds attitude.
+  It should land the quote's point in a fresh way, not repeat it. No extra lines, no question, no "follow" line. Hashtags go separately below.
 - 10–15 hashtags that are **trending right now** (Aariya, 30 Oct): every day, run an extended web search and open hashtag-stat pages
   (e.g. iqhashtags.com/hashtags/hashtag/<tag>, best-hashtags.com/hashtag/<tag>/, flick.social/learn/hashtags/<tag>) for the quote's themes, and pick by
   current daily post volume: 3–4 big active tags (e.g. #selflove, #selfcare, #mentalhealth), 5–6 mid tags (e.g. #poetrycommunity, #writersofinstagram, #shayari),
