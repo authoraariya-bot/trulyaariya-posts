@@ -45,6 +45,7 @@ and the next day's reel is already built and saved. These reels are **sent to he
 1. hugging a tiny heart
 2. a big proud stretch, arms open wide
 3. watering a sprout in a tiny clay pot until it blooms
+4. resting its head on a tiny pillow (goodnight)
 
 Ideas left: throwing a paper plane; blowing a dandelion; sipping chai from a tiny kulhad; hugging its knees; waving at the reader; pointing up at the quote;
 releasing a tiny paper boat; catching a falling leaf; letting go of a small balloon; reading a tiny folded note and smiling; tying a small bow; holding a little lantern;
