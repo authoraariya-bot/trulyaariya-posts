@@ -33,11 +33,10 @@ and the next day's reel is already built and saved. These reels are **sent to he
   3. Sign-off around "truly yours" + @trulyaariya, different and playful every day (e.g. "signed, sealed, truly yours 🤍 @trulyaariya",
      "from my heart to your feed, truly yours ✨ @trulyaariya"). NEVER "follow @trulyaariya for more soft words".
   No em dashes. Hashtags go separately below.
-- 10–15 hashtags that are **trending right now** (Aariya, 30 Oct): every day, run an extended web search and open hashtag-stat pages
-  (e.g. iqhashtags.com/hashtags/hashtag/<tag>, best-hashtags.com/hashtag/<tag>/, flick.social/learn/hashtags/<tag>) for the quote's themes, and pick by
-  current daily post volume: 3–4 big active tags (e.g. #selflove, #selfcare, #mentalhealth), 5–6 mid tags (e.g. #poetrycommunity, #writersofinstagram, #shayari),
-  3–4 niche Indian-writer tags (e.g. #writersofindia, #poetsofindia, #indianwriters). Always include #trulyaariya. No banned/spammy tags.
-  Say in one line which are big / mid / niche and cite the stat pages used.
+- HASHTAGS: Instagram allows only **5 hashtags** per post/Reel since Dec 2025 (more get blocked or stripped), so always exactly 5:
+  #trulyaariya + 4 trending ones picked by current daily post volume from hashtag-stat pages (iqhashtags.com, best-hashtags.com, flick.social):
+  1 big active tag (e.g. #selflove), 1 mid tag that fits the quote (e.g. #healingjourney), 1 tag specific to the quote's topic (e.g. #overthinking),
+  1 Indian-writer niche tag (e.g. #indianwriters / #writersofindia / #poetsofindia). Cite the stat pages used.
 - Never: dark/black backgrounds, loud colours, a moving page, two actions, kintsugi/crack visuals, stock/AI imagery, icons after the signature, a box behind @trulyaariya, any audio.
 - No book spoilers (no illness, hospital, characters, places, plot, chapter titles, ending). Never show the book cover. Don't invent facts about Aariya.
 
