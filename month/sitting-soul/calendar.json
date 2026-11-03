@@ -85,61 +85,71 @@
             "n": 7,
             "date": "2026-11-04",
             "quote": "Life isn’t a race. It’s a road, and you deserve to walk it at your own pace.",
-            "status": "ready",
+            "status": "cancelled",
             "file": "month/sitting-soul/sitting-soul-07-own-pace.mp4",
             "palette": "blush",
             "action": "slowly sipping chai from a tiny kulhad",
             "highlight": "own pace",
             "caption": "chai first, race later ☕\n\nMy book, A Self Repaired Soul: Journey That Heals, coming soon. Stay tuned 📖\n\nin no hurry, truly yours 🤍 @trulyaariya",
-            "hashtags": "#selflove #slowliving #mentalhealthmatters #indianwriters #trulyaariya"
+            "hashtags": "#selflove #slowliving #mentalhealthmatters #indianwriters #trulyaariya",
+            "note": "content calendar cancelled by Aariya on 3 Nov 2026"
         },
         {
             "n": 8,
             "date": "2026-11-05",
             "quote": "Your life is a blackboard. Make sure only you hold the chalk.",
-            "status": "pending"
+            "status": "cancelled",
+            "note": "content calendar cancelled by Aariya on 3 Nov 2026"
         },
         {
             "n": 9,
             "date": "2026-11-06",
             "quote": "Their opinion isn’t your destiny. Rise, and let your work speak.",
-            "status": "pending"
+            "status": "cancelled",
+            "note": "content calendar cancelled by Aariya on 3 Nov 2026"
         },
         {
             "n": 10,
             "date": "2026-11-07",
             "quote": "A tree stands only as long as its roots are strong. Your roots are your soul. Heal them first.",
-            "status": "pending"
+            "status": "cancelled",
+            "note": "content calendar cancelled by Aariya on 3 Nov 2026"
         },
         {
             "n": 11,
             "date": "2026-11-08",
             "quote": "Some understand you in a moment. For others, a lifetime isn’t enough.",
-            "status": "pending"
+            "status": "cancelled",
+            "note": "content calendar cancelled by Aariya on 3 Nov 2026"
         },
         {
             "n": 12,
             "date": "2026-11-09",
             "quote": "Everyone says: rest when you’re done. Done with the emails, the chores, everyone else’s needs. Nobody says: you’re never “done.” So rest before you’re empty.",
-            "status": "pending"
+            "status": "cancelled",
+            "note": "content calendar cancelled by Aariya on 3 Nov 2026"
         },
         {
             "n": 13,
             "date": "2026-11-10",
             "quote": "Read this if everyone around you seems ahead. Promotions. Weddings. New cities. And you’re still figuring out Tuesday. You’re not behind. You were busy surviving.",
-            "status": "pending"
+            "status": "cancelled",
+            "note": "content calendar cancelled by Aariya on 3 Nov 2026"
         },
         {
             "n": 14,
             "date": "2026-11-11",
             "quote": "I miss the version of me who… sang loudly in the car… ate cake for breakfast… laughed without checking who was watching. She’s not gone. She’s waiting for me to let her play again.",
-            "status": "pending"
+            "status": "cancelled",
+            "note": "content calendar cancelled by Aariya on 3 Nov 2026"
         },
         {
             "n": 15,
             "date": "2026-11-12",
             "quote": "Healing isn’t one big moment. It’s a glass of water, an early night, one honest text, a walk without your phone… a hundred small, ordinary days.",
-            "status": "pending"
+            "status": "cancelled",
+            "note": "content calendar cancelled by Aariya on 3 Nov 2026"
         }
-    ]
+    ],
+    "cancelled": "2026-11-03: Aariya cancelled the entire content calendar"
 }
