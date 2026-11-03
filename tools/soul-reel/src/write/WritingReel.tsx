@@ -6,10 +6,10 @@ import { AbsoluteFill, continueRender, delayRender, staticFile, useCurrentFrame 
 export const FPS = 30, DUR = 450;
 export const INK = "#2F2624", ACCENT = "#9A5E52";
 export const BGS = {
-  sage: { bg: "#E7EFE2", mark: "#D6E6CC" },
-  blush: { bg: "#F8EBE6", mark: "#F3D3C9" },
-  butter: { bg: "#FAF1DA", mark: "#F6E2A6" },
-  lavender: { bg: "#ECE6F3", mark: "#DCD2EC" },
+  sage: { bg: "#E7EFE2", mark: "#C3EBA4" },
+  blush: { bg: "#F8EBE6", mark: "#FFC4B2" },
+  butter: { bg: "#FAF1DA", mark: "#FFDF6E" },
+  lavender: { bg: "#ECE6F3", mark: "#D0BEF7" },
 };
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 export const seg = (f: number, a: number, b: number) => clamp01((f - a) / (b - a));
@@ -28,10 +28,8 @@ const useFonts = () => {
   }, [handle]);
 };
 
-const Fade: React.FC<{ f: number; a: number; b: number; children: React.ReactNode; style?: React.CSSProperties; rise?: number }> = ({ f, a, b, children, style, rise = 14 }) => {
-  const p = easeOut(seg(f, a, b));
-  return <div style={{ opacity: p, transform: `translateY(${(1 - p) * rise}px)`, ...style }}>{children}</div>;
-};
+// Aariya (3 Nov): text stays completely still from the first frame — only the sketch may move.
+const Fade: React.FC<{ f: number; a: number; b: number; children: React.ReactNode; style?: React.CSSProperties; rise?: number }> = ({ children, style }) => <div style={style}>{children}</div>;
 
 export type WritingProps = {
   bg: keyof typeof BGS;
@@ -46,8 +44,7 @@ export type WritingProps = {
 };
 
 export const Highlight: React.FC<{ f?: number; mark: string; children: React.ReactNode }> = ({ mark, children }) => {
-  const f = useCurrentFrame();
-  const p = easeOut(seg(f, s(6.9), s(8.4)));
+  const p = 1;
   return <span style={{ fontWeight: 500, backgroundImage: `linear-gradient(${mark}, ${mark})`, backgroundRepeat: "no-repeat", backgroundPosition: "0 88%", backgroundSize: `${p * 100}% 46%`, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{children}</span>;
 };
 
@@ -81,7 +78,7 @@ export const WritingReel: React.FC<WritingProps> = ({ bg, title, titleSize = 82,
           <div style={{ width: sketchBox.w, height: sketchBox.h, flexShrink: 0 }}>{sketch(draw, f)}</div>
         </div>
         {/* divider */}
-        <div style={{ marginTop: 70, height: 2, width: 840, background: ACCENT, opacity: 0.28 * easeOut(seg(f, s(0.3), s(1.5))) }} />
+        <div style={{ marginTop: 70, height: 2, width: 840, background: ACCENT, opacity: 0.28 }} />
         {/* body */}
         <div style={{ marginTop: 64, fontFamily: "Jost", fontWeight: 400, fontSize: bodySize, lineHeight: 1.55, color: INK, textAlign: "left" }}>
           {paragraphs.map((p, i) => (
