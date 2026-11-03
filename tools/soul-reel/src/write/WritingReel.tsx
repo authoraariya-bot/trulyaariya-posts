@@ -28,6 +28,7 @@ const useFonts = () => {
   }, [handle]);
 };
 
+// Aariya (3 Nov): body text must read easily on a phone: big (~42 px), weight 450, tight spacing.
 // Aariya (3 Nov): text stays completely still from the first frame — only the sketch may move.
 const Fade: React.FC<{ f: number; a: number; b: number; children: React.ReactNode; style?: React.CSSProperties; rise?: number }> = ({ children, style }) => <div style={style}>{children}</div>;
 
@@ -45,7 +46,7 @@ export type WritingProps = {
 
 export const Highlight: React.FC<{ f?: number; mark: string; children: React.ReactNode }> = ({ mark, children }) => {
   const p = 1;
-  return <span style={{ fontWeight: 500, backgroundImage: `linear-gradient(${mark}, ${mark})`, backgroundRepeat: "no-repeat", backgroundPosition: "0 88%", backgroundSize: `${p * 100}% 46%`, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{children}</span>;
+  return <span style={{ fontWeight: 600, backgroundImage: `linear-gradient(${mark}, ${mark})`, backgroundRepeat: "no-repeat", backgroundPosition: "0 88%", backgroundSize: `${p * 100}% 46%`, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{children}</span>;
 };
 
 export const WritingReel: React.FC<WritingProps> = ({ bg, title, titleSize = 82, paragraphs, bodySize, top = 296, sketch, sketchBox }) => {
@@ -78,16 +79,16 @@ export const WritingReel: React.FC<WritingProps> = ({ bg, title, titleSize = 82,
           <div style={{ width: sketchBox.w, height: sketchBox.h, flexShrink: 0 }}>{sketch(draw, f)}</div>
         </div>
         {/* divider */}
-        <div style={{ marginTop: 70, height: 2, width: 840, background: ACCENT, opacity: 0.28 }} />
+        <div style={{ marginTop: 48, height: 2, width: 840, background: ACCENT, opacity: 0.28 }} />
         {/* body */}
-        <div style={{ marginTop: 64, fontFamily: "Jost", fontWeight: 400, fontSize: bodySize, lineHeight: 1.55, color: INK, textAlign: "left" }}>
+        <div style={{ marginTop: 50, fontFamily: "Jost", fontWeight: 450, fontSize: bodySize, lineHeight: 1.45, color: INK, textAlign: "left" }}>
           {paragraphs.map((p, i) => (
-            <Fade key={i} f={f} a={pTimes[i][0]} b={pTimes[i][1]} style={{ marginTop: i ? 52 : 0, ...(i === n - 1 ? { fontStyle: "italic", color: ACCENT } : {}) }}>{p}</Fade>
+            <Fade key={i} f={f} a={pTimes[i][0]} b={pTimes[i][1]} style={{ marginTop: i ? 40 : 0, ...(i === n - 1 ? { fontStyle: "italic", color: ACCENT } : {}) }}>{p}</Fade>
           ))}
         </div>
         {/* signature tag */}
-        <Fade f={f} a={s(10.5)} b={s(11.0)} rise={8} style={{ marginTop: 68 }}>
-          <span style={{ display: "inline-block", background: "rgba(154,94,82,0.14)", borderRadius: 10, padding: "12px 28px", fontFamily: "Jost", fontSize: 30, color: INK }}>words by — @trulyaariya</span>
+        <Fade f={f} a={s(10.5)} b={s(11.0)} rise={8} style={{ marginTop: 46 }}>
+          <span style={{ display: "inline-block", background: "rgba(154,94,82,0.14)", borderRadius: 10, padding: "12px 28px", fontFamily: "Jost", fontSize: 32, color: INK }}>words by — @trulyaariya</span>
         </Fade>
       </div>
     </AbsoluteFill>

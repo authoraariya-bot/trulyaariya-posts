@@ -30,7 +30,7 @@ const Sketch = (draw: (a: number, b: number) => number, f: number) => {
     </g>;
   };
   return (
-    <svg viewBox="0 0 380 300" width={380} height={300} style={{ overflow: "visible" }}>
+    <svg viewBox="0 70 380 225" width="100%" height="100%" style={{ overflow: "visible" }}>
       {stroke("M0,290 L380,290", t(0), t(0.35), 3, INK)}
       {[[38, 0], [110, 1], [190, 2], [270, 3], [342, 4]].map(([x, k]) => person(x, k, k === 2))}
     </svg>
@@ -38,11 +38,11 @@ const Sketch = (draw: (a: number, b: number) => number, f: number) => {
 };
 
 export const Write01: React.FC = () => (
-  <WritingReel bg={BG} title={["BE A", "PROUD", "introvert."]} bodySize={36} top={282} sketch={Sketch} sketchBox={{ w: 380, h: 300 }}
+  <WritingReel bg={BG} title={["BE A", "PROUD", "introvert."]} bodySize={42} top={270} sketch={Sketch} sketchBox={{ w: 340, h: 201 }}
     highlight="They simply don’t reveal their true self to the wrong room."
     paragraphs={[
       <>People often call introverts socially awkward. I see it differently. Introverts are extroverts too — they just choose the right place to be one.</>,
       <>They take time to open up because they want to build trust first. They want to feel sure that these are the right people, the ones who will understand them. <Highlight mark={C.mark}>They simply don’t reveal their true self to the wrong room.</Highlight></>,
-      <>So be a proud introvert. Your true self is not for every room — only for the ones that have earned it.</>,
+      <>So be a proud introvert.<br />Your true self is not for every room —<br />only for the ones that have earned it.</>,
     ]} />
 );
