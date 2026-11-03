@@ -47,6 +47,7 @@ and the next day's reel is already built and saved. These reels are **sent to he
 4. resting its head on a tiny pillow (goodnight)
 5. throwing a paper plane that loops around and glides back
 6. blowing a dandelion, seeds drifting away
+7. slowly sipping chai from a tiny kulhad
 
 Ideas left: throwing a paper plane; blowing a dandelion; sipping chai from a tiny kulhad; hugging its knees; waving at the reader; pointing up at the quote;
 releasing a tiny paper boat; catching a falling leaf; letting go of a small balloon; reading a tiny folded note and smiling; tying a small bow; holding a little lantern;
