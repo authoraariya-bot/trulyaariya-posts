@@ -2,10 +2,24 @@
 
 Aariya's spec (3 Nov 2026): one silent 15 s reel per quote she sends in chat, layout = "ONE-SIDED BONDS? / not anymore." master
 (3-line title + outline sketch, divider, 2–3 paragraphs, one highlight, "words by — @trulyaariya" tag). Background rotates
-sage → blush → butter → lavender. Caption 3–5 short lines in her voice + exactly 5 hashtags (#trulyaariya first). Book teaser every 3rd reel.
+sage → blush → butter → lavender.
 
 Template: tools/soul-reel/src/write/WritingReel.tsx · each reel: src/write/WriteNN.tsx (composition WriteNN).
 
+## Aariya's approved rules (3 Nov, reel 01 "perfect") — apply to every reel
+- **Text never animates.** All text is fully visible and still from frame 0. Only the sketch moves (draws itself, then one meaningful colour/motion beat).
+- **Text size stays as reel 01:** body Jost 42 px (41 only if it truly can't fit), weight 450, line-height 1.45, paragraph gap 40,
+  divider 48 below header, body 50 below divider, signature 46 below body (32 px). Highlight weight 600, vivid marker
+  (sage #C3EBA4, blush #FFC4B2, butter #FFDF6E, lavender #D0BEF7). Use `top` (≥ 270) to keep content inside y 280–1500.
+- Clean line breaks: no single word alone on the last line; hand-break the closing paragraph with `<br />` at natural pauses if needed.
+- **Sketch must be expressive, a visual metaphor of the message**, like reel 01: a row of five outline people, the middle one filled red =
+  the one who stands apart. Simple bold idea, readable at phone size, one red/accent element carrying the meaning. Sketch box ~340×200, tightly cropped viewBox.
+- **Caption = one single line** (the hook), then the 5 hashtags. Nothing else.
+- **Hashtags:** #trulyaariya + 4 checked on hashtag-stat sites (iqhashtags.com etc.): 2 big active topic tags, 1 quote-type niche tag
+  (e.g. #introvertquotes), 1 broad (e.g. #selflove). No generic tags like #relatable / #love / #viral.
+
 | # | Title | Background | Sketch | File |
 |---|---|---|---|---|
-| 1 | BE A / PROUD / introvert. | sage | person walking toward a softly lit, half-open door | writing-01-proud-introvert.mp4 |
+| 1 | BE A / PROUD / introvert. | sage | five people in a row, the middle one in red (odd one out) | writing-01-proud-introvert.mp4 |
+
+Next background: blush.
