@@ -20,6 +20,7 @@ import { SitSoul04 } from "./sit/SitSoul04";
 import { SitSoul05 } from "./sit/SitSoul05";
 import { SitSoul06 } from "./sit/SitSoul06";
 import { SitSoul07 } from "./sit/SitSoul07";
+import { Write01 } from "./write/Write01";
 import { END as HILL_END } from "./hill/beats";
 import { END as ROOTS_END } from "./roots/beats";
 import { END as MUSIC_END } from "./music/beats";
@@ -62,6 +63,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Sea02" component={SeaReel} durationInFrames={SEA_END} fps={30} width={1080} height={1920} />
     <Composition id="Wings03" component={WingsReel} durationInFrames={WINGS_END} fps={30} width={1080} height={1920} />
     <Composition id="Sea02b" component={Sea2Reel} durationInFrames={SEA2_END} fps={30} width={1080} height={1920} />
+    <Composition id="Write01" component={Write01} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="SitSoul07" component={SitSoul07} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="SitSoul06" component={SitSoul06} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="SitSoul05" component={SitSoul05} durationInFrames={450} fps={30} width={1080} height={1920} />
