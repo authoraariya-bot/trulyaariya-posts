@@ -10,6 +10,8 @@ export const BGS = {
   blush: { bg: "#F8EBE6", mark: "#FFC4B2" },
   butter: { bg: "#FAF1DA", mark: "#FFDF6E" },
   lavender: { bg: "#ECE6F3", mark: "#D0BEF7" },
+  beige: { bg: "#F3EADB", mark: "#FFD27A" },
+  offwhite: { bg: "#FAF7F1", mark: "#FFC9A8" },
 };
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 export const seg = (f: number, a: number, b: number) => clamp01((f - a) / (b - a));

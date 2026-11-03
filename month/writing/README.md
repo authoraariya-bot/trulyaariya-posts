@@ -1,8 +1,7 @@
 # Daily writing reels (@trulyaariya) — on demand
 
 Aariya's spec (3 Nov 2026): one silent 15 s reel per quote she sends in chat, layout = "ONE-SIDED BONDS? / not anymore." master
-(3-line title + outline sketch, divider, 2–3 paragraphs, one highlight, "words by — @trulyaariya" tag). Background rotates
-sage → blush → butter → lavender.
+(3-line title + outline sketch, divider, 2–3 paragraphs, one highlight, "words by — @trulyaariya" tag). Background (Aariya, 3 Nov, replaces the pastel rotation): **beige `beige` #F3EADB or off-white `offwhite` #FAF7F1**, alternating.
 
 Template: tools/soul-reel/src/write/WritingReel.tsx · each reel: src/write/WriteNN.tsx (composition WriteNN).
 
@@ -22,4 +21,4 @@ Template: tools/soul-reel/src/write/WritingReel.tsx · each reel: src/write/Writ
 |---|---|---|---|---|
 | 1 | BE A / PROUD / introvert. | sage | five people in a row, the middle one in red (odd one out) | writing-01-proud-introvert.mp4 |
 
-Next background: blush.
+Next background: beige (then off-white, then beige …).
