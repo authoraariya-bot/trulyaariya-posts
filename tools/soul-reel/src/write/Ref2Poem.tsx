@@ -16,14 +16,22 @@ const useFonts2 = () => {
 
 const GHOST = "the evening was quiet and the lamps along the river were lit one by one as she walked home, thinking of letters she had never sent and of the small kindnesses that make a life feel like a home again. ".repeat(14);
 
-const POEM = [
-  ["I was a ten to everyone I knew.", "Their ratings dropped when my self-respect came through."],
-  ["The day I stood against their flaws,", "I dropped to a nine, but I never needed their applause."],
-  ["I chose my peace and stayed out of their fights,", "and suddenly, I was an eight overnight."],
-  ["The first time I said no and let it show,", "they labelled me a seven. But who cares, though?"],
+// red pen stroke under the numbers, peach highlighter on the closing lines (Aariya, 5 Nov)
+const N: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <span style={{ color: "#B3262E", textDecorationLine: "underline", textDecorationColor: "#C2333B", textDecorationThickness: 3.5, textUnderlineOffset: 8, textDecorationSkipInk: "none" }}>{children}</span>
+);
+const H: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <span style={{ background: "linear-gradient(transparent 12%, rgba(240,150,110,0.55) 12%, rgba(240,150,110,0.55) 92%, transparent 92%)", borderRadius: 6, padding: "0 6px", margin: "0 -6px", boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{children}</span>
+);
+
+const POEM: React.ReactNode[][] = [
+  [<>I was a <N>ten</N> to everyone I knew.</>, "Their ratings dropped when my self-respect came through."],
+  ["The day I stood against their flaws,", <>I dropped to a <N>nine</N>, but I never needed their applause.</>],
+  ["I chose my peace and stayed out of their fights,", <>and suddenly, I was an <N>eight</N> overnight.</>],
+  ["The first time I said no and let it show,", <>they labelled me a <N>seven</N>. But who cares, though?</>],
   ["Every time I picked me, their numbers fell,", "and if that’s the price, then you can go to hell."],
   ["You won’t be a ten to everyone, and that’s fine.", "They count you by convenience, every time."],
-  ["So I stopped taking the scores they handed me.", "Daughter, sibling, friend, I’m a ten, and I will always be."],
+  [<H>So I stopped taking the scores they handed me.</H>, <>Daughter, sibling, friend, <H>I’m a ten, and I will always be.</H></>],
 ];
 
 export const Ref2Poem: React.FC = () => {
@@ -36,16 +44,16 @@ export const Ref2Poem: React.FC = () => {
         <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={3} /><feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.55 0" /></filter>
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
-      <div style={{ position: "absolute", left: 104, top: 290, width: 440, height: 242, overflow: "hidden" }}>
-        <Img src={staticFile("img-twirl.png")} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "42% 18%" }} />
+      <div style={{ position: "absolute", left: 96, top: 290, width: 848, height: 262, overflow: "hidden" }}>
+        <Img src={staticFile("img-twirl.png")} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "45% 6%" }} />
       </div>
-      <div style={{ position: "absolute", left: 104, top: 572, width: 836, fontFamily: "EBG", fontSize: 38, lineHeight: 1.22, letterSpacing: -0.2, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 590, width: 860, fontFamily: "EBG", fontSize: 40, lineHeight: 1.19, letterSpacing: -0.5, color: "#141414", whiteSpace: "nowrap" }}>
         {POEM.map((st, i) => (
-          <div key={i} style={{ marginTop: i ? 30 : 0, fontStyle: i === POEM.length - 1 ? "italic" : "normal" }}>
+          <div key={i} style={{ marginTop: i ? 24 : 0, fontStyle: i === POEM.length - 1 ? "italic" : "normal" }}>
             {st.map((l, k) => <div key={k}>{l}</div>)}
           </div>
         ))}
-        <div style={{ marginTop: 34 }}>truly yours, @trulyaariya</div>
+        <div style={{ marginTop: 30, fontSize: 46, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
       </div>
     </AbsoluteFill>
   );
