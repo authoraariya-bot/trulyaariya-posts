@@ -18,7 +18,13 @@ const GHOST = "the evening was quiet and the lamps along the river were lit one 
 
 // red pen stroke under the numbers, peach highlighter on the closing lines (Aariya, 5 Nov)
 const N: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span style={{ color: "#B3262E", textDecorationLine: "underline", textDecorationColor: "#C2333B", textDecorationThickness: 3.5, textUnderlineOffset: 8, textDecorationSkipInk: "none" }}>{children}</span>
+  // a loose hand-drawn red pen stroke under the word, running a little past it (like the reference posts)
+  <span style={{ position: "relative", display: "inline-block", color: "#B3262E" }}>
+    {children}
+    <svg viewBox="0 0 100 12" preserveAspectRatio="none" style={{ position: "absolute", left: "-8%", bottom: -9, width: "122%", height: 14, overflow: "visible" }}>
+      <path d="M1,7.5 C14,5.6 30,8.8 48,6.6 C64,4.8 80,7.4 99,5" stroke="#B8303A" strokeWidth={3.2} fill="none" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+    </svg>
+  </span>
 );
 const H: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span style={{ background: "linear-gradient(transparent 12%, rgba(240,150,110,0.55) 12%, rgba(240,150,110,0.55) 92%, transparent 92%)", borderRadius: 6, padding: "0 6px", margin: "0 -6px", boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{children}</span>
