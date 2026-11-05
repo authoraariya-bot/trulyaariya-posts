@@ -62,7 +62,7 @@ const L: React.FC<{ gap?: number; strong?: boolean; children: React.ReactNode }>
   <div style={{ marginTop: gap, fontWeight: strong ? 600 : undefined }}>{children}</div>;
 
 export const Write02Card: React.FC = () => (
-  <WritingReel bg={BG} title={["I RATE", "MYSELF", "10/10."]} noSig gapA={40} gapB={42} titleSize={74} bodySize={37} top={266} paraGap={26} lineHeight={1.36} sketch={Sketch} sketchBox={{ w: 280, h: 206 }}
+  <WritingReel bg={BG} title={["I RATE", "MYSELF", "10/10."]} gapA={30} gapB={32} sigGap={28} titleSize={70} bodySize={36} top={264} paraGap={20} lineHeight={1.34} sketch={Sketch} sketchBox={{ w: 280, h: 206 }}
     highlight="With every choice I made for myself, my number dropped."
     paragraphs={[
       <>
@@ -72,23 +72,20 @@ export const Write02Card: React.FC = () => (
       <>
         <L>The moment I chose self-respect over selflessness,</L>
         <L strong>I became a 9.</L>
-        <L gap={8}>When I chose my peace over taking sides,</L>
+        <L gap={6}>When I chose my peace over taking sides,</L>
         <L strong>I became an 8.</L>
-        <L gap={8}>The day I started saying no,</L>
+        <L gap={6}>The day I started saying no,</L>
         <L strong>I became a 7.</L>
-        <L gap={8}><Highlight mark={C.mark}>With every choice I made for myself,</Highlight></L>
+        <L gap={6}><Highlight mark={C.mark}>With every choice I made for myself,</Highlight></L>
         <L><Highlight mark={C.mark}>my number dropped.</Highlight></L>
       </>,
       <>
         <L>But you can’t be a 10/10 for everyone —</L>
         <L>people will number you as per their convenience.</L>
-        <L gap={12}>What matters is whether you’re a 10/10</L>
-        <L>in your own eyes,</L>
+        <L gap={12}>What matters is whether you’re</L>
+        <L>a 10/10 in your own eyes,</L>
         <L>as a friend, a sister, a daughter, a son.</L>
-        <div style={{ marginTop: 14, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span>And I still rate myself 10/10.</span>
-          <span style={{ fontStyle: "normal", background: "rgba(154,94,82,0.14)", borderRadius: 10, padding: "10px 24px", fontSize: 30, color: INK }}>words by — @trulyaariya</span>
-        </div>
+        <L gap={12}>And I still rate myself <span style={{ fontWeight: 600, color: "#B0473E", backgroundImage: `linear-gradient(${C.mark}, ${C.mark})`, backgroundRepeat: "no-repeat", backgroundPosition: "0 88%", backgroundSize: "100% 46%", padding: "0 2px" }}>10/10.</span></L>
       </>,
     ]} />
 );

@@ -51,6 +51,7 @@ export type WritingProps = {
   lineHeight?: number;
   gapA?: number; // header → divider
   gapB?: number; // divider → body
+  sigGap?: number;
   noSig?: boolean; // the reel places the signature itself (e.g. beside the last line)
 };
 
@@ -59,7 +60,7 @@ export const Highlight: React.FC<{ f?: number; mark: string; children: React.Rea
   return <span style={{ fontWeight: 600, backgroundImage: `linear-gradient(${mark}, ${mark})`, backgroundRepeat: "no-repeat", backgroundPosition: "0 88%", backgroundSize: `${p * 100}% 46%`, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{children}</span>;
 };
 
-export const WritingReel: React.FC<WritingProps> = ({ gapA = 48, gapB = 50, noSig = false, bg, title, titleSize = 82, paragraphs, bodySize, top = 296, sketch, sketchBox, page2, turnAt = 0, paraGap = 40, lineHeight = 1.45 }) => {
+export const WritingReel: React.FC<WritingProps> = ({ gapA = 48, gapB = 50, noSig = false, sigGap = 46, bg, title, titleSize = 82, paragraphs, bodySize, top = 296, sketch, sketchBox, page2, turnAt = 0, paraGap = 40, lineHeight = 1.45 }) => {
   useFonts();
   const f = useCurrentFrame();
   const C = BGS[bg];
@@ -99,7 +100,7 @@ export const WritingReel: React.FC<WritingProps> = ({ gapA = 48, gapB = 50, noSi
             </div>;
           })}
         </div>
-        {!page2 && !noSig && <div style={{ marginTop: 46 }}>{sig}</div>}
+        {!page2 && !noSig && <div style={{ marginTop: sigGap }}>{sig}</div>}
       </div>
     </AbsoluteFill>
   );

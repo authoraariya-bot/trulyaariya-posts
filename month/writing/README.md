@@ -27,5 +27,5 @@ Next background: beige.
 
 **Framing (Aariya, 5 Nov):** every sentence starts on its own line; lists of steps get one line each (the punch, e.g. "I became a 9.", in weight 600);
 long lines broken at natural pauses, never left to wrap; small gaps (8–12 px) between thoughts, 26–34 between paragraphs.
-Long quotes still use this card format: go down to 37–40 px and put the signature beside the last line if needed (see Write02Card.tsx).
+Long quotes still use this card format: go down to 37–40 px and tighten gaps. The signature ALWAYS stays on its own row under the text, never beside a line (Aariya, 5 Nov). See Write02Card.tsx.
 Story format (tried 5 Nov, not chosen): title card, then each stanza alone on screen (its lines kept together, centred, 54 px, every row a clean line), fades in, stays to be read (~4.6 s), fades out; soft moving background; signature on the last stanza. See src/write/Write02.tsx.
