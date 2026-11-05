@@ -20,8 +20,12 @@ Template: tools/soul-reel/src/write/WritingReel.tsx · each reel: src/write/Writ
 | # | Title | Background | Sketch | File |
 |---|---|---|---|---|
 | 1 | BE A / PROUD / introvert. | sage | five people in a row, the middle one in red (odd one out) | writing-01-proud-introvert.mp4 |
-| 2 | RATE MYSELF 10/10. | beige | STORY FORMAT (long poem): stanzas one at a time, breathing warm background, faint score 10→5, red 10/10 at the end | writing-02-rate-myself.mp4 |
+| 2 | I RATE / MYSELF / 10/10. | off-white | person facing a standing mirror showing a red 10/10; cards 9, 8, 7 drop behind her (Write02Card) | writing-02-rate-myself.mp4 |
+| 2b | RATE MYSELF 10/10. (poem) | beige | STORY FORMAT, not chosen (long poem): stanzas one at a time, breathing warm background, faint score 10→5, red 10/10 at the end | writing-02-rate-myself-story.mp4 |
 
-Next background: off-white.
+Next background: beige.
 
-**Long poems / long quotes → story format** (Aariya, 5 Nov): title card, then each stanza alone on screen (its lines kept together, centred, 54 px, every row a clean line), fades in, stays to be read (~4.6 s), fades out; soft moving background; signature on the last stanza. See src/write/Write02.tsx.
+**Framing (Aariya, 5 Nov):** every sentence starts on its own line; lists of steps get one line each (the punch, e.g. "I became a 9.", in weight 600);
+long lines broken at natural pauses, never left to wrap; small gaps (8–12 px) between thoughts, 26–34 between paragraphs.
+Long quotes still use this card format: go down to 37–40 px and put the signature beside the last line if needed (see Write02Card.tsx).
+Story format (tried 5 Nov, not chosen): title card, then each stanza alone on screen (its lines kept together, centred, 54 px, every row a clean line), fades in, stays to be read (~4.6 s), fades out; soft moving background; signature on the last stanza. See src/write/Write02.tsx.

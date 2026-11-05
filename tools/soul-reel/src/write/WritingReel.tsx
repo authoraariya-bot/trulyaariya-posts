@@ -49,6 +49,9 @@ export type WritingProps = {
   turnAt?: number;
   paraGap?: number;
   lineHeight?: number;
+  gapA?: number; // header → divider
+  gapB?: number; // divider → body
+  noSig?: boolean; // the reel places the signature itself (e.g. beside the last line)
 };
 
 export const Highlight: React.FC<{ f?: number; mark: string; children: React.ReactNode }> = ({ mark, children }) => {
@@ -56,7 +59,7 @@ export const Highlight: React.FC<{ f?: number; mark: string; children: React.Rea
   return <span style={{ fontWeight: 600, backgroundImage: `linear-gradient(${mark}, ${mark})`, backgroundRepeat: "no-repeat", backgroundPosition: "0 88%", backgroundSize: `${p * 100}% 46%`, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{children}</span>;
 };
 
-export const WritingReel: React.FC<WritingProps> = ({ bg, title, titleSize = 82, paragraphs, bodySize, top = 296, sketch, sketchBox, page2, turnAt = 0, paraGap = 40, lineHeight = 1.45 }) => {
+export const WritingReel: React.FC<WritingProps> = ({ gapA = 48, gapB = 50, noSig = false, bg, title, titleSize = 82, paragraphs, bodySize, top = 296, sketch, sketchBox, page2, turnAt = 0, paraGap = 40, lineHeight = 1.45 }) => {
   useFonts();
   const f = useCurrentFrame();
   const C = BGS[bg];
@@ -85,9 +88,9 @@ export const WritingReel: React.FC<WritingProps> = ({ bg, title, titleSize = 82,
           <div style={{ width: sketchBox.w, height: sketchBox.h, flexShrink: 0 }}>{sketch(draw, f)}</div>
         </div>
         {/* divider */}
-        <div style={{ marginTop: 48, height: 2, width: 840, background: ACCENT, opacity: 0.28 }} />
+        <div style={{ marginTop: gapA, height: 2, width: 840, background: ACCENT, opacity: 0.28 }} />
         {/* body (one page, or two pages stacked in the same grid cell; on two-page reels the signature sits under each page's text) */}
-        <div style={{ marginTop: 50, display: "grid", fontFamily: "Jost", fontWeight: 450, fontSize: bodySize, lineHeight, color: INK, textAlign: "left" }}>
+        <div style={{ marginTop: gapB, display: "grid", fontFamily: "Jost", fontWeight: 450, fontSize: bodySize, lineHeight, color: INK, textAlign: "left" }}>
           {(page2 ? [paragraphs, page2] : [paragraphs]).map((set, k, all) => {
             const o = !page2 ? 1 : k === 0 ? 1 - easeOut(seg(f, turnAt - s(0.3), turnAt + s(0.2))) : easeOut(seg(f, turnAt, turnAt + s(0.5)));
             return <div key={k} style={{ gridArea: "1 / 1", opacity: o }}>
@@ -96,7 +99,7 @@ export const WritingReel: React.FC<WritingProps> = ({ bg, title, titleSize = 82,
             </div>;
           })}
         </div>
-        {!page2 && <div style={{ marginTop: 46 }}>{sig}</div>}
+        {!page2 && !noSig && <div style={{ marginTop: 46 }}>{sig}</div>}
       </div>
     </AbsoluteFill>
   );
