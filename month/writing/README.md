@@ -29,3 +29,7 @@ Next background: beige.
 long lines broken at natural pauses, never left to wrap; small gaps (8–12 px) between thoughts, 26–34 between paragraphs.
 Long quotes still use this card format: go down to 37–40 px and tighten gaps. The signature ALWAYS stays on its own row under the text, never beside a line (Aariya, 5 Nov). See Write02Card.tsx.
 Story format (tried 5 Nov, not chosen): title card, then each stanza alone on screen (its lines kept together, centred, 54 px, every row a clean line), fades in, stays to be read (~4.6 s), fades out; soft moving background; signature on the last stanza. See src/write/Write02.tsx.
+
+| 3 | Rate myself — POEM (approved look, 5 Nov) | old book page (reference-2 style) | wide sepia header photo of a girl twirling (slow push-in), EB Garamond 40 px, every poem line whole, red pen strokes under ten/nine/eight/seven, peach highlight on the closing lines, "truly yours, @trulyaariya" | writing-03-always-a-ten.mp4 |
+
+Approved look (5 Nov): Aariya's reference posts — old-page letter with a photo header, book serif, red pen underlines and peach highlights. Source: src/write/Ref2Poem.tsx. Text never animates; only the photo moves.

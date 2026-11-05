@@ -1,7 +1,7 @@
 // "Rate myself" POEM on the reference-2 old book page (Aariya, 5 Nov): small twirling photo on top, bigger text,
 // every poem line kept whole on one line (book serif so the long lines fit), stanzas with breathing space.
 import React from "react";
-import { AbsoluteFill, Img, continueRender, delayRender, staticFile } from "remotion";
+import { AbsoluteFill, Img, continueRender, delayRender, staticFile, useCurrentFrame } from "remotion";
 
 const useFonts2 = () => {
   const [h] = React.useState(() => delayRender("ebg2"));
@@ -36,6 +36,9 @@ const POEM: React.ReactNode[][] = [
 
 export const Ref2Poem: React.FC = () => {
   useFonts2();
+  // only the photo moves: a slow, gentle push-in over the 15 s; all text stays still
+  const f = useCurrentFrame();
+  const z = 1 + 0.07 * (f / 449);
   return (
     <AbsoluteFill style={{ background: "#EEE8D8" }}>
       <div style={{ position: "absolute", inset: "-40px", padding: "120px 70px", transform: "scaleX(-1)", fontFamily: "Georgia, serif", fontSize: 40, lineHeight: "62px", color: "#3a3226", opacity: 0.035, filter: "blur(1.6px)", textAlign: "justify" }}>{GHOST}</div>
@@ -45,7 +48,7 @@ export const Ref2Poem: React.FC = () => {
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
       <div style={{ position: "absolute", left: 96, top: 290, width: 848, height: 262, overflow: "hidden" }}>
-        <Img src={staticFile("img-twirl.png")} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "45% 6%" }} />
+        <Img src={staticFile("img-twirl.png")} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "45% 6%", transform: `scale(${z})`, transformOrigin: "45% 30%" }} />
       </div>
       <div style={{ position: "absolute", left: 96, top: 590, width: 860, fontFamily: "EBG", fontSize: 40, lineHeight: 1.19, letterSpacing: -0.5, color: "#141414", whiteSpace: "nowrap" }}>
         {POEM.map((st, i) => (
