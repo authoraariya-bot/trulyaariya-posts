@@ -18,7 +18,7 @@ export const seg = (f: number, a: number, b: number) => clamp01((f - a) / (b - a
 export const easeOut = (x: number) => 1 - Math.pow(1 - clamp01(x), 3);
 const s = (t: number) => t * FPS;
 
-const useFonts = () => {
+export const useFonts = () => {
   const [handle] = useState(() => delayRender("fonts"));
   useEffect(() => {
     const faces = [
@@ -44,6 +44,11 @@ export type WritingProps = {
   top?: number;
   sketch: (draw: (a: number, b: number) => number, f: number) => React.ReactNode; // returns an <svg> sized element
   sketchBox: { w: number; h: number };
+  // long quotes: a second page of paragraphs that replaces the first with one soft cross-fade at `turnAt` (frames); header + signature never move
+  page2?: React.ReactNode[];
+  turnAt?: number;
+  paraGap?: number;
+  lineHeight?: number;
 };
 
 export const Highlight: React.FC<{ f?: number; mark: string; children: React.ReactNode }> = ({ mark, children }) => {
@@ -51,14 +56,13 @@ export const Highlight: React.FC<{ f?: number; mark: string; children: React.Rea
   return <span style={{ fontWeight: 600, backgroundImage: `linear-gradient(${mark}, ${mark})`, backgroundRepeat: "no-repeat", backgroundPosition: "0 88%", backgroundSize: `${p * 100}% 46%`, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>{children}</span>;
 };
 
-export const WritingReel: React.FC<WritingProps> = ({ bg, title, titleSize = 82, paragraphs, bodySize, top = 296, sketch, sketchBox }) => {
+export const WritingReel: React.FC<WritingProps> = ({ bg, title, titleSize = 82, paragraphs, bodySize, top = 296, sketch, sketchBox, page2, turnAt = 0, paraGap = 40, lineHeight = 1.45 }) => {
   useFonts();
   const f = useCurrentFrame();
   const C = BGS[bg];
   const t3 = Math.round(titleSize * 80 / 82);
   const draw = (a: number, b: number) => easeOut(seg(f, a, b));
-  const n = paragraphs.length;
-  const pTimes = n === 3 ? [[s(3.5), s(5.0)], [s(5.5), s(6.9)], [s(8.5), s(10.0)]] : [[s(3.5), s(5.0)], [s(8.5), s(10.0)]];
+  const sig = <span style={{ display: "inline-block", background: "rgba(154,94,82,0.14)", borderRadius: 10, padding: "12px 28px", fontFamily: "Jost", fontWeight: 400, fontSize: 32, lineHeight: 1.45, color: INK }}>words by — @trulyaariya</span>;
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
       {/* fine paper grain */}
@@ -82,16 +86,17 @@ export const WritingReel: React.FC<WritingProps> = ({ bg, title, titleSize = 82,
         </div>
         {/* divider */}
         <div style={{ marginTop: 48, height: 2, width: 840, background: ACCENT, opacity: 0.28 }} />
-        {/* body */}
-        <div style={{ marginTop: 50, fontFamily: "Jost", fontWeight: 450, fontSize: bodySize, lineHeight: 1.45, color: INK, textAlign: "left" }}>
-          {paragraphs.map((p, i) => (
-            <Fade key={i} f={f} a={pTimes[i][0]} b={pTimes[i][1]} style={{ marginTop: i ? 40 : 0, ...(i === n - 1 ? { fontStyle: "italic", color: ACCENT } : {}) }}>{p}</Fade>
-          ))}
+        {/* body (one page, or two pages stacked in the same grid cell; on two-page reels the signature sits under each page's text) */}
+        <div style={{ marginTop: 50, display: "grid", fontFamily: "Jost", fontWeight: 450, fontSize: bodySize, lineHeight, color: INK, textAlign: "left" }}>
+          {(page2 ? [paragraphs, page2] : [paragraphs]).map((set, k, all) => {
+            const o = !page2 ? 1 : k === 0 ? 1 - easeOut(seg(f, turnAt - s(0.3), turnAt + s(0.2))) : easeOut(seg(f, turnAt, turnAt + s(0.5)));
+            return <div key={k} style={{ gridArea: "1 / 1", opacity: o }}>
+              {set.map((p, i) => <Fade key={i} f={f} a={0} b={1} style={{ marginTop: i ? paraGap : 0, ...(k === all.length - 1 && i === set.length - 1 ? { fontStyle: "italic", color: ACCENT } : {}) }}>{p}</Fade>)}
+              {page2 && <div style={{ marginTop: 46, fontStyle: "normal" }}>{sig}</div>}
+            </div>;
+          })}
         </div>
-        {/* signature tag */}
-        <Fade f={f} a={s(10.5)} b={s(11.0)} rise={8} style={{ marginTop: 46 }}>
-          <span style={{ display: "inline-block", background: "rgba(154,94,82,0.14)", borderRadius: 10, padding: "12px 28px", fontFamily: "Jost", fontSize: 32, color: INK }}>words by — @trulyaariya</span>
-        </Fade>
+        {!page2 && <div style={{ marginTop: 46 }}>{sig}</div>}
       </div>
     </AbsoluteFill>
   );
