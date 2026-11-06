@@ -52,7 +52,7 @@ export const Ref2Lives: React.FC = () => {
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
       <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 190, overflow: "hidden" }}>
-        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 45%", transform: `scale(${z})`, transformOrigin: "50% 50%" }} />
+        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 36%", transform: `scale(${z})`, transformOrigin: "50% 40%" }} />
       </div>
       <div style={{ position: "absolute", left: 96, top: 500, width: 848, fontFamily: "EBG", fontSize: 34, lineHeight: 1.17, letterSpacing: -0.3, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
