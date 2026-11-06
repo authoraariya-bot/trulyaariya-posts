@@ -19,24 +19,21 @@ const useFonts3 = () => {
 
 const GHOST = "the evening was quiet and the lamps along the river were lit one by one as she walked home, thinking of letters she had never sent and of the small kindnesses that make a life feel like a home again. ".repeat(14);
 
+// proper straight red underline (Aariya, 6 Nov: "underline should be proper and not a stroke")
 const S: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span style={{ position: "relative", display: "inline-block", color: "#B3262E" }}>
-    {children}
-    <svg viewBox="0 0 100 12" preserveAspectRatio="none" style={{ position: "absolute", left: "-6%", bottom: -8, width: "112%", height: 13, overflow: "visible" }}>
-      <path d="M1,7.5 C14,5.6 30,8.8 48,6.6 C64,4.8 80,7.4 99,5" stroke="#B8303A" strokeWidth={3} fill="none" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-    </svg>
-  </span>
+  <span style={{ textDecorationLine: "underline", textDecorationColor: "#B8303A", textDecorationThickness: 3, textUnderlineOffset: 7, textDecorationSkipInk: "none" }}>{children}</span>
 );
 const H: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span style={{ background: "linear-gradient(transparent 12%, rgba(240,150,110,0.55) 12%, rgba(240,150,110,0.55) 92%, transparent 92%)", borderRadius: 6, padding: "0 6px", margin: "0 -6px" }}>{children}</span>
 );
 
+// shorter version (Aariya, 6 Nov)
 const ST: React.ReactNode[][] = [
-  [<>We always look at other people’s lives and see them <S>full</S>.</>, <>And somehow, ours always looks <S>half</S>.</>],
-  ["I have seen someone who lost a parent", "too young to even say goodbye,", "and someone whose parents are right there,", <>yet feel like <S>strangers</S>.</>],
-  ["I have seen someone hearing harsh words every day", "for not getting married,", "and someone who is married,", <>but falls asleep every night <S>feeling alone</S>.</>],
-  ["I have seen someone praying for a stable job,", "just to stand on their own feet,", "and someone earning in lakhs,", <>still searching for one <S>peaceful night’s sleep</S>.</>],
-  ["I have seen someone cribbing about the breakfast on their plate,", "and someone sitting on the road,", <>holding his <S>last piece of bread</S> —</>, "the only meal he had that day."],
+  [<>We look at other people’s lives and see them <S>full</S>.</>, <>And somehow, ours always looks <S>half</S>.</>],
+  ["I have seen someone who lost a parent", "too young to say goodbye,", "and someone whose parents are right there,", <>yet feel like <S>strangers</S>.</>],
+  ["I have seen someone hearing harsh words", "for not getting married,", "and someone married,", <>but falling asleep every night <S>feeling alone</S>.</>],
+  ["I have seen someone praying for a stable job", "to stand on their own feet,", "and someone earning in lakhs,", <>still searching for one <S>peaceful night’s sleep</S>.</>],
+  ["I have seen someone cribbing", "about the breakfast on their plate,", <>and someone on the road, holding his <S>last piece of bread</S> —</>, "his only meal that day."],
 ];
 
 export const Ref2Lives: React.FC = () => {
@@ -51,19 +48,19 @@ export const Ref2Lives: React.FC = () => {
         <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={3} /><feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.55 0" /></filter>
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
-      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 190, overflow: "hidden" }}>
+      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 150, overflow: "hidden" }}>
         <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 36%", transform: `scale(${z})`, transformOrigin: "50% 40%" }} />
       </div>
-      <div style={{ position: "absolute", left: 96, top: 500, width: 848, fontFamily: "EBG", fontSize: 34, lineHeight: 1.17, letterSpacing: -0.3, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 486, width: 848, fontFamily: "EBG", fontSize: 37, lineHeight: 1.12, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
-          <div key={i} style={{ marginTop: i ? 17 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
+          <div key={i} style={{ marginTop: i ? 15 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
         ))}
-        <div style={{ marginTop: 17, fontStyle: "italic" }}>
+        <div style={{ marginTop: 15, fontStyle: "italic" }}>
           <div>So before you call your life half, look closer.</div>
-          <div>Every version has pain. Every life has its battles.</div>
-          <div style={{ marginTop: 8 }}><H>And no, you are not alone.</H></div>
+          <div>Every life has its battles.</div>
+          <div><H>And no, you are not alone.</H></div>
         </div>
-        <div style={{ marginTop: 22, fontSize: 40, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
+        <div style={{ marginTop: 20, fontSize: 42, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
       </div>
     </AbsoluteFill>
   );
