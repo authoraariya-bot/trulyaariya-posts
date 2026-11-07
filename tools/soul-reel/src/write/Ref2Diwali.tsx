@@ -45,20 +45,20 @@ export const Ref2Diwali: React.FC = () => {
         <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={3} /><feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.55 0" /></filter>
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
-      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 230, overflow: "hidden" }}>
-        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 36%", transform: `scale(${z})`, transformOrigin: "50% 40%" }} />
+      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 270, overflow: "hidden" }}>
+        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 44%", transform: `scale(${z})`, transformOrigin: "45% 55%" }} />
       </div>
-      <div style={{ position: "absolute", left: 96, top: 566, width: 848, fontFamily: "EBG", fontSize: 44, lineHeight: 1.15, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 604, width: 848, fontFamily: "EBG", fontSize: 44, lineHeight: 1.15, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
-          <div key={i} style={{ marginTop: i ? 24 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
+          <div key={i} style={{ marginTop: i ? 18 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
         ))}
-        <div style={{ marginTop: 24, fontStyle: "italic" }}>
+        <div style={{ marginTop: 18, fontStyle: "italic" }}>
           <div>So even if you light one less diya</div>
           <div>at home this year,</div>
           <div>make sure you light <S>a thousand within your soul</S>.</div>
           <div><H>Because that is your true Diwali.</H></div>
         </div>
-        <div style={{ marginTop: 26, fontSize: 46, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
+        <div style={{ marginTop: 22, fontSize: 46, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
       </div>
     </AbsoluteFill>
   );

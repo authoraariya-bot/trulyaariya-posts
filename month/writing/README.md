@@ -34,3 +34,4 @@ Story format (tried 5 Nov, not chosen): title card, then each stanza alone on sc
 
 Approved look (5 Nov): Aariya's reference posts — old-page letter with a photo header, book serif, red pen underlines and peach highlights. Source: src/write/Ref2Poem.tsx. Text never animates; only the photo moves.
 | 4 | Every life has its battles | old book page | sepia motion-blur street, one still figure (slow push-in); red strokes on contrasts; peach highlight "And no, you are not alone." | writing-04-every-life-has-battles.mp4 |
+| 5 | True Diwali | old book page | sepia photo of a woman lighting diyas (slow push-in); straight red underlines; peach highlight "Because that is your true Diwali." | writing-05-true-diwali.mp4 |
