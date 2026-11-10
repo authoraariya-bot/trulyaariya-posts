@@ -29,7 +29,7 @@ const H: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const ST: React.ReactNode[][] = [
   [<>You never know how much <S>courage</S> it took them</>, "just to show up today.", <>Don’t make them regret it with <S>one comment</S>.</>],
-  ["Someone has put on weight —", <>you don’t have to <S>point it out</S>.</>, "Someone has become too thin —", <>you don’t have to <S>mention it</S>.</>, "Someone’s career isn’t going well,", "someone’s life feels off track —", <>you don’t have to <S>remind them</S>.</>],
+  ["Someone has put on weight —", <>you don’t have to <S>point it out</S>.</>, <div style={{ marginTop: 10 }}>Someone has become too thin —</div>, <>you don’t have to <S>mention it</S>.</>, <div style={{ marginTop: 10 }}>Someone’s career isn’t going well,</div>, "someone’s life feels off track —", <>you don’t have to <S>remind them</S>.</>],
   ["Because sometimes, saying what you notice", <>breaks the <S>first rule of kindness</S>.</>],
 ];
 
