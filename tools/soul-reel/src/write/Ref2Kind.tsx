@@ -58,7 +58,7 @@ export const Ref2Kind: React.FC = () => {
           <div><H>Sometimes, not pointing it out</H></div>
           <div><H>is the kindest thing you can do.</H></div>
         </div>
-        <div style={{ marginTop: 22, fontSize: 44, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
+        <div style={{ marginTop: 16, fontSize: 44, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
       </div>
     </AbsoluteFill>
   );
