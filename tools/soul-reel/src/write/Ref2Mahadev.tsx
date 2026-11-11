@@ -47,7 +47,7 @@ export const Ref2Mahadev: React.FC = () => {
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
       <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 340, overflow: "hidden" }}>
-        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 18%", transform: `scale(${z})`, transformOrigin: "38% 35%" }} />
+        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 0%", transform: `scale(${z})`, transformOrigin: "58% 12%" }} />
       </div>
       <div style={{ position: "absolute", left: 96, top: 680, width: 848, fontFamily: "EBG", fontSize: 44, lineHeight: 1.2, letterSpacing: -0.6, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (

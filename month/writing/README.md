@@ -36,3 +36,4 @@ Approved look (5 Nov): Aariya's reference posts — old-page letter with a photo
 | 4 | Every life has its battles | old book page | sepia motion-blur street, one still figure (slow push-in); red strokes on contrasts; peach highlight "And no, you are not alone." | writing-04-every-life-has-battles.mp4 |
 | 5 | True Diwali | old book page | sepia photo of a woman lighting diyas (slow push-in); straight red underlines; peach highlight "Because that is your true Diwali." | writing-05-true-diwali.mp4 |
 | 6 | Not pointing it out (kindness) | old book page | sepia close-up of hands holding a red rose, blurred street (slow push-in); straight red underlines; peach highlight on the last sentence | writing-06-not-pointing-it-out.mp4 |
+| 7 | Kahaan tak haarungi Mahadev | old book page | sepia temple, man kneeling before golden-glowing Mahadev (slow push-in); red underlines jeet/himmat/khwaab/hansi; peach highlight on the last line | writing-07-mahadev.mp4 |
