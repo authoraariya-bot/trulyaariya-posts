@@ -27,13 +27,14 @@ const H: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span style={{ background: "linear-gradient(transparent 12%, rgba(240,150,110,0.55) 12%, rgba(240,150,110,0.55) 92%, transparent 92%)", borderRadius: 6, padding: "0 6px", margin: "0 -6px" }}>{children}</span>
 );
 
+// shorter version (Aariya, 14 Nov): breathing space between the "Why" lines, airy, not crowded
+const G = (n: React.ReactNode) => <div style={{ marginTop: 12 }}>{n}</div>;
 const ST: React.ReactNode[][] = [
-  ["Happy Children’s Day to all the adult children", <>out there who wish to <S>be a child again</S>.</>],
-  [<>I ask you, <S>who’s stopping you?</S></>, "Society? The one that always has an opinion ready,", "no matter what we do?"],
+  ["Happy Children’s Day to all the adult children", <>who wish to <S>be a child again</S>.</>],
   ["In this tug of war with age, we sadly fell on the wrong side."],
-  ["Why did nobody tell us, “Go buy it, if it makes you happy”?", "Why did nobody make “let’s play hide and seek”", "sound normal after 30?", "Why did we keep waiting for that “nobody,”", <>instead of <S>listening to our heart</S>?</>],
-  ["Whether you’re 13 or 30,", "if a remote control car catches your eye,", <><S>you should buy it</S>.</>],
-  [<>Because let me tell you, <S>NOBODY</S> is going</>, "to put a hand on your shoulder and say,", "“Let your inner child feel", "what childhood is like, once again.”"],
+  ["Why did nobody tell us,", "“Go buy it, if it makes you happy”?", G("Why did nobody make “let’s play hide and seek”"), "sound normal after 30?", G("Why did we keep waiting for that “nobody,”"), <>instead of <S>listening to our heart</S>?</>],
+  ["Whether you’re 13 or 30,", <>if a remote control car catches your eye, <S>buy it</S>.</>],
+  [<>Because <S>NOBODY</S> is going to put a hand</>, "on your shoulder and say,", "“Let your inner child feel childhood once again.”"],
 ];
 
 export const Ref2Child: React.FC = () => {
@@ -51,16 +52,16 @@ export const Ref2Child: React.FC = () => {
       <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 240, overflow: "hidden" }}>
         <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 0%", transform: `scale(${z})`, transformOrigin: "50% 0%", filter: "sepia(0.35) saturate(0.85)" }} />
       </div>
-      <div style={{ position: "absolute", left: 96, top: 568, width: 848, fontFamily: "EBG", fontSize: 33, lineHeight: 1.13, letterSpacing: -0.5, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 568, width: 848, fontFamily: "EBG", fontSize: 36, lineHeight: 1.16, letterSpacing: -0.5, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
-          <div key={i} style={{ marginTop: i ? 14 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
+          <div key={i} style={{ marginTop: i ? 24 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
         ))}
-        <div style={{ marginTop: 14, fontStyle: "italic" }}>
+        <div style={{ marginTop: 24, fontStyle: "italic" }}>
           <div>So this Children’s Day, <S>be that somebody</S> —</div>
-          <div>for yourself, and for others too.</div>
-          <div><H>Because they’re waiting for their “somebody” too.</H></div>
+          <div>for yourself, and for others.</div>
+          <div><H>They’re waiting for their “somebody” too.</H></div>
         </div>
-        <div style={{ marginTop: 18, fontSize: 40, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
+        <div style={{ marginTop: 26, fontSize: 42, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
       </div>
     </AbsoluteFill>
   );
