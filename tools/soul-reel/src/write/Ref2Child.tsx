@@ -48,10 +48,10 @@ export const Ref2Child: React.FC = () => {
         <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={3} /><feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.55 0" /></filter>
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
-      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 180, overflow: "hidden" }}>
-        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 18%", transform: `scale(${z})`, transformOrigin: "38% 35%" }} />
+      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 240, overflow: "hidden" }}>
+        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 0%", transform: `scale(${z})`, transformOrigin: "50% 0%", filter: "sepia(0.35) saturate(0.85)" }} />
       </div>
-      <div style={{ position: "absolute", left: 96, top: 510, width: 848, fontFamily: "EBG", fontSize: 35, lineHeight: 1.13, letterSpacing: -0.5, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 568, width: 848, fontFamily: "EBG", fontSize: 33, lineHeight: 1.13, letterSpacing: -0.5, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
           <div key={i} style={{ marginTop: i ? 14 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
         ))}
