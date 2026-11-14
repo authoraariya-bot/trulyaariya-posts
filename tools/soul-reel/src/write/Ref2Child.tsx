@@ -32,7 +32,7 @@ const G = (n: React.ReactNode) => <div style={{ marginTop: 12 }}>{n}</div>;
 const ST: React.ReactNode[][] = [
   ["Happy Children’s Day to all the adult children", <>who wish to <S>be a child again</S>.</>],
   ["In this tug of war with age, we sadly fell on the wrong side."],
-  ["Why did nobody tell us,", "“Go buy it, if it makes you happy”?", G("Why did nobody make “let’s play hide and seek”"), "sound normal after 30?", G("Why did we keep waiting for that “nobody,”"), <>instead of <S>listening to our heart</S>?</>],
+  ["Why did nobody tell us,", <>“Go buy it, if it <S>makes you happy</S>”?</>, G("Why did nobody make “let’s play hide and seek”"), <><S>sound normal after 30</S>?</>, G("Why did we keep waiting for that “nobody,”"), <>instead of <S>listening to our heart</S>?</>],
   ["Whether you’re 13 or 30,", <>if a remote control car catches your eye, <S>buy it</S>.</>],
   [<>Because <S>NOBODY</S> is going to put a hand</>, "on your shoulder and say,", "“Let your inner child feel childhood once again.”"],
 ];
