@@ -47,7 +47,7 @@ export const Ref2God: React.FC = () => {
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
       <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 260, overflow: "hidden" }}>
-        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 18%", transform: `scale(${z})`, transformOrigin: "38% 35%" }} />
+        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%", transform: `scale(${z})`, transformOrigin: "45% 25%", filter: "sepia(0.3) saturate(0.9)" }} />
       </div>
       <div style={{ position: "absolute", left: 96, top: 596, width: 848, fontFamily: "EBG", fontSize: 40, lineHeight: 1.17, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
