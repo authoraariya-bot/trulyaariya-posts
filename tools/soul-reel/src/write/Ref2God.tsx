@@ -46,14 +46,14 @@ export const Ref2God: React.FC = () => {
         <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={3} /><feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.55 0" /></filter>
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
-      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 260, overflow: "hidden" }}>
+      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 240, overflow: "hidden" }}>
         <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%", transform: `scale(${z})`, transformOrigin: "45% 25%", filter: "sepia(0.3) saturate(0.9)" }} />
       </div>
-      <div style={{ position: "absolute", left: 96, top: 596, width: 848, fontFamily: "EBG", fontSize: 40, lineHeight: 1.17, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 576, width: 848, fontFamily: "EBG", fontSize: 40, lineHeight: 1.17, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
           <div key={i} style={{ marginTop: i ? 26 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
         ))}
-        <div style={{ marginTop: 26, fontStyle: "italic" }}>
+        <div style={{ marginTop: 26, fontStyle: "italic", fontSize: 45 }}>
           <div>He made me realise,</div>
           <div>He was <S>never against me</S>.</div>
           <div style={{ marginTop: 6 }}><H>He was on my side,</H></div>
