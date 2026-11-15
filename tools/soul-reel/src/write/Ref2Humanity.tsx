@@ -29,7 +29,7 @@ const H: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const G = (n: React.ReactNode) => <div style={{ marginTop: 12 }}>{n}</div>;
 const ST: React.ReactNode[][] = [
-  ["Somewhere between living and surviving,", <>we’ve left our <S>humanity and kindness</S> behind.</>, "So I just want to say:"],
+  ["Somewhere between living and surviving,", <>we’ve left our <S>humanity and kindness</S> behind.</>, <div style={{ marginTop: 20 }}>So I just want to say:</div>],
   [<>It’s okay to <S>give up your seat</S></>, "for someone who’s been standing for long.", G(<>It’s okay to <S>smile back</S></>), "at someone who’s smiling at you.", G(<>It’s okay to <S>offer help</S></>), "when someone is struggling with their bag.", G(<>It’s okay to <S>pay for a meal</S></>), "when someone on the street is hungry."],
   ["None of this is expensive."],
 ];
@@ -46,10 +46,10 @@ export const Ref2Humanity: React.FC = () => {
         <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={3} /><feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.55 0" /></filter>
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
-      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 230, overflow: "hidden" }}>
+      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 210, overflow: "hidden" }}>
         <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 20%", transform: `scale(${z})`, transformOrigin: "50% 35%" }} />
       </div>
-      <div style={{ position: "absolute", left: 96, top: 564, width: 848, fontFamily: "EBG", fontSize: 42, lineHeight: 1.16, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 544, width: 848, fontFamily: "EBG", fontSize: 42, lineHeight: 1.16, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
           <div key={i} style={{ marginTop: i ? 26 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
         ))}
