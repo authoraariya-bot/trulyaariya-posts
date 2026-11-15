@@ -46,18 +46,18 @@ export const Ref2Paths: React.FC = () => {
         <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={3} /><feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.55 0" /></filter>
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
-      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 210, overflow: "hidden" }}>
+      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 250, overflow: "hidden" }}>
         <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 18%", transform: `scale(${z})`, transformOrigin: "38% 35%" }} />
       </div>
-      <div style={{ position: "absolute", left: 96, top: 546, width: 848, fontFamily: "EBG", fontSize: 48, lineHeight: 1.16, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 586, width: 848, fontFamily: "EBG", fontSize: 46, lineHeight: 1.16, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
           <div key={i} style={{ marginTop: i ? 28 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
         ))}
-        <div style={{ marginTop: 28, fontStyle: "italic", fontSize: 52 }}>
+        <div style={{ marginTop: 28, fontStyle: "italic", fontSize: 50 }}>
           <div><H>Thank you, but our paths</H></div>
           <div><H>don’t need to cross again.</H></div>
         </div>
-        <div style={{ marginTop: 30, fontSize: 48, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
+        <div style={{ marginTop: 30, fontSize: 46, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
       </div>
     </AbsoluteFill>
   );
