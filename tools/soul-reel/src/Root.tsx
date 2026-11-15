@@ -33,6 +33,7 @@ import { Ref2Kind } from "./write/Ref2Kind";
 import { Ref2Mahadev } from "./write/Ref2Mahadev";
 import { Ref2Child } from "./write/Ref2Child";
 import { Ref2God } from "./write/Ref2God";
+import { Ref2Paths } from "./write/Ref2Paths";
 import { Ref1, Ref4 } from "./write/Ref14";
 import { END as HILL_END } from "./hill/beats";
 import { END as ROOTS_END } from "./roots/beats";
@@ -79,6 +80,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Write01" component={Write01} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref1" component={Ref1} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref4" component={Ref4} durationInFrames={450} fps={30} width={1080} height={1920} />
+    <Composition id="Ref2Paths" component={Ref2Paths} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2God" component={Ref2God} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2Child" component={Ref2Child} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2Mahadev" component={Ref2Mahadev} durationInFrames={450} fps={30} width={1080} height={1920} />
