@@ -46,3 +46,4 @@ Approved look (5 Nov): Aariya's reference posts — old-page letter with a photo
 | 14 | The richest person on earth | old book page | couple twirling under golden streetlights in the rain (Aariya's image, slow push-in); red underlines; peach highlight on the last line; no book line | writing-14-richest.mp4 |
 | 15 | Be the hero of your own story | old book page | man with open arms on a cliff at sunset (Aariya's image, slow push-in); red underlines; peach highlight on the last line; + book line | writing-15-hero.mp4 |
 | 16 | Happy Men's Day | old book page | man holding a red balloon at a sunset beach (Aariya's image, slow push-in); red underlines; peach highlight on the ending; no book line | writing-16-mens-day.mp4 |
+| 17 | The apology that's never coming | old book page | woman at an open doorway watching someone walk away at sunset (Aariya's image, slow push-in); red underlines; peach highlight on the ending; no book line | writing-17-apology.mp4 |
