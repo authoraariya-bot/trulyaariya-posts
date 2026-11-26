@@ -27,7 +27,7 @@ const H: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span style={{ background: "linear-gradient(transparent 12%, rgba(240,150,110,0.55) 12%, rgba(240,150,110,0.55) 92%, transparent 92%)", borderRadius: 6, padding: "0 6px", margin: "0 -6px" }}>{children}</span>
 );
 
-const G = (n: React.ReactNode) => <div style={{ marginTop: 10 }}>{n}</div>;
+const G = (n: React.ReactNode) => <div style={{ marginTop: 14 }}>{n}</div>;
 const ST: React.ReactNode[][] = [
   ["If you’re 30 and not married,", <>society calls you <S>too old</S>.</>, "If you die at 30,", <>the same society calls you <S>too young</S>.</>],
   ["Married at 30? You’re happy,", <>even if you’re <S>suffocating</S> in that marriage.</>, G("A job at 30? You’re settled,"), <>even if it’s <S>draining you</S>.</>, G("Successful at 30? You’ve made it,"), <>even if it <S>cost your peace</S>.</>],
@@ -46,20 +46,20 @@ export const Ref2Thirty: React.FC = () => {
         <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={3} /><feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.55 0" /></filter>
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
-      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 210, overflow: "hidden" }}>
-        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 18%", transform: `scale(${z})`, transformOrigin: "50% 35%" }} />
+      <div style={{ position: "absolute", left: 96, top: 284, width: 848, height: 160, overflow: "hidden" }}>
+        <Img src={staticFile(IMG)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 22%", transform: `scale(${z})`, transformOrigin: "49% 40%" }} />
       </div>
-      <div style={{ position: "absolute", left: 96, top: 544, width: 848, fontFamily: "EBG", fontSize: 40, lineHeight: 1.14, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 492, width: 848, fontFamily: "EBG", fontSize: 39, lineHeight: 1.21, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
-          <div key={i} style={{ marginTop: i ? 19 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
+          <div key={i} style={{ marginTop: i ? 28 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
         ))}
-        <div style={{ marginTop: 22, fontStyle: "italic", fontSize: 43 }}>
+        <div style={{ marginTop: 28, fontStyle: "italic", fontSize: 42 }}>
           <div>So don’t let society</div>
           <div>measure your life by your age.</div>
           <div style={{ marginTop: 6 }}><H>At 30, 40 or 50, the only thing that matters</H></div>
           <div><H>is whether you’re truly living.</H></div>
         </div>
-        <div style={{ marginTop: 20, fontSize: 50, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
+        <div style={{ marginTop: 12, fontSize: 50, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
       </div>
     </AbsoluteFill>
   );
