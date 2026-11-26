@@ -41,6 +41,7 @@ import { Ref2Presence } from "./write/Ref2Presence";
 import { Ref2Hero } from "./write/Ref2Hero";
 import { Ref2MensDay } from "./write/Ref2MensDay";
 import { Ref2Apology } from "./write/Ref2Apology";
+import { Ref2Thirty } from "./write/Ref2Thirty";
 import { Ref1, Ref4 } from "./write/Ref14";
 import { END as HILL_END } from "./hill/beats";
 import { END as ROOTS_END } from "./roots/beats";
@@ -87,6 +88,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Write01" component={Write01} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref1" component={Ref1} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref4" component={Ref4} durationInFrames={450} fps={30} width={1080} height={1920} />
+    <Composition id="Ref2Thirty" component={Ref2Thirty} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2Apology" component={Ref2Apology} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2MensDay" component={Ref2MensDay} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2Hero" component={Ref2Hero} durationInFrames={450} fps={30} width={1080} height={1920} />
