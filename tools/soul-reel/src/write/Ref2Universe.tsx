@@ -27,10 +27,13 @@ const H: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span style={{ background: "linear-gradient(transparent 12%, rgba(240,150,110,0.55) 12%, rgba(240,150,110,0.55) 92%, transparent 92%)", borderRadius: 6, padding: "0 6px", margin: "0 -6px" }}>{children}</span>
 );
 
+// spacing exactly as Aariya grouped it (28 Nov)
 const ST: React.ReactNode[][] = [
-  ["You finally message them.", "And you write everything.", <>The <S>storm inside you</S>. The words that hurt.</>, "The ignorance you felt every single second.", <>You <S>cry while writing it</S>.</>],
-  [<>What you wanted was <S>never big</S>.</>, "Just a silent stand. Their voice for you in the crowd.", <>A little love. A <S>special mention</S>.</>, "But you got ignorance. Jokes. Doubts. Blame.", <>They made you feel <S>unwanted</S>.</>, "Not special enough to mention."],
-  ["Still, you kept tying the two ends of a rope", "that broke long ago,", <>not knowing the other end <S>never wanted to be tied</S>.</>],
+  ["You finally message them.", "And you write everything."],
+  [<>The <S>storm inside you</S>. The words that hurt.</>, "The ignorance you felt every single second."],
+  [<>You <S>cry while writing it</S>.</>, <>What you wanted was <S>never big</S>.</>],
+  ["Just a silent stand. Their voice for you in the crowd.", <>A little love. A <S>special mention</S>.</>, "But you got ignorance. Jokes. Doubts. Blame."],
+  [<>They made you feel <S>unwanted</S>.</>, "Not special enough to mention.", "Still, you kept tying the two ends of a rope", "that broke long ago,", <>not knowing the other end <S>never wanted to be tied</S>.</>],
   [<>Until one day, you felt <S>ashamed</S> of how much</>, "your soul had endured, just to keep them.", <>And it took <S>just a second</S> to end a bond,</>, "for someone who always found it so hard to end things."],
   ["With a pinch of salt in your heart,", "you almost wished they’d live the same pain you did.", <>But your soul couldn’t carry the weight of <S>revenge</S></>, <>for someone you once loved, so it <S>let that go</S> too.</>],
 ];
@@ -45,11 +48,11 @@ export const Ref2Universe: React.FC = () => {
         <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={3} /><feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.55 0" /></filter>
         <rect width={1080} height={1920} filter="url(#g)" opacity={0.14} />
       </svg>
-      <div style={{ position: "absolute", left: 96, top: 300, width: 848, fontFamily: "EBG", fontSize: 36, lineHeight: 1.19, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
+      <div style={{ position: "absolute", left: 96, top: 300, width: 848, fontFamily: "EBG", fontSize: 36, lineHeight: 1.16, letterSpacing: -0.4, color: "#141414", whiteSpace: "nowrap" }}>
         {ST.map((st, i) => (
-          <div key={i} style={{ marginTop: i ? 25 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
+          <div key={i} style={{ marginTop: i ? 21 : 0 }}>{st.map((l, k) => <div key={k}>{l}</div>)}</div>
         ))}
-        <div style={{ marginTop: 26, fontStyle: "italic", fontSize: 44 }}>
+        <div style={{ marginTop: 22, fontStyle: "italic", fontSize: 44 }}>
           <div><H>So you left it to the universe.</H></div>
         </div>
         <div style={{ marginTop: 22, fontSize: 46, fontStyle: "italic", letterSpacing: 0 }}>truly yours, @trulyaariya</div>
