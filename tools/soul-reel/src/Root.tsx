@@ -42,6 +42,7 @@ import { Ref2Hero } from "./write/Ref2Hero";
 import { Ref2MensDay } from "./write/Ref2MensDay";
 import { Ref2Apology } from "./write/Ref2Apology";
 import { Ref2Thirty } from "./write/Ref2Thirty";
+import { Ref2Universe } from "./write/Ref2Universe";
 import { Ref2ThirtySide } from "./write/Ref2ThirtySide";
 import { Ref2ThirtyCameo } from "./write/Ref2ThirtyCameo";
 import { Ref2ThirtyTorn } from "./write/Ref2ThirtyTorn";
@@ -104,6 +105,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Ref2ThirtyTorn" component={Ref2ThirtyTorn} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2ThirtyCameo" component={Ref2ThirtyCameo} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2ThirtySide" component={Ref2ThirtySide} durationInFrames={450} fps={30} width={1080} height={1920} />
+    <Composition id="Ref2Universe" component={Ref2Universe} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2Thirty" component={Ref2Thirty} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2Apology" component={Ref2Apology} durationInFrames={450} fps={30} width={1080} height={1920} />
     <Composition id="Ref2MensDay" component={Ref2MensDay} durationInFrames={450} fps={30} width={1080} height={1920} />
